@@ -1,11 +1,11 @@
 <footer class="footer bg-primary text-white py-3">
     <div class="container">
-        <div class="row">
-            <div class="col-md-6">
+        <div class="row justify-content-between">
+            <div class="col-md-6 d-flex align-items-center">
                 <p>&copy; Your Company 2023</p>
             </div>
             <div class="col-md-6">
-                <ul class="list-inline">
+                <ul class="list-inline text-md-end">
                     <li class="list-inline-item"><a href="#" class="text-white">Facebook</a></li>
                     <li class="list-inline-item"><a href="#" class="text-white">Twitter</a></li>
                     <li class="list-inline-item"><a href="#" class="text-white">Instagram</a></li>
