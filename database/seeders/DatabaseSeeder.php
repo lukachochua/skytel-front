@@ -21,12 +21,14 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
 
-        News::create(
-            [
-                'user_id' => 1,
-                'title' => "title",
-                'body' => "body"
-            ]
-        );
+        for ($i = 0; $i < 10; $i++) {
+            News::create(
+                [
+                    'user_id' => 1,
+                    'title' => "title",
+                    'body' => "body"
+                ],
+            );
+        }
     }
 }
