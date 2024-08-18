@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-main-layout>
     <div class="container">
         <h1 class="text-center mt-5">Our Features</h1>
         <div class="row mt-4">
@@ -36,4 +36,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+</x-main-layout>

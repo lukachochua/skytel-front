@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-main-layout>
     <div class="container mt-4">
         <h1 class="mb-4">{{ $news->title }}</h1>
         @if ($news->image)
@@ -16,4 +16,4 @@
         </form>
         <a href="{{ route('news.index') }}" class="btn btn-secondary">Back to List</a>
     </div>
-</x-app-layout>
+</x-main-layout>

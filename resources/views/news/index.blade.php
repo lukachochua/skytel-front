@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-main-layout>
     <div class="container mt-4">
         <h1 class="mb-4">News List</h1>
 
@@ -37,4 +37,4 @@
             @endforeach
         </div>
     </div>
-</x-app-layout>
+</x-main-layout>

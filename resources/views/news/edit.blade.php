@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-main-layout>
     <div class="container mt-4">
         <h1 class="mb-4">Edit News</h1>
         <form action="{{ route('news.update', $news->id) }}" method="POST" enctype="multipart/form-data">
@@ -28,4 +28,4 @@
             <button type="submit" class="btn btn-primary">Update</button>
         </form>
     </div>
-</x-app-layout>
+</x-main-layout>

@@ -1,5 +1,4 @@
-<x-app-layout>
-
+<x-main-layout>
     <div class="container mt-4">
         <h1 class="mb-4">Create News</h1>
         <form action="{{ route('news.store') }}" method="POST" enctype="multipart/form-data">
@@ -23,4 +22,4 @@
             <button type="submit" class="btn btn-primary">Save</button>
         </form>
     </div>
-</x-app-layout>
+</x-main-layout>
