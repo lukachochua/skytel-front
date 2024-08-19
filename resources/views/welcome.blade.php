@@ -1,2 +1,2 @@
-<x-app-layout>
-</x-app-layout>
+<x-main-layout>
+</x-main-layout>
