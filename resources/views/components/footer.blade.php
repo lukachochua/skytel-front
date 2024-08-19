@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row justify-content-between">
             <div class="col-md-6 d-flex align-items-center">
-                <p>&copy; Your Company 2023</p>
+                <p>&copy; SkyTel 2024</p>
             </div>
             <div class="col-md-6">
                 <ul class="list-inline text-md-end">
