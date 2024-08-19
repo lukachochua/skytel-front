@@ -33,10 +33,21 @@
                     </div>
                 </li>
             </ul>
-            <form class="d-flex">
+            {{-- <form class="d-flex">
                 <input class="form-control me-sm-2" type="search" placeholder="Search">
                 <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-            </form>
+
+            </form> --}}
+            <div class="btn-group" role="group" aria-label="Language Selection">
+                <a href="{{ route('change-locale', ['locale' => 'en']) }}" class="btn btn-light flag-button text-bg-info me-2"
+                    title="English">
+                    🇬🇧 
+                </a>
+                <a href="{{ route('change-locale', ['locale' => 'ka']) }}" class="btn btn-light flag-button text-bg-danger"
+                    title="Georgian">
+                    🇬🇪 
+                </a>
+            </div>
         </div>
     </div>
 </nav>
