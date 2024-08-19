@@ -3,6 +3,13 @@
 use App\Http\Controllers\NewsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
+
+Route::get('/set-locale/{locale}', function ($locale) {
+    Session::put('locale', $locale);
+    app()->setLocale($locale);
+    return redirect()->back();
+})->name('change-locale');
 
 Route::get('/', function () {
     return view('welcome');
