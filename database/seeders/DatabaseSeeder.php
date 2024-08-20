@@ -22,12 +22,15 @@ class DatabaseSeeder extends Seeder
         ]);
 
         for ($i = 0; $i < 10; $i++) {
+            $imagePath = fake()->image(storage_path('app/public/images'), 640, 480, null, false);
+
             News::create(
                 [
                     'user_id' => 1,
-                    'title' => "title",
-                    'body' => "body"
-                ],
+                    'title' => fake()->sentence(),
+                    'body' => fake()->paragraph(),
+                    'image' => 'images/' . $imagePath, 
+                ]
             );
         }
     }

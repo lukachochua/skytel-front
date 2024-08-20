@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
@@ -11,9 +12,7 @@ Route::get('/set-locale/{locale}', function ($locale) {
     return redirect()->back();
 })->name('change-locale');
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [WelcomeController::class, 'welcome'])->name('welcome');
 
 Route::get('/features', function () {
     return view('features');
