@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Auth;
@@ -18,12 +19,13 @@ Route::get('/features', function () {
     return view('features');
 });
 
-Route::resource('news', NewsController::class);
+
+Route::get('news/index', [NewsController::class, 'index'])->name('news.index');
+
+Route::resource('/home/news', NewsController::class)->except('index');
+Route::get('/home/news', [HomeController::class, 'news'])->name('news');
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
