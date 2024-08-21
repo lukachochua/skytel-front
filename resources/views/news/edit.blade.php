@@ -13,42 +13,83 @@
                 <h3 class="card-title">Edit News</h3>
             </div>
             <div class="card-body">
-                <form action="{{ route('news.update', $news->id) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('news.update', $news->id) }}" method="POST" enctype="multipart/form-data"
+                    x-data="dynamicForm()">
                     @csrf
                     @method('PUT')
-                    <div class="mb-3">
-                        <label for="title" class="form-label">Title</label>
-                        <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" value="{{ old('title', $news->title) }}" required>
-                        @error('title')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+
+                    {{-- Georgian Fields --}}
+                    <div id="georgian-fields">
+                        <h2 class="h5 text-dark mb-3">@lang('dashboard.georgian_fields')</h2>
+
+                        <div class="mb-3">
+                            <label for="title" class="form-label fw-bold">@lang('news.title') (GE):</label>
+                            <input type="text" name="title" id="title" class="form-control"
+                                value="{{ old('title', $news->title) }}" required>
+                            @error('title')
+                                <div class="text-danger mt-2">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="body" class="form-label fw-bold">@lang('news.text') (GE):</label>
+                            <textarea name="body" id="body" rows="5" class="form-control" required>{{ old('body', $news->body) }}</textarea>
+                            @error('body')
+                                <div class="text-danger mt-2">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="body" class="form-label">Body</label>
-                        <textarea class="form-control @error('body') is-invalid @enderror" id="body" name="body" rows="5" required>{{ old('body', $news->body) }}</textarea>
-                        @error('body')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+
+                    {{-- English Fields --}}
+                    <div id="english-fields" style="display: none;">
+                        <h2 class="h5 text-dark mb-3">@lang('news.english_fields')</h2>
+
+                        <div class="mb-3">
+                            <label for="title_en" class="form-label fw-bold">@lang('news.title') (EN):</label>
+                            <input type="text" name="title_en" id="title_en" class="form-control"
+                                value="{{ old('title_en', $news->getTranslation('title', 'en')) }}" required>
+                            @error('title_en')
+                                <div class="text-danger mt-2">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="body_en" class="form-label fw-bold">@lang('news.text') (EN):</label>
+                            <textarea name="body_en" id="body_en" rows="5" class="form-control" required>{{ old('body_en', $news->getTranslation('body', 'en')) }}"</textarea>
+                            @error('body_en')
+                                <div class="text-danger mt-2">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
+
+                    {{-- Common Fields --}}
                     <div class="mb-3">
-                        <label for="tags" class="form-label">Tags</label>
-                        <input type="text" class="form-control @error('tags') is-invalid @enderror" id="tags" name="tags" value="{{ old('tags', $news->tags) }}">
-                        @error('tags')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="mb-3">
-                        <label for="image" class="form-label">Image</label>
-                        <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image">
+                        <label for="image" class="form-label fw-bold">@lang('news.image'):</label>
+                        <input type="file" name="image" id="image" class="form-control">
                         @if ($news->image)
-                            <img src="{{ asset('storage/' . $news->image) }}" alt="Current Image" class="img-thumbnail mt-2" style="max-width: 200px;">
+                            <img src="{{ asset('storage/' . $news->image) }}" alt="Current Image" class="img-thumbnail mt-2"
+                                style="max-width: 200px;">
                         @endif
                         @error('image')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                            <div class="text-danger mt-2">{{ $message }}</div>
                         @enderror
                     </div>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save"></i> Update
+
+                    <div class="mb-3">
+                        <label for="tags" class="form-label fw-bold">@lang('news.tags'):</label>
+                        <input type="text" name="tags" id="tags" class="form-control"
+                            value="{{ old('tags', $news->tags) }}">
+                        @error('tags')
+                            <div class="text-danger mt-2">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <button type="button" id="next-button" class="btn btn-success fw-bold" @click="switchToEnglish">
+                        @lang('dashboard.next')
+                    </button>
+
+                    <button type="submit" id="submit-button" class="btn btn-primary fw-bold d-none">
+                        @lang('news.update')
                     </button>
                 </form>
             </div>

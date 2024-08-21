@@ -10,7 +10,7 @@
 
 @section('content_body')
     <div class="container">
-        <div class="mb-2">
+        <div class="mb-4">
             <a href="{{ route('news.create') }}" class="btn btn-primary">
                 <i class="fas fa-plus"></i> Create News
             </a>
@@ -24,9 +24,9 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th style="width: 10px">#</th>
+                            <th class="w-1">#</th>
                             <th>Title</th>
-                            <th style="width: 200px">Actions</th>
+                            <th class="w-2">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
