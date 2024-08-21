@@ -23,7 +23,7 @@ Route::get('/features', function () {
 Route::get('news/index', [NewsController::class, 'index'])->name('news.index');
 
 Route::resource('/home/news', NewsController::class)->except('index');
-Route::get('/home/news', [HomeController::class, 'news'])->name('news');
+Route::get('/home/news', [HomeController::class, 'news'])->name('news.dashboard');
 
 Auth::routes();
 

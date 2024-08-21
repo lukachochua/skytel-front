@@ -27,11 +27,19 @@ class NewsController extends Controller
             'body' => 'required|string',
             'tags' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'title_en' => 'required|string|max:255',
+            'body_en' => 'required|string',
         ]);
 
         $news = new News();
-        $news->title = $request->input('title');
-        $news->body = $request->input('body');
+        $news->setTranslations('title', [
+            'ka' => $request->input('title'),
+            'en' => $request->input('title_en')
+        ]);
+        $news->setTranslations('body', [
+            'ka' => $request->input('body'),
+            'en' => $request->input('body_en')
+        ]);
         $news->tags = $request->input('tags');
         $news->user_id = Auth::id();
 
@@ -62,10 +70,18 @@ class NewsController extends Controller
             'body' => 'required|string',
             'tags' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'title_en' => 'nullable|string|max:255', 
+            'body_en' => 'nullable|string', 
         ]);
 
-        $news->title = $request->input('title');
-        $news->body = $request->input('body');
+        $news->setTranslations('title', [
+            'ka' => $request->input('title'),
+            'en' => $request->input('title_en')
+        ]);
+        $news->setTranslations('body', [
+            'ka' => $request->input('body'),
+            'en' => $request->input('body_en')
+        ]);
         $news->tags = $request->input('tags');
 
         if ($request->hasFile('image')) {
@@ -89,6 +105,6 @@ class NewsController extends Controller
         }
 
         $news->delete();
-        return redirect()->route('news.index')->with('success', 'News deleted successfully.');
+        return redirect()->route('news.dashboard')->with('success', 'News deleted successfully.');
     }
 }
