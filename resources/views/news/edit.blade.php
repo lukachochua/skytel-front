@@ -7,10 +7,10 @@
 
 {{-- Content body: main page content --}}
 @section('content_body')
-    <div class="container mt-4">
+    <div class="container">
         <div class="card card-primary">
             <div class="card-header">
-                <h3 class="card-title">Edit News</h3>
+                <h3 class="card-title">{{ __('news.update') }}</h3>
             </div>
             <div class="card-body">
                 <form action="{{ route('news.update', $news->id) }}" method="POST" enctype="multipart/form-data"

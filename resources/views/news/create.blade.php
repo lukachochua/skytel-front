@@ -6,7 +6,7 @@
 @section('content_header_subtitle', __('news.add_new_item'))
 
 @section('content_body')
-    <div class="container mt-4">
+    <div class="container">
         <div class="card card-primary">
             <div class="card-header">
                 <h3 class="card-title">{{ __("news.create") }}</h3>

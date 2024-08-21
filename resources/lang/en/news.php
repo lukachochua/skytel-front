@@ -5,7 +5,7 @@ return [
     'text' => 'Text',
     'latest' => 'Latest News',
     'read_more' => 'Read More',
-    'view_all' => 'View All News',
+    'all_news' => 'View All News',
     'filter' => 'News Filtered By',
     'tags' => 'Tags',
     'by' => 'By',
@@ -22,5 +22,6 @@ return [
     'action' => 'Actions',
     'english_fields' => 'English Fields',
     'add_new_item' => 'Add New Item',
-    'up_details' => 'Update Details'
+    'up_details' => 'Update Details',
+    'news_list' => 'News List'
 ];
