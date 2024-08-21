@@ -29,7 +29,6 @@
             @endforeach
         </div>
 
-        <!-- Pagination -->
         <div class="card-footer clearfix">
             {{ $news->links('vendor.pagination.bootstrap-5') }}
         </div>

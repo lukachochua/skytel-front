@@ -9,8 +9,8 @@
 {{-- Content body: main page content --}}
 
 @section('content_body')
-    <div class="container mt-4">
-        <div class="mb-3">
+    <div class="container">
+        <div class="mb-2">
             <a href="{{ route('news.create') }}" class="btn btn-primary">
                 <i class="fas fa-plus"></i> Create News
             </a>
