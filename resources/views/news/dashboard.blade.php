@@ -24,7 +24,7 @@
                         <tr>
                             <th class="w-1">#</th>
                             <th>@lang('news.title')</th>
-                            <th class="w-2">@lang('news.actions')</th>
+                            <th class="w-2">@lang('news.action')</th>
                         </tr>
                     </thead>
                     <tbody>
