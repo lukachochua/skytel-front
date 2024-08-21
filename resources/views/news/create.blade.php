@@ -1,14 +1,15 @@
 @extends('layouts.app')
 
-@section('subtitle', 'Create News')
-@section('content_header_title', 'Create News')
-@section('content_header_subtitle', 'Add a New News Item')
+
+@section('subtitle', __('news.create'))
+@section('content_header_title', __('news.create'))
+@section('content_header_subtitle', __('news.add_new_item'))
 
 @section('content_body')
     <div class="container mt-4">
         <div class="card card-primary">
             <div class="card-header">
-                <h3 class="card-title">Create News</h3>
+                <h3 class="card-title">{{ __("news.create") }}</h3>
             </div>
             <div class="card-body">
                 <form action="{{ route('news.store') }}" method="POST" enctype="multipart/form-data" x-data="dynamicForm()">

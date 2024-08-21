@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 {{-- Customize layout sections --}}
-@section('subtitle', 'Edit News')
-@section('content_header_title', 'Edit News')
-@section('content_header_subtitle', 'Update News Details')
+@section('subtitle', __('news.update'))
+@section('content_header_title', __('news.update'))
+@section('content_header_subtitle', __('news.up_details'))
 
 {{-- Content body: main page content --}}
 @section('content_body')

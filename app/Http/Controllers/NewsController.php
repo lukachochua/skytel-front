@@ -53,8 +53,14 @@ class NewsController extends Controller
         return redirect()->route('news.index')->with('success', 'News created successfully.');
     }
 
-    public function show(News $news)
+    public function show($id)
     {
+        $news = News::find($id);
+
+        if (!$news) {
+            abort(404, 'News not found');
+        }
+
         return view('news.show', compact('news'));
     }
 
@@ -70,8 +76,8 @@ class NewsController extends Controller
             'body' => 'required|string',
             'tags' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'title_en' => 'nullable|string|max:255', 
-            'body_en' => 'nullable|string', 
+            'title_en' => 'nullable|string|max:255',
+            'body_en' => 'nullable|string',
         ]);
 
         $news->setTranslations('title', [

@@ -20,12 +20,13 @@ Route::get('/features', function () {
 });
 
 
-Route::get('news/index', [NewsController::class, 'index'])->name('news.index');
+Route::get('news', [NewsController::class, 'index'])->name('news.index');
+Route::get('news/{id}/', [NewsController::class, 'show'])->name('news.show');
 
-Route::resource('/home/news', NewsController::class)->except('index');
-Route::get('/home/news', [HomeController::class, 'news'])->name('news.dashboard');
-
-Auth::routes();
+Route::resource('/home/news', NewsController::class)->except('index', 'show');
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/home/news', [HomeController::class, 'news'])->name('news.dashboard');
 
+
+Auth::routes();
