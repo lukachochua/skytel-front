@@ -6,7 +6,7 @@ return [
     'pages' => 'გვერდები',
     'news' => 'სიახლეები',
     'account_settings_key' => 'ანგარიშის პარამეტრები',
-    'profile_key' => ':name პროფილი',
+    'profile_key' => 'პროფილი',
     'change_password' => 'პაროლის შეცვლა',
     'multilevel' => 'მრავალ დონე',
     'level_one' => 'დონე 1',

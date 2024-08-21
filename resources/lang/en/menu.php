@@ -2,6 +2,7 @@
 
 return [
     'main_navigation' => 'MAIN NAVIGATION',
+    'news' => 'News',
     'blog' => 'Blog',
     'pages' => 'Pages',
     'account_settings_key' => 'ACCOUNT SETTINGS',

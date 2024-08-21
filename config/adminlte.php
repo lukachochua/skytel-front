@@ -322,15 +322,15 @@ return [
             'label' => 4,
             'label_color' => 'success',
         ],
-        ['header' => 'account_settings'],
+        ['header' => 'account_settings_key'],
         [
-            'text' => 'profile',
+            'text' => 'profile_key',
             'url' => 'admin/settings',
             'icon' => 'fas fa-fw fa-user',
         ],
         ['header' => 'News CRUD'],
         [
-            'text' => 'News',
+            'text' => 'news',
             'route' => 'news.dashboard',
             'icon' => 'fas fa-fw fa-book',
         ],
