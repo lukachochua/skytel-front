@@ -17,7 +17,7 @@ class NewsController extends Controller
 
     public function create()
     {
-        return view('news.create');
+        return view('admin.news.create');
     }
 
     public function store(Request $request)
@@ -50,7 +50,7 @@ class NewsController extends Controller
 
         $news->save();
 
-        return redirect()->route('news.index')->with('success', 'News created successfully.');
+        return redirect()->route('news.dashboard')->with('success', 'News created successfully.');
     }
 
     public function show($id)
@@ -66,7 +66,7 @@ class NewsController extends Controller
 
     public function edit(News $news)
     {
-        return view('news.edit', compact('news'));
+        return view('admin.news.edit', compact('news'));
     }
 
     public function update(Request $request, News $news)
@@ -101,7 +101,7 @@ class NewsController extends Controller
 
         $news->save();
 
-        return redirect()->route('news.index')->with('success', 'News updated successfully.');
+        return redirect()->route('news.dashboard')->with('success', 'News updated successfully.');
     }
 
     public function destroy(News $news)

@@ -7,6 +7,11 @@
 
 {{-- Content body: main page content --}}
 @section('content_body')
+    @if (session('success'))
+        <x-success-message>
+            {{ session('success') }}
+        </x-success-message>
+    @endif
     <div class="container">
         <div class="row mb-3">
             <div class="col">

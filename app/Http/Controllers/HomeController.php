@@ -31,6 +31,6 @@ class HomeController extends Controller
     {
         $news = News::latest()->paginate(10);
 
-        return view('news.dashboard', compact('news'));
+        return view('admin.news.dashboard', compact('news'));
     }
 }
