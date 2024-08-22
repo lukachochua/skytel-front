@@ -29,7 +29,7 @@ class HomeController extends Controller
 
     public function news()
     {
-        $news = News::latest()->paginate(10);
+        $news = News::latest()->paginate(9);
 
         return view('admin.news.dashboard', compact('news'));
     }

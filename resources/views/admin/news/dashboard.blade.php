@@ -15,7 +15,7 @@
     <div class="container">
         <div class="row mb-3">
             <div class="col-12">
-                <a href="{{ route('news.create') }}" class="btn btn-primary w-100">
+                <a href="{{ route('news.create') }}" class="btn btn-primary w-auto">
                     <i class="fas fa-plus"></i> @lang('news.create')
                 </a>
             </div>
@@ -28,8 +28,8 @@
                         <h3 class="card-title">@lang('news.all_news')</h3>
                     </div>
                     <div class="card-body p-0">
-                        <!-- Make table responsive -->
-                        <div class="table-responsive">
+                        <!-- Table wrapper with scroll and height constraints -->
+                        <div class="table-wrapper" style="max-height: 60vh; overflow-y: auto;">
                             <table class="table table-striped">
                                 <thead>
                                     <tr>

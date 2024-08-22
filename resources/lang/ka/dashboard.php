@@ -50,4 +50,5 @@ return [
     'next' => 'შემდეგი',
     'georgian_fields' => 'ქართული ველები',
     'english_fields' => 'ინგლისური ველები',
+    'back' => 'უკან'
 ];

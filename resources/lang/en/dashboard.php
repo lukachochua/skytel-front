@@ -50,4 +50,5 @@ return [
     'next' => 'Next',
     'georgian_fields' => 'Georgian Fields',
     'english_fields' => 'English Fields',
+    'back' => 'Back'
 ];
