@@ -5,7 +5,7 @@
         <div class="row">
             @foreach ($news as $newsItem)
                 <div class="col-md-6 col-lg-4 mb-4">
-                    <div class="card border-secondary d-flex flex-column h-100">
+                    <div class="card border-secondary d-flex flex-column h-100" >
                         @if ($newsItem->image)
                             <img src="{{ asset('storage/' . $newsItem->image) }}" class="card-img-top"
                                 alt="Image for {{ $newsItem->title }}" style="height: 200px; object-fit: cover;">
