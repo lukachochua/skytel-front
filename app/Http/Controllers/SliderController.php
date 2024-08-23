@@ -52,12 +52,21 @@ class SliderController extends Controller
             'image' => 'nullable|image',
         ]);
 
+        // Check if a new image has been uploaded
         if ($request->hasFile('image')) {
-            Storage::disk('public')->delete($slider->image);
+            // Delete the old image from storage
+            if ($slider->image) {
+                Storage::disk('public')->delete($slider->image);
+            }
+
+            // Store the new image and get its path
             $path = $request->file('image')->store('sliders', 'public');
-            $slider->update(['image' => $path]);
+
+            // Update the slider record with the new image path
+            $validated['image'] = $path;
         }
 
+        // Update other slider details (title, description)
         $slider->update($validated);
 
         return redirect()->route('sliders.index')->with('success', 'Slider updated successfully.');

@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">SkyTel</a>
+        <a class="navbar-brand" href="{{ route('home') }}">SkyTel</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
             aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -8,18 +8,24 @@
         <div class="collapse navbar-collapse" id="navbarColor01">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link active" href="/">Home
-                        <span class="visually-hidden">(current)</span>
+                    <a class="nav-link {{ request()->routeIs('welcome') ? 'active' : '' }}" href="{{ route('welcome') }}">
+                        Home
+                        @if (request()->routeIs('welcome'))
+                            <span class="visually-hidden">(current)</span>
+                        @endif
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/features">Features</a>
+                    <a class="nav-link {{ request()->routeIs('features') ? 'active' : '' }}"
+                        href="{{ route('features')}} ">Features</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('news.index') }}">News</a>
+                    <a class="nav-link {{ request()->routeIs('news.*') ? 'active' : '' }}"
+                        href="{{ route('news.index') }}">News</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
+                    <a class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}"
+                        href="">About</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
@@ -33,19 +39,14 @@
                     </div>
                 </li>
             </ul>
-            {{-- <form class="d-flex">
-                <input class="form-control me-sm-2" type="search" placeholder="Search">
-                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-
-            </form> --}}
             <div class="btn-group" role="group" aria-label="Language Selection">
-                <a href="{{ route('change-locale', ['locale' => 'en']) }}" class="btn btn-light flag-button text-bg-info me-2"
-                    title="English">
-                    🇬🇧 
+                <a href="{{ route('change-locale', ['locale' => 'en']) }}"
+                    class="btn btn-light flag-button text-bg-info me-2" title="English">
+                    🇬🇧
                 </a>
-                <a href="{{ route('change-locale', ['locale' => 'ka']) }}" class="btn btn-light flag-button text-bg-danger"
-                    title="Georgian">
-                    🇬🇪 
+                <a href="{{ route('change-locale', ['locale' => 'ka']) }}"
+                    class="btn btn-light flag-button text-bg-danger" title="Georgian">
+                    🇬🇪
                 </a>
             </div>
         </div>

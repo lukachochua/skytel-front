@@ -18,7 +18,7 @@ Route::get('/', [WelcomeController::class, 'welcome'])->name('welcome');
 
 Route::get('/features', function () {
     return view('features');
-});
+})->name('features');
 
 
 Route::get('news', [NewsController::class, 'index'])->name('news.index');

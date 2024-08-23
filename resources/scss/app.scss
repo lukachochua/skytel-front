@@ -8,4 +8,104 @@
 // Import Bootswatch theme
 // @import "bootswatch/dist/cosmo/bootswatch";
 
-@import '../../node_modules/swiper/swiper.min.css';
+// @import '../../node_modules/swiper/swiper.min.css';
+// @import '../../node_modules/swiper/swiper-bundle.min.css';
+
+.modern-tech-slider {
+    width: 100vw; /* Full viewport width */
+    height: 80vh; /* Full viewport height */
+    margin: 0; /* Remove margin */
+    padding: 0; /* Remove padding */
+    overflow: hidden; /* Hide overflow */
+    position: relative; /* Relative positioning for absolute children */
+    border-radius: 0; /* No border radius */
+    box-shadow: none; /* Remove box shadow if not needed */
+}
+
+.modern-tech-slider .swiper-slide {
+    position: relative;
+}
+
+.modern-tech-slider .slide-image {
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    object-fit: cover; /* Cover the container */
+}
+
+.modern-tech-slider .slide-content {
+    position: absolute;
+    bottom: 20px; /* Space from the bottom */
+    left: 20px; /* Space from the left */
+    right: 20px; /* Space from the right */
+    padding: 10px; /* Padding around content */
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    color: #fff; /* Text color */
+    border-radius: 5px; /* Rounded corners */
+}
+
+.modern-tech-slider .slide-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.modern-tech-slider .slide-description {
+    font-size: 1rem;
+    margin-bottom: 0;
+}
+
+.modern-tech-slider .swiper-pagination {
+    bottom: 20px; /* Adjust as needed */
+    text-align: center; /* Center pagination bullets */
+    z-index: 10; /* Ensure pagination is above other elements */
+}
+
+.modern-tech-slider .swiper-pagination {
+    bottom: 20px; /* Adjust as needed */
+    text-align: center; /* Center pagination bullets */
+    z-index: 10; /* Ensure pagination is above other elements */
+}
+
+.modern-tech-slider .swiper-pagination-bullet {
+    background: #fff; /* Default bullet color */
+    width: 10px; /* Default width of the bullet */
+    height: 10px; /* Default height of the bullet */
+    border-radius: 10px; /* Make bullets pill-shaped */
+    opacity: 0.6; /* Default opacity */
+    transition: all 0.3s ease; /* Smooth transition for color and size changes */
+    display: inline-block; /* Ensure bullets are inline */
+    margin: 0 6px; /* Space between bullets */
+}
+
+.modern-tech-slider .swiper-pagination-bullet-active {
+    background: #1e90ff; /* Blue color for active bullet */
+    width: 20px; /* Wider bullet for active state */
+    height: 10px; /* Keep the height the same as non-active */
+    opacity: 1; /* Full opacity for active bullet */
+}
+
+.modern-tech-slider .swiper-pagination-bullet:hover {
+    background: #1e90ff; /* Blue color on hover */
+    opacity: 1; /* Full opacity on hover */
+    transform: scale(1.1); /* Slightly enlarge on hover */
+}
+
+.modern-tech-slider .swiper-button-next,
+.modern-tech-slider .swiper-button-prev {
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 15px;
+    transition: background-color 0.3s ease;
+}
+
+.modern-tech-slider .swiper-button-next:hover,
+.modern-tech-slider .swiper-button-prev:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modern-tech-slider .swiper-button-next::after,
+.modern-tech-slider .swiper-button-prev::after {
+    font-size: 24px;
+}
+
+

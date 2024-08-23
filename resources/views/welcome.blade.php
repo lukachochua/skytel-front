@@ -1,7 +1,7 @@
 <x-main-layout>
-    <div class="container mt-4">
-        <x-slider :sliders="$sliders" />
+    <x-slider :sliders="$sliders" />
 
+    <div class="container mt-4">
         <h1 class="mb-4 text-center text-primary">Latest News</h1>
 
         <div class="row">
@@ -31,7 +31,7 @@
             @endforeach
         </div>
 
-        <div class="text-center mt-4">
+        <div class="text-center mt-4 mb-4">
             <a href="{{ route('news.index') }}" class="btn btn-primary">
                 <i class="fas fa-newspaper"></i> View All News
             </a>

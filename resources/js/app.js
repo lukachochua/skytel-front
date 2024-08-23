@@ -1,7 +1,9 @@
 import Alpine from 'alpinejs';
 import '../../node_modules/swiper/swiper.min.css';
+import '../../node_modules/swiper/swiper-bundle.min.css';
 import { Swiper } from 'swiper';
-import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+import { Navigation, Pagination, Autoplay, EffectFade } from 'swiper/modules';
+
 
 document.addEventListener('alpine:init', () => {
     Alpine.data('dynamicForm', () => ({
@@ -45,8 +47,9 @@ document.addEventListener('alpine:init', () => {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-    const swiper = new Swiper('.swiper-container', {
-        modules: [Navigation, Pagination, Autoplay],
+    const swiper = new Swiper('.modern-tech-slider', {
+        modules: [Navigation, Pagination, Autoplay, EffectFade],
+        effect: 'fade',
         loop: true,
         slidesPerView: 1,
         autoplay: {
@@ -61,8 +64,13 @@ document.addEventListener('DOMContentLoaded', function () {
             nextEl: '.swiper-button-next',
             prevEl: '.swiper-button-prev',
         },
+        speed: 800,
+        fadeEffect: {
+            crossFade: true
+        },
     });
 });
+
 
 window.Alpine = Alpine;
 Alpine.start();
