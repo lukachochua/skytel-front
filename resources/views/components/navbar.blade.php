@@ -6,7 +6,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarColor01">
-            <ul class="navbar-nav me-auto">
+            <ul class="navbar-nav me-auto justify-content-lg-center w-100">
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('welcome') ? 'active' : '' }}" href="{{ route('welcome') }}">
                         Home
@@ -17,7 +17,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('features') ? 'active' : '' }}"
-                        href="{{ route('features')}} ">Features</a>
+                        href="{{ route('features') }}">Features</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('news.*') ? 'active' : '' }}"

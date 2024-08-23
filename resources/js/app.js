@@ -5,6 +5,7 @@ import { Swiper } from 'swiper';
 import { Navigation, Pagination, Autoplay, EffectFade } from 'swiper/modules';
 
 
+// Dynamic two page form logic 
 document.addEventListener('alpine:init', () => {
     Alpine.data('dynamicForm', () => ({
         showEnglishFields: false,
@@ -46,6 +47,8 @@ document.addEventListener('alpine:init', () => {
     }));
 });
 
+// JS for Swiper Slider
+
 document.addEventListener('DOMContentLoaded', function () {
     const progressCircle = document.querySelector(".autoplay-progress svg");
     const progressContent = document.querySelector(".autoplay-progress span");
@@ -73,10 +76,38 @@ document.addEventListener('DOMContentLoaded', function () {
         on: {
             autoplayTimeLeft(s, time, progress) {
                 progressCircle.style.setProperty("--progress", 1 - progress);
-                progressContent.textContent = `${Math.ceil(time / 1000)}s`;
+                progressContent.textContent = `${Math.ceil(time / 1000)}`;
             }
         }
     });
+});
+
+// DropDown on hover
+
+document.addEventListener("DOMContentLoaded", function() {
+    if (window.innerWidth >= 992) { // lg and up
+        const dropdowns = document.querySelectorAll('.navbar .dropdown');
+
+        dropdowns.forEach(function(dropdown) {
+            dropdown.addEventListener('mouseover', function() {
+                const dropdownMenu = this.querySelector('.dropdown-menu');
+                const dropdownToggle = this.querySelector('.dropdown-toggle');
+                
+                dropdownMenu.classList.add('show');
+                dropdownToggle.classList.add('show');
+                dropdown.setAttribute('aria-expanded', 'true');
+            });
+
+            dropdown.addEventListener('mouseleave', function() {
+                const dropdownMenu = this.querySelector('.dropdown-menu');
+                const dropdownToggle = this.querySelector('.dropdown-toggle');
+                
+                dropdownMenu.classList.remove('show');
+                dropdownToggle.classList.remove('show');
+                dropdown.setAttribute('aria-expanded', 'false');
+            });
+        });
+    }
 });
 
 
