@@ -84,24 +84,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // DropDown on hover
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     if (window.innerWidth >= 992) { // lg and up
         const dropdowns = document.querySelectorAll('.navbar .dropdown');
 
-        dropdowns.forEach(function(dropdown) {
-            dropdown.addEventListener('mouseover', function() {
+        dropdowns.forEach(function (dropdown) {
+            dropdown.addEventListener('mouseover', function () {
                 const dropdownMenu = this.querySelector('.dropdown-menu');
                 const dropdownToggle = this.querySelector('.dropdown-toggle');
-                
+
                 dropdownMenu.classList.add('show');
                 dropdownToggle.classList.add('show');
                 dropdown.setAttribute('aria-expanded', 'true');
             });
 
-            dropdown.addEventListener('mouseleave', function() {
+            dropdown.addEventListener('mouseleave', function () {
                 const dropdownMenu = this.querySelector('.dropdown-menu');
                 const dropdownToggle = this.querySelector('.dropdown-toggle');
-                
+
                 dropdownMenu.classList.remove('show');
                 dropdownToggle.classList.remove('show');
                 dropdown.setAttribute('aria-expanded', 'false');
