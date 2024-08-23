@@ -12,14 +12,14 @@
 // @import '../../node_modules/swiper/swiper-bundle.min.css';
 
 .modern-tech-slider {
-    width: 100vw; /* Full viewport width */
-    height: 80vh; /* Full viewport height */
-    margin: 0; /* Remove margin */
-    padding: 0; /* Remove padding */
-    overflow: hidden; /* Hide overflow */
-    position: relative; /* Relative positioning for absolute children */
-    border-radius: 0; /* No border radius */
-    box-shadow: none; /* Remove box shadow if not needed */
+    width: 100vw;
+    height: 80vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+    border-radius: 0;
+    box-shadow: none;
 }
 
 .modern-tech-slider .swiper-slide {
@@ -27,20 +27,20 @@
 }
 
 .modern-tech-slider .slide-image {
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    object-fit: cover; /* Cover the container */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .modern-tech-slider .slide-content {
     position: absolute;
-    bottom: 20px; /* Space from the bottom */
-    left: 20px; /* Space from the left */
-    right: 20px; /* Space from the right */
-    padding: 10px; /* Padding around content */
-    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-    color: #fff; /* Text color */
-    border-radius: 5px; /* Rounded corners */
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border-radius: 5px;
 }
 
 .modern-tech-slider .slide-title {
@@ -55,39 +55,33 @@
 }
 
 .modern-tech-slider .swiper-pagination {
-    bottom: 20px; /* Adjust as needed */
-    text-align: center; /* Center pagination bullets */
-    z-index: 10; /* Ensure pagination is above other elements */
-}
-
-.modern-tech-slider .swiper-pagination {
-    bottom: 20px; /* Adjust as needed */
-    text-align: center; /* Center pagination bullets */
-    z-index: 10; /* Ensure pagination is above other elements */
+    bottom: 20px;
+    text-align: center;
+    z-index: 10;
 }
 
 .modern-tech-slider .swiper-pagination-bullet {
-    background: #fff; /* Default bullet color */
-    width: 10px; /* Default width of the bullet */
-    height: 10px; /* Default height of the bullet */
-    border-radius: 10px; /* Make bullets pill-shaped */
-    opacity: 0.6; /* Default opacity */
-    transition: all 0.3s ease; /* Smooth transition for color and size changes */
-    display: inline-block; /* Ensure bullets are inline */
-    margin: 0 6px; /* Space between bullets */
+    background: #fff;
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+    display: inline-block;
+    margin: 0 6px;
 }
 
 .modern-tech-slider .swiper-pagination-bullet-active {
-    background: #1e90ff; /* Blue color for active bullet */
-    width: 20px; /* Wider bullet for active state */
-    height: 10px; /* Keep the height the same as non-active */
-    opacity: 1; /* Full opacity for active bullet */
+    background: #1e90ff;
+    width: 20px;
+    height: 10px;
+    opacity: 1;
 }
 
 .modern-tech-slider .swiper-pagination-bullet:hover {
-    background: #1e90ff; /* Blue color on hover */
-    opacity: 1; /* Full opacity on hover */
-    transform: scale(1.1); /* Slightly enlarge on hover */
+    background: #1e90ff;
+    opacity: 1;
+    transform: scale(1.1);
 }
 
 .modern-tech-slider .swiper-button-next,
@@ -108,4 +102,49 @@
     font-size: 24px;
 }
 
+.swiper-progress-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: rgba(0, 0, 0, 0.3); /* Background color of the progress bar */
+    z-index: 10; /* Ensure it's above other elements */
+}
 
+.swiper-progress-bar-inner {
+    height: 100%;
+    width: 0;
+    background: #1e90ff; /* Color of the progress bar */
+    transition: width 0.3s ease; /* Smooth transition for width change */
+}
+
+.autoplay-progress {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    z-index: 10;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: var(--swiper-theme-color);
+  }
+
+  .autoplay-progress svg {
+    --progress: 0;
+    position: absolute;
+    left: 0;
+    top: 0px;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    stroke-width: 4px;
+    stroke: var(--swiper-theme-color);
+    fill: none;
+    stroke-dashoffset: calc(125.6px * (1 - var(--progress)));
+    stroke-dasharray: 125.6;
+    transform: rotate(-90deg);
+  }
