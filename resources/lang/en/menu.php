@@ -3,6 +3,7 @@
 return [
     'main_navigation' => 'MAIN NAVIGATION',
     'news' => 'News',
+    'slider' => 'Slider',
     'blog' => 'Blog',
     'pages' => 'Pages',
     'account_settings_key' => 'ACCOUNT SETTINGS',

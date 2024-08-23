@@ -5,6 +5,7 @@ return [
     'blog' => 'ბლოგი',
     'pages' => 'გვერდები',
     'news' => 'სიახლეები',
+    'slider' => 'სლაიდერი',
     'account_settings_key' => 'ანგარიშის პარამეტრები',
     'profile_key' => 'პროფილი',
     'change_password' => 'პაროლის შეცვლა',

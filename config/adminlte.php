@@ -334,6 +334,12 @@ return [
             'route' => 'news.dashboard',
             'icon' => 'fas fa-fw fa-book',
         ],
+        ['header' => 'Slider CRUD'],
+        [
+            'text' => 'slider',
+            'route' => 'sliders.index',
+            'icon' => 'fas fa-fw fa-image',
+        ],
         [
             'text' => 'change_password',
             'url' => 'admin/settings',
