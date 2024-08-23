@@ -13,4 +13,12 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    resolve: {
+        alias: {
+            'swiper/css': 'swiper/swiper.min.css',
+        },
+    },
+    optimizeDeps: {
+        include: ['swiper', 'swiper/modules'],
+    },
 });

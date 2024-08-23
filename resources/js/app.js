@@ -1,4 +1,7 @@
 import Alpine from 'alpinejs';
+import '../../node_modules/swiper/swiper.min.css';
+import { Swiper } from 'swiper';
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 
 document.addEventListener('alpine:init', () => {
     Alpine.data('dynamicForm', () => ({
@@ -39,6 +42,26 @@ document.addEventListener('alpine:init', () => {
             return true;
         },
     }));
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const swiper = new Swiper('.swiper-container', {
+        modules: [Navigation, Pagination, Autoplay],
+        loop: true,
+        slidesPerView: 1,
+        autoplay: {
+            delay: 5000,
+            disableOnInteraction: false,
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+    });
 });
 
 window.Alpine = Alpine;

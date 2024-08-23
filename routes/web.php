@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\SliderController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +23,11 @@ Route::get('/features', function () {
 
 Route::get('news', [NewsController::class, 'index'])->name('news.index');
 Route::get('news/{id}/', [NewsController::class, 'show'])->name('news.show');
+
+Route::middleware(['auth'])->prefix('home')->group(function () {
+    Route::resource('sliders', SliderController::class);
+});
+
 
 Route::resource('/home/news', NewsController::class)->except('index', 'show');
 

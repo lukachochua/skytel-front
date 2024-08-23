@@ -1,5 +1,7 @@
 <x-main-layout>
     <div class="container mt-4">
+        <x-slider :sliders="$sliders" />
+
         <h1 class="mb-4 text-center text-primary">Latest News</h1>
 
         <div class="row">

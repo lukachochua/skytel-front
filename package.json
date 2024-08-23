@@ -18,6 +18,7 @@
         "@popperjs/core": "^2.11.8",
         "alpinejs": "^3.14.1",
         "bootstrap": "^5.3.3",
-        "bootswatch": "^5.3.3"
+        "bootswatch": "^5.3.3",
+        "swiper": "^11.1.10"
     }
 }
