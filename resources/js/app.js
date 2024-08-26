@@ -47,8 +47,7 @@ document.addEventListener('alpine:init', () => {
     }));
 });
 
-// JS for Swiper Slider
-
+// JS method for the Swiper Slider
 document.addEventListener('DOMContentLoaded', function () {
     const progressCircle = document.querySelector(".autoplay-progress svg");
     const progressContent = document.querySelector(".autoplay-progress span");

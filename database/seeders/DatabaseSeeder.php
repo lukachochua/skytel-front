@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\News;
+use App\Models\Slider;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -29,9 +30,20 @@ class DatabaseSeeder extends Seeder
                     'user_id' => 1,
                     'title' => fake()->sentence(),
                     'body' => fake()->paragraph(),
-                    'image' => 'images/' . $imagePath, 
+                    'image' => 'images/' . $imagePath,
                 ]
             );
+        }
+
+        for ($i = 1; $i <= 3; $i++) {
+            $sliderImagePath = fake()->image(storage_path('app/public/sliders'), 1920, 1080, null, false);
+
+            Slider::create([
+                'title' => "Slider Title $i",
+                'description' => fake()->paragraph(),
+                'image' => 'sliders/' . $sliderImagePath,
+                'order' => $i,
+            ]);
         }
     }
 }

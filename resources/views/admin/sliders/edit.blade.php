@@ -5,7 +5,7 @@
 @section('content_header_subtitle', __('sliders.manage'))
 
 @section('content_body')
-    <div class="container">
+    <div class="container" x-data="dynamicForm()">
         <div class="card card-primary">
             <div class="card-header">
                 <h3 class="card-title">{{ isset($slider) ? __('sliders.edit') : __('sliders.create') }}</h3>
@@ -23,23 +23,49 @@
                         @method('PUT')
                     @endif
 
-                    <div class="mb-3">
-                        <label for="title" class="form-label fw-bold">@lang('sliders.title')</label>
-                        <input type="text" name="title" id="title" class="form-control"
-                            value="{{ old('title', $slider->title ?? '') }}" required>
-                        @error('title')
-                            <div class="text-danger mt-2">{{ $message }}</div>
-                        @enderror
+                    <!-- Georgian Fields -->
+                    <div id="georgian-fields" x-show="!showEnglishFields">
+                        <div class="mb-3">
+                            <label for="title" class="form-label fw-bold">@lang('sliders.title')</label>
+                            <input type="text" name="title" id="title" class="form-control"
+                                value="{{ old('title', $slider->title ?? '') }}" required>
+                            @error('title')
+                                <div class="text-danger mt-2">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="description" class="form-label fw-bold">@lang('sliders.description')</label>
+                            <textarea name="description" id="description" class="form-control" rows="4">{{ old('description', $slider->description ?? '') }}</textarea>
+                            @error('description')
+                                <div class="text-danger mt-2">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="description" class="form-label fw-bold">@lang('sliders.description')</label>
-                        <textarea name="description" id="description" class="form-control" rows="4">{{ old('description', $slider->description ?? '') }}</textarea>
-                        @error('description')
-                            <div class="text-danger mt-2">{{ $message }}</div>
-                        @enderror
+                    <!-- English Fields -->
+                    <div id="english-fields" x-show="showEnglishFields" style="display: none;">
+                        <div class="mb-3">
+                            <label for="title-en" class="form-label fw-bold">@lang('sliders.title_en')</label>
+                            <input type="text" name="title_en" id="title-en" class="form-control"
+                                value="{{ old('title_en', $slider->title_en ?? '') }}" required>
+                            @error('title_en')
+                                <div class="text-danger mt-2">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="description-en" class="form-label fw-bold">@lang('sliders.description_en')</label>
+                            <textarea name="description_en" id="description-en" class="form-control" rows="4">{{ old('description_en', $slider->description_en ?? '') }}</textarea>
+                            @error('description_en')
+                                <div class="text-danger mt-2">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <!-- Additional English-specific fields can go here -->
                     </div>
 
+                    <!-- Image Upload -->
                     <div class="mb-3">
                         <label for="image" class="form-label fw-bold">@lang('sliders.image')</label>
                         <input type="file" name="image" id="image" class="form-control">
@@ -54,7 +80,13 @@
                         @enderror
                     </div>
 
-                    <button type="submit" class="btn btn-success">
+                    <!-- Next Button -->
+
+                    <button type="button" id="next-button" class="btn btn-primary" @click="switchToEnglish()">
+                        @lang('sliders.next')
+                    </button>
+                    <!-- Submit Button -->
+                    <button type="submit" id="submit-button" class="btn btn-success d-none">
                         {{ isset($slider) ? __('sliders.update') : __('sliders.create') }}
                     </button>
                 </form>

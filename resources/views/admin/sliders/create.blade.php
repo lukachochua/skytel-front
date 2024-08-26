@@ -17,29 +17,57 @@
                 </a>
 
                 <form action="{{ isset($slider) ? route('sliders.update', $slider->id) : route('sliders.store') }}"
-                    method="POST" enctype="multipart/form-data">
+                    method="POST" enctype="multipart/form-data" x-data="dynamicForm()">
                     @csrf
                     @if (isset($slider))
                         @method('PUT')
                     @endif
 
-                    <div class="mb-3">
-                        <label for="title" class="form-label fw-bold">@lang('slider.title'):</label>
-                        <input type="text" name="title" id="title" class="form-control"
-                            value="{{ old('title', $slider->title ?? '') }}" required>
-                        @error('title')
-                            <div class="text-danger mt-2">{{ $message }}</div>
-                        @enderror
+                    <!-- Georgian Fields -->
+                    <div id="georgian-fields">
+                        <h2 class="h5 text-dark mb-3">@lang('dashboard.georgian_fields')</h2>
+
+                        <div class="mb-3">
+                            <label for="title" class="form-label fw-bold">@lang('slider.title') (GE):</label>
+                            <input type="text" name="title" id="title" class="form-control"
+                                value="{{ old('title', $slider->title ?? '') }}" required>
+                            @error('title')
+                                <div class="text-danger mt-2">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="description" class="form-label fw-bold">@lang('slider.description') (GE):</label>
+                            <textarea name="description" id="description" rows="4" class="form-control">{{ old('description', $slider->description ?? '') }}</textarea>
+                            @error('description')
+                                <div class="text-danger mt-2">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="description" class="form-label fw-bold">@lang('slider.description'):</label>
-                        <textarea name="description" id="description" rows="4" class="form-control">{{ old('description', $slider->description ?? '') }}</textarea>
-                        @error('description')
-                            <div class="text-danger mt-2">{{ $message }}</div>
-                        @enderror
+                    <!-- English Fields -->
+                    <div id="english-fields" style="display: none;">
+                        <h2 class="h5 text-dark mb-3">@lang('dashboard.english_fields')</h2>
+
+                        <div class="mb-3">
+                            <label for="title_en" class="form-label fw-bold">@lang('slider.title') (EN):</label>
+                            <input type="text" name="title_en" id="title_en" class="form-control"
+                                value="{{ old('title_en', $slider->title_en ?? '') }}" required>
+                            @error('title_en')
+                                <div class="text-danger mt-2">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="description_en" class="form-label fw-bold">@lang('slider.description') (EN):</label>
+                            <textarea name="description_en" id="description_en" rows="4" class="form-control">{{ old('description_en', $slider->description_en ?? '') }}</textarea>
+                            @error('description_en')
+                                <div class="text-danger mt-2">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
 
+                    <!-- Image Upload -->
                     <div class="mb-3">
                         <label for="image" class="form-label fw-bold">@lang('slider.image'):</label>
                         <input type="file" name="image" id="image" class="form-control">
@@ -52,7 +80,12 @@
                         @enderror
                     </div>
 
-                    <button type="submit" class="btn btn-success fw-bold">
+                    <!-- Navigation Buttons -->
+                    <button type="button" id="next-button" class="btn btn-success fw-bold" @click="switchToEnglish">
+                        @lang('dashboard.next')
+                    </button>
+
+                    <button type="submit" id="submit-button" class="btn btn-primary fw-bold d-none">
                         {{ isset($slider) ? __('slider.update') : __('slider.create') }} @lang('slider.slider')
                     </button>
                 </form>
