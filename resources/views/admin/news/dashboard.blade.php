@@ -2,7 +2,7 @@
 
 {{-- Customize layout sections --}}
 @section('subtitle', __('news.news_list'))
-@section('content_header_title', __('home'))
+@section('content_header_title', __('news.dashboard'))
 @section('content_header_subtitle', __('news.news_list'))
 
 {{-- Content body: main page content --}}

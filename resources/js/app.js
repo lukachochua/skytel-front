@@ -82,7 +82,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // DropDown on hover
-
 document.addEventListener("DOMContentLoaded", function () {
     if (window.innerWidth >= 992) { // lg and up
         const dropdowns = document.querySelectorAll('.navbar .dropdown');
@@ -110,7 +109,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // Navbar Fade Out/In
-
 document.addEventListener('DOMContentLoaded', function () {
     let lastScrollTop = 0;
     const navbar = document.querySelector('.navbar');

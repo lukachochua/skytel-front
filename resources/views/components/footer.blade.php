@@ -1,4 +1,4 @@
-<footer class="footer bg-primary text-white py-3">
+<footer class="footer bg-body-tertiary text-white py-3" data-bs-theme="dark">
     <div class="container">
         <div class="row justify-content-between">
             <div class="col-md-6 d-flex align-items-center">

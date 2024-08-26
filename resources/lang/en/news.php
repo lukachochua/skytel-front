@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'dashboard' => 'Dashboard',
     'title' => 'Title',
     'text' => 'Text',
     'latest' => 'Latest News',

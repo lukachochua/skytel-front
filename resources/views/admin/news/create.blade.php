@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('subtitle', __('news.create'))
-@section('content_header_title', __('news.create'))
+@section('content_header_title', __('news.dashboard'))
 @section('content_header_subtitle', __('news.add_new_item'))
 
 @section('content_body')
