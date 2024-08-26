@@ -1,4 +1,4 @@
-<div class="news-container my-5 py-4 bg-light rounded-3 shadow-sm" x-data="newsScroller" x-init="init()">
+<div class="news-container mb-5 rounded-3 shadow-sm bg-secondary-subtle" x-data="newsScroller" x-init="init()">
     <div class="news-wrapper px-3" style="overflow: hidden;">
         <div class="news-scroll" x-ref="newsScroll" @mousedown.prevent="startDrag" @mousemove.prevent="drag"
             @mouseup="endDrag" @mouseleave="endDrag" @touchstart.prevent="startDrag" @touchmove.prevent="drag"
@@ -6,7 +6,8 @@
             :style="{ transform: `translateX(-${scrollPosition}px)`, transition: isDragging ? 'none' : 'transform 0.3s ease' }">
             @foreach ($latestNews as $newsItem)
                 <div class="news-item pe-3">
-                    <div class="card border-0 h-100 shadow rounded overflow-hidden transition-all hover-shadow bg-primary-subtle">
+                    <div
+                        class="card border-0 border-top-0 border-bottom-0 h-100 shadow-sm rounded overflow-hidden transition-all hover-shadow bg-primary-subtle">
                         <div class="row g-0 h-100">
                             <div class="col-4 position-relative overflow-hidden">
                                 @if ($newsItem->image)
@@ -18,10 +19,6 @@
                                         <i class="fas fa-newspaper text-white fa-3x"></i>
                                     </div>
                                 @endif
-                                {{-- <div
-                                    class="position-absolute top-0 start-0 bg-primary text-white px-2 py-1 rounded-bottom-end">
-                                    <small>{{ $newsItem->created_at->format('M d, Y') }}</small>
-                                </div> --}}
                             </div>
                             <div class="col-8">
                                 <div class="card-body d-flex flex-column h-100 p-3">
@@ -46,7 +43,7 @@
             @endforeach
         </div>
     </div>
-    <div class="news-navigation d-flex justify-content-center mt-4">
+    <div class="news-navigation d-flex justify-content-between mt-2 ms-2 me-2">
         <button class="btn btn-primary me-2" @click="scrollLeft" :disabled="atStart">
             <i class="fas fa-chevron-left"></i> Previous
         </button>
