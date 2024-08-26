@@ -10,7 +10,7 @@ class WelcomeController extends Controller
 {
     public function welcome()
     {
-        $latestNews = News::latest()->take(3)->get();
+        $latestNews = News::latest()->get();
         $sliders = Slider::all();
         return view('welcome', compact('latestNews', 'sliders'));
     }

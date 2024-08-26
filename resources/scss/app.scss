@@ -11,6 +11,8 @@
 // @import '../../node_modules/swiper/swiper.min.css';
 // @import '../../node_modules/swiper/swiper-bundle.min.css';
 
+
+// Slider Styles
 .modern-tech-slider {
     width: 99.228vw;
     height: 80vh;
@@ -102,6 +104,9 @@
     font-size: 24px;
 }
 
+
+// Slider Progress Bar Styles
+
 .swiper-progress-bar {
     position: absolute;
     bottom: 0;
@@ -149,6 +154,8 @@
     transform: rotate(-90deg);
 }
 
+// Navbar Styles
+
 .navbar {
     position: fixed;
     top: 0;
@@ -165,3 +172,83 @@
     transform: translateY(-100%);
 }
 
+
+// News Container Styles
+
+.news-container {
+    width: 99.228vw;
+    overflow: hidden;
+}
+
+.news-scroll {
+    display: flex;
+    user-select: none;
+}
+
+.news-item {
+    flex: 0 0 calc(99.228vw / 5);
+}
+
+.news-item .card {
+    transition: all 0.3s ease;
+}
+
+.news-item .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.news-item .hover-scale {
+    transition: all 0.3s ease;
+}
+
+.news-item .card:hover .hover-scale {
+    transform: scale(1.1);
+}
+
+.news-item .hover-text-dark:hover {
+    color: #375a7f !important;
+}
+
+.news-item .hover-bg-primary:hover {
+    background-color: #375a7f !important;
+    color: #ffffff !important;
+}
+
+.news-item .transition-all {
+    transition: all 0.3s ease;
+}
+
+.news-item .object-fit-cover {
+    object-fit: cover;
+}
+
+.news-scroll {
+    display: flex;
+    user-select: none;
+    touch-action: pan-y;
+}
+
+@media (max-width: 1200px) {
+    .news-item {
+        flex: 0 0 calc(99.228vw / 4);
+    }
+}
+
+@media (max-width: 992px) {
+    .news-item {
+        flex: 0 0 calc(99.228vw / 3);
+    }
+}
+
+@media (max-width: 768px) {
+    .news-item {
+        flex: 0 0 calc(99.228vw / 2);
+    }
+}
+
+@media (max-width: 576px) {
+    .news-item {
+        flex: 0 0 99.228vw;
+    }
+}

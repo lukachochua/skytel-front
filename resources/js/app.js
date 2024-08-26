@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener('DOMContentLoaded', function () {
     let lastScrollTop = 0;
     const navbar = document.querySelector('.navbar');
-    const scrollThreshold = 50; 
+    const scrollThreshold = 50;
 
     window.addEventListener('scroll', function () {
         let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -127,6 +127,70 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+// News Component
+document.addEventListener('alpine:init', () => {
+    Alpine.data('newsScroller', () => ({
+        scrollPosition: 0,
+        itemWidth: 0,
+        containerWidth: 0,
+        scrollWidth: 0,
+        visibleItems: 5,
+        atStart: true,
+        atEnd: false,
+        isDragging: false,
+        startX: 0,
+        scrollLeft: 0,
+
+        init() {
+            this.calculateDimensions();
+            window.addEventListener('resize', () => this.calculateDimensions());
+        },
+
+        calculateDimensions() {
+            this.$nextTick(() => {
+                this.containerWidth = this.$el.querySelector('.news-wrapper').offsetWidth;
+                this.itemWidth = this.$el.querySelector('.news-item').offsetWidth;
+                this.scrollWidth = this.$el.querySelector('.news-scroll').scrollWidth;
+                this.visibleItems = Math.floor(this.containerWidth / this.itemWidth);
+                this.checkBounds();
+            });
+        },
+
+        scrollLeft() {
+            this.scrollPosition = Math.max(this.scrollPosition - this.itemWidth, 0);
+            this.checkBounds();
+        },
+
+        scrollRight() {
+            const maxScroll = this.scrollWidth - this.containerWidth;
+            this.scrollPosition = Math.min(this.scrollPosition + this.itemWidth, maxScroll);
+            this.checkBounds();
+        },
+
+        checkBounds() {
+            this.atStart = this.scrollPosition <= 0;
+            this.atEnd = this.scrollPosition >= this.scrollWidth - this.containerWidth;
+        },
+
+        startDrag(e) {
+            this.isDragging = true;
+            this.startX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+            this.scrollLeft = this.scrollPosition;
+        },
+
+        drag(e) {
+            if (!this.isDragging) return;
+            const x = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+            const walk = (x - this.startX) * 2;
+            this.scrollPosition = Math.max(0, Math.min(this.scrollLeft - walk, this.scrollWidth - this.containerWidth));
+            this.checkBounds();
+        },
+
+        endDrag() {
+            this.isDragging = false;
+        }
+    }));
+});
 
 window.Alpine = Alpine;
 Alpine.start();
