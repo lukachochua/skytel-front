@@ -109,6 +109,26 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
+// Navbar Fade Out/In
+
+document.addEventListener('DOMContentLoaded', function () {
+    let lastScrollTop = 0;
+    const navbar = document.querySelector('.navbar');
+    const scrollThreshold = 50; 
+
+    window.addEventListener('scroll', function () {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+        if (scrollTop > lastScrollTop && scrollTop > scrollThreshold) {
+            navbar.classList.add('hidden');
+        } else if (scrollTop < lastScrollTop || scrollTop < scrollThreshold) {
+            navbar.classList.remove('hidden');
+        }
+
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+    });
+});
+
 
 window.Alpine = Alpine;
 Alpine.start();

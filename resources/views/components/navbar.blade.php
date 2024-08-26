@@ -8,7 +8,8 @@
         <div class="collapse navbar-collapse" id="navbarColor01">
             <ul class="navbar-nav me-auto justify-content-lg-center w-100">
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('welcome') ? 'active' : '' }}" href="{{ route('welcome') }}">
+                    <a class="nav-link {{ request()->routeIs('welcome') ? 'active' : '' }}"
+                        href="{{ route('welcome') }}">
                         Home
                         @if (request()->routeIs('welcome'))
                             <span class="visually-hidden">(current)</span>
@@ -24,8 +25,7 @@
                         href="{{ route('news.index') }}">News</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}"
-                        href="">About</a>
+                    <a class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}" href="">About</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
