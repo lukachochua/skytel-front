@@ -45,10 +45,10 @@
     </div>
     <div class="news-navigation d-flex justify-content-between mt-2 ms-2 me-2">
         <button class="btn btn-primary me-2" @click="scrollLeft" :disabled="atStart">
-            <i class="fas fa-chevron-left"></i> Previous
+            <i class="fa fa-chevron-left"></i> Previous
         </button>
         <button class="btn btn-primary" @click="scrollRight" :disabled="atEnd">
-            Next <i class="fas fa-chevron-right"></i>
+            Next <i class="fa-solid fa-chevron-right"></i>
         </button>
     </div>
 </div>

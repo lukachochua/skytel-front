@@ -1,6 +1,7 @@
 // Import Bootstrap
 @import "bootstrap/scss/bootstrap";
 
+
 // Import a Bootswatch theme (replace "flatly" with your preferred theme)
 // @import "bootswatch/dist/cosmo/variables";
 
@@ -15,7 +16,7 @@
 // Slider Styles
 .modern-tech-slider {
     width: 100%;
-    height: 80vh;
+    height: 100vh;
     margin: 0;
     padding: 0;
     overflow: hidden;
