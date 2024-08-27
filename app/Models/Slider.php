@@ -13,4 +13,9 @@ class Slider extends Model
     protected $guarded = [];
     public $translatable = ['title', 'description'];
 
+
+    protected function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

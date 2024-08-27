@@ -11,8 +11,8 @@
                         <h1 class="card-title display-4">{{ $slider->title }}</h1>
                         <p class="card-text lead">{{ $slider->description }}</p>
                         <div class="mt-4">
-                            <a href="{{ route('sliders.index') }}" class="btn btn-outline-light btn-lg">Back to
-                                Sliders</a>
+                            <a href="{{ route('welcome') }}" class="btn btn-outline-light btn-lg">Back to
+                                Home</a>
                         </div>
                     </div>
                 </div>

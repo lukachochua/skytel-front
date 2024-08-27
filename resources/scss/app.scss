@@ -3,14 +3,8 @@
 
 
 // Import a Bootswatch theme (replace "flatly" with your preferred theme)
-// @import "bootswatch/dist/cosmo/variables";
+@import "bootswatch/dist/cosmo/variables";
 
-
-// Import Bootswatch theme
-// @import "bootswatch/dist/cosmo/bootswatch";
-
-// @import '../../node_modules/swiper/swiper.min.css';
-// @import '../../node_modules/swiper/swiper-bundle.min.css';
 
 body {
     background-color: #4cccf3;
@@ -167,22 +161,43 @@ body {
 }
 
 // Navbar Styles
+
+
 .navbar {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    height: 60px;
     transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
     opacity: 1;
     z-index: 9999;
-    background-color: var(--bs-body-bg);
 }
 
 .navbar.hidden {
     opacity: 0;
     transform: translateY(-100%);
 }
+
+
+@media (min-width: 992px) {
+    .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 60px;
+        transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+        opacity: 1;
+        z-index: 9999;
+        background-color: var(--bs-body-bg);
+    }
+
+    .navbar.hidden {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+}
+
 
 // News Container Styles
 .news-container {
@@ -197,7 +212,7 @@ body {
 .news-wrapper {
     padding: 0 1rem;
 
-;
+    ;
 }
 
 .news-scroll {

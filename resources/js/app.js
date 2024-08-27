@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener('DOMContentLoaded', function () {
     var lastScrollTop = 0;
     var navbar = document.querySelector('.navbar');
-    var scrollDelta = 5; 
+    var scrollDelta = 5;
 
     window.addEventListener('scroll', function () {
         var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -143,31 +143,43 @@ document.addEventListener('alpine:init', () => {
         atEnd: false,
         isDragging: false,
         startX: 0,
-        scrollLeft: 0,
 
         init() {
             this.calculateDimensions();
-            window.addEventListener('resize', () => this.calculateDimensions());
+            window.addEventListener('resize', this.calculateDimensions);
         },
 
         calculateDimensions() {
             this.$nextTick(() => {
-                this.containerWidth = this.$el.querySelector('.news-wrapper').offsetWidth;
-                this.itemWidth = this.$el.querySelector('.news-item').offsetWidth;
-                this.scrollWidth = this.$el.querySelector('.news-scroll').scrollWidth;
-                this.visibleItems = Math.floor(this.containerWidth / this.itemWidth);
-                this.checkBounds();
+                const wrapper = this.$el.querySelector('.news-wrapper');
+                const item = this.$el.querySelector('.news-item');
+                const scroll = this.$el.querySelector('.news-scroll');
+                if (wrapper && item && scroll) {
+                    this.containerWidth = wrapper.offsetWidth;
+                    this.itemWidth = item.offsetWidth;
+                    this.scrollWidth = scroll.scrollWidth;
+                    this.visibleItems = Math.floor(this.containerWidth / this.itemWidth);
+                    this.checkBounds();
+                }
             });
         },
 
         scrollLeft() {
-            this.scrollPosition = Math.max(this.scrollPosition - this.itemWidth, 0);
-            this.checkBounds();
+            if (this.scrollPosition > 0) {
+                this.scrollPosition = Math.max(0, this.scrollPosition - this.itemWidth);
+                this.updateScrollPosition();
+            }
         },
 
         scrollRight() {
             const maxScroll = this.scrollWidth - this.containerWidth;
-            this.scrollPosition = Math.min(this.scrollPosition + this.itemWidth, maxScroll);
+            if (this.scrollPosition < maxScroll) {
+                this.scrollPosition = Math.min(maxScroll, this.scrollPosition + this.itemWidth);
+                this.updateScrollPosition();
+            }
+        },
+
+        updateScrollPosition() {
             this.checkBounds();
         },
 
@@ -179,15 +191,16 @@ document.addEventListener('alpine:init', () => {
         startDrag(e) {
             this.isDragging = true;
             this.startX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
-            this.scrollLeft = this.scrollPosition;
         },
 
         drag(e) {
             if (!this.isDragging) return;
             const x = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
-            const walk = (x - this.startX) * 2;
-            this.scrollPosition = Math.max(0, Math.min(this.scrollLeft - walk, this.scrollWidth - this.containerWidth));
-            this.checkBounds();
+            const delta = this.startX - x;
+            const maxScroll = this.scrollWidth - this.containerWidth;
+            this.scrollPosition = Math.max(0, Math.min(this.scrollPosition + delta, maxScroll));
+            this.startX = x;
+            this.updateScrollPosition();
         },
 
         endDrag() {
