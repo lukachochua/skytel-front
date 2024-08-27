@@ -9,11 +9,12 @@
 </head>
 
 <body>
-    <x-navbar />
-    <div class="min-vh-100">
-        {{ $slot }}
+    <div class="container-fluid">
+        <x-navbar />
+        <div class="min-vh-100">
+            {{ $slot }}
+        </div>
     </div>
-
     <x-footer />
 </body>
 

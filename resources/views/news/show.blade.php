@@ -1,40 +1,46 @@
 <x-main-layout>
-    <div class="container mt-4">
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
         <!-- News Card -->
-        <div class="card border-light shadow-lg rounded p-4">
+        <div class="card border-0 shadow-lg rounded-lg overflow-hidden text-white bg-dark w-100"
+            style="max-width: 800px;">
             <!-- News Image -->
             @if ($news->image)
-                <div class="text-center mb-4">
-                    <img src="{{ asset('storage/' . $news->image) }}" alt="News Image" class="img-fluid rounded border"
-                        style="max-width: 100%; max-height: 400px; object-fit: cover;">
+                <div class="text-center">
+                    <img src="{{ asset('storage/' . $news->image) }}" alt="News Image" class="img-fluid w-100"
+                        style="height: 400px; object-fit: cover;">
                 </div>
             @endif
 
-            <!-- News Title -->
-            <h1 class="text-primary mb-4 text-center">{{ $news->title }}</h1>
+            <!-- News Content -->
+            <div class="p-4">
+                <!-- News Title -->
+                <h1 class="text-warning text-center mb-4">{{ $news->title }}</h1>
 
-            <!-- News Tags and Author -->
-            <div class="mb-4">
-                <div class="border-top border-bottom py-3 mb-3">
-                    <p class="font-weight-bold mb-1">Author:</p>
-                    <p class="text-muted">{{ $news->user->name }}</p>
+                <!-- News Tags and Author -->
+                <div class="mb-4">
+                    <div class="d-flex justify-content-between border-top border-bottom py-3">
+                        <div>
+                            <p class="mb-1 text-muted">Author:</p>
+                            <p class="font-weight-bold">{{ $news->user->name }}</p>
+                        </div>
+                        <div>
+                            <p class="mb-1 text-muted">Tags:</p>
+                            <p class="font-weight-bold">{{ $news->tags }}</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="border-top border-bottom py-3 mb-3">
-                    <p class="font-weight-bold mb-1">Tags:</p>
-                    <p class="text-muted">{{ $news->tags }}</p>
+
+                <!-- News Body -->
+                <div class="mb-4">
+                    <p class="lead">{{ $news->body }}</p>
                 </div>
-            </div>
 
-            <!-- News Body -->
-            <div class="mb-4">
-                <p class="lead">{{ $news->body }}</p>
-            </div>
-
-            <!-- Back to List Button -->
-            <div class="text-center mt-4">
-                <a href="{{ route('news.index') }}" class="btn btn-primary">
-                    <i class="fas fa-arrow-left"></i> Back to List
-                </a>
+                <!-- Back to List Button -->
+                <div class="text-center mt-4">
+                    <a href="{{ route('news.index') }}" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-arrow-left"></i> Back to List
+                    </a>
+                </div>
             </div>
         </div>
     </div>

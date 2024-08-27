@@ -12,6 +12,9 @@
 // @import '../../node_modules/swiper/swiper.min.css';
 // @import '../../node_modules/swiper/swiper-bundle.min.css';
 
+body {
+    background-color: #4cccf3;
+}
 
 // Slider Styles
 .modern-tech-slider {
@@ -19,16 +22,15 @@
     height: 63vh;
     margin: 0;
     padding: 0;
+    margin-top: 70px;
     overflow: hidden;
     position: relative;
-    border-radius: 0;
+    border-radius: 10px;
     box-shadow: none;
-    background-color: #2B3035;
 }
 
 .modern-tech-slider .swiper-slide {
     position: relative;
-    margin-top: 60px;
 }
 
 .modern-tech-slider .slide-image {
@@ -46,6 +48,15 @@
     background: rgba(0, 0, 0, 0.5);
     color: #fff;
     border-radius: 5px;
+}
+
+.slide-content {
+    text-decoration: none;
+    color: inherit;
+}
+
+.slide-content:hover {
+    color: #ffcc00;
 }
 
 .modern-tech-slider .slide-title {
@@ -106,7 +117,6 @@
 .modern-tech-slider .swiper-button-prev::after {
     font-size: 24px;
 }
-
 
 // Slider Progress Bar Styles
 .swiper-progress-bar {
@@ -179,13 +189,15 @@
     width: 100%;
     overflow: hidden;
     background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-    border-bottom: 1px solid #375a7f;
     padding-bottom: 2rem;
     margin: 0;
+    margin-top: 20px;
 }
 
 .news-wrapper {
     padding: 0 1rem;
+
+;
 }
 
 .news-scroll {

@@ -73,13 +73,13 @@ class SliderController extends Controller
         }
 
         $slider->setTranslations('title', [
-            'ka' => $validated['title'], 
-            'en' => $validated['title_en'] 
+            'ka' => $validated['title'],
+            'en' => $validated['title_en']
         ]);
 
         $slider->setTranslations('description', [
             'ka' => $validated['description'],
-            'en' => $validated['description_en'] 
+            'en' => $validated['description_en']
         ]);
 
         $slider->save();
@@ -93,5 +93,12 @@ class SliderController extends Controller
         $slider->delete();
 
         return redirect()->route('sliders.index')->with('success', 'Slider deleted successfully.');
+    }
+
+    public function show($id)
+    {
+        $slider = Slider::findOrFail($id);
+
+        return view('sliders.show', compact('slider'));
     }
 }

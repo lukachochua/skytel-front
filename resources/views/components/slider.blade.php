@@ -3,10 +3,10 @@
         @foreach ($sliders as $slider)
             <div class="swiper-slide">
                 <img src="{{ asset('storage/' . $slider->image) }}" alt="{{ $slider->title }}" class="slide-image">
-                <div class="slide-content">
+                <a href="{{ route('sliders.show', $slider->id) }}" class="slide-content">
                     <h2 class="slide-title">{{ $slider->title }}</h2>
                     <p class="slide-description">{{ $slider->description }}</p>
-                </div>
+                </a>
             </div>
         @endforeach
     </div>

@@ -25,8 +25,10 @@ Route::get('news', [NewsController::class, 'index'])->name('news.index');
 Route::get('news/{id}/', [NewsController::class, 'show'])->name('news.show');
 
 Route::middleware(['auth'])->prefix('home')->group(function () {
-    Route::resource('sliders', SliderController::class);
+    Route::resource('sliders', SliderController::class)->except('show');
 });
+
+Route::get('sliders/{id}/', [SliderController::class, 'show'])->name('sliders.show');
 
 
 Route::resource('/home/news', NewsController::class)->except('index', 'show');
