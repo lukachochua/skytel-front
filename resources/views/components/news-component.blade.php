@@ -1,4 +1,11 @@
 <div class="news-container mb-5 rounded-3 shadow-sm bg-secondary-subtle" x-data="newsScroller" x-init="init()">
+    <div class="border-0 border-top-0 border-bottom-0 shadow-sm rounded overflow-hidden bg-primary-subtle mb-3">
+        <div class="card-body p-3">
+            <h5 class="card-title mb-0 text-primary fw-bold text-start">
+                {{ __('news.all_news')}}
+            </h5>
+        </div>
+    </div>
     <div class="news-wrapper px-3" style="overflow: hidden;">
         <div class="news-scroll" x-ref="newsScroll" @mousedown.prevent="startDrag" @mousemove.prevent="drag"
             @mouseup="endDrag" @mouseleave="endDrag" @touchstart.prevent="startDrag" @touchmove.prevent="drag"

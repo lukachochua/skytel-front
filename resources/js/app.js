@@ -110,20 +110,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Navbar Fade Out/In
 document.addEventListener('DOMContentLoaded', function () {
-    let lastScrollTop = 0;
-    const navbar = document.querySelector('.navbar');
-    const scrollThreshold = 50;
+    var lastScrollTop = 0;
+    var navbar = document.querySelector('.navbar');
+    var scrollDelta = 5; 
 
     window.addEventListener('scroll', function () {
-        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-        if (scrollTop > lastScrollTop && scrollTop > scrollThreshold) {
+        if (Math.abs(lastScrollTop - scrollTop) <= scrollDelta) {
+            return;
+        }
+
+        if (scrollTop > lastScrollTop && scrollTop > navbar.clientHeight) {
             navbar.classList.add('hidden');
-        } else if (scrollTop < lastScrollTop || scrollTop < scrollThreshold) {
+        } else {
             navbar.classList.remove('hidden');
         }
 
-        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+        lastScrollTop = scrollTop;
     });
 });
 
