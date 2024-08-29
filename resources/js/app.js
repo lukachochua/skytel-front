@@ -146,7 +146,7 @@ document.addEventListener('alpine:init', () => {
 
         init() {
             this.calculateDimensions();
-            window.addEventListener('resize', this.calculateDimensions);
+            window.addEventListener('resize', () => this.calculateDimensions());
         },
 
         calculateDimensions() {
@@ -180,6 +180,7 @@ document.addEventListener('alpine:init', () => {
         },
 
         updateScrollPosition() {
+            this.$refs.newsScroll.style.transform = `translateX(-${this.scrollPosition}px)`;
             this.checkBounds();
         },
 
