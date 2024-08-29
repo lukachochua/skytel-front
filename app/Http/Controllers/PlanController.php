@@ -20,6 +20,7 @@ class PlanController extends Controller
 
     public function store(Request $request)
     {
+        // Validate the main plan data
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'type' => 'required|in:fiber_optic,wireless,tv,corporate',
@@ -28,10 +29,21 @@ class PlanController extends Controller
             'setanta' => 'boolean',
         ]);
 
-        Plan::create($validatedData);
+        $plan = Plan::create($validatedData);
+
+        if ($request->has('options')) {
+            foreach ($request->options as $option) {
+                $plan->planOptions()->create([
+                    'name' => $option['name'],
+                    'price' => $option['price'],
+                    'description' => $option['description'],
+                ]);
+            }
+        }
 
         return redirect()->route('plans.dashboard')->with('success', 'Plan created successfully!');
     }
+
 
     public function show(Plan $plan)
     {
@@ -54,6 +66,32 @@ class PlanController extends Controller
         ]);
 
         $plan->update($validatedData);
+
+        if ($request->has('options')) {
+            $optionIds = [];
+
+            foreach ($request->options as $optionId => $option) {
+                if ($planOption = $plan->planOptions()->find($optionId)) {
+                    $planOption->update([
+                        'name' => $option['name'],
+                        'price' => $option['price'],
+                        'description' => $option['description'],
+                    ]);
+                } else {
+                    $newOption = $plan->planOptions()->create([
+                        'name' => $option['name'],
+                        'price' => $option['price'],
+                        'description' => $option['description'],
+                    ]);
+                    $optionId = $newOption->id;
+                }
+                $optionIds[] = $optionId;
+            }
+
+            $plan->planOptions()->whereNotIn('id', $optionIds)->delete();
+        } else {
+            $plan->planOptions()->delete();
+        }
 
         return redirect()->route('plans.dashboard')->with('success', 'Plan updated successfully!');
     }
