@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\PlanController;
+use App\Http\Controllers\PlanOptionController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Auth;
@@ -35,6 +37,11 @@ Route::resource('/home/news', NewsController::class)->except('index', 'show');
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/home/news', [HomeController::class, 'news'])->name('news.dashboard');
+
+
+Route::resource('plans', PlanController::class);
+Route::resource('planOptions', PlanOptionController::class);
+
 
 
 Auth::routes();
