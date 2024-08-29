@@ -1,15 +1,11 @@
 @extends('adminlte::page')
 
-{{-- Extend and customize the browser title --}}
-
 @section('title')
     {{ config('adminlte.title') }}
     @hasSection('subtitle')
         | @yield('subtitle')
     @endif
 @stop
-
-{{-- Extend and customize the page content header --}}
 
 @section('content_header')
     @hasSection('content_header_title')
@@ -26,13 +22,9 @@
     @endif
 @stop
 
-{{-- Rename section content to content_body --}}
-
 @section('content')
     @yield('content_body')
 @stop
-
-{{-- Create a common footer --}}
 
 @section('footer')
     <div class="float-right">
@@ -46,8 +38,6 @@
     </strong>
 @stop
 
-{{-- Add common Javascript/Jquery code --}}
-
 @push('js')
     <script>
         $(document).ready(function() {
@@ -56,18 +46,15 @@
     </script>
 @endpush
 
-{{-- Add common CSS customizations --}}
-
 @push('css')
-    <style type="text/css">
-        {{-- You can add AdminLTE customizations here --}}
-        /*
-        .card-header {
-            border-bottom: none;
+    <style>
+        .card {
+            margin-bottom: 0;
+            padding: 0;
         }
-        .card-title {
-            font-weight: 600;
+
+        .card .card-body {
+            padding: 1.5rem;
         }
-        */
     </style>
 @endpush
