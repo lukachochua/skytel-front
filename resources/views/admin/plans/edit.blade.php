@@ -152,7 +152,7 @@
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-save"></i> @lang('plans.save')
                         </button>
-                        <a href="{{ route('plans.index') }}" class="btn btn-secondary">
+                        <a href="{{ route('plans.dashboard') }}" class="btn btn-secondary">
                             <i class="fas fa-arrow-left"></i> @lang('plans.cancel')
                         </a>
                     </div>

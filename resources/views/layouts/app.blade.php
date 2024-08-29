@@ -48,13 +48,17 @@
 
 @push('css')
     <style>
-        .card {
+        .wrapper
+        {
+            background-color: #F4F6F9;
+        }
+        /* .card {
             margin-bottom: 0;
             padding: 0;
         }
 
         .card .card-body {
             padding: 1.5rem;
-        }
+        } */
     </style>
 @endpush
