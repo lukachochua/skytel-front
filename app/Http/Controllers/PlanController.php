@@ -15,7 +15,7 @@ class PlanController extends Controller
 
     public function create()
     {
-        return view('plans.create');
+        return view('admin.plans.create');
     }
 
     public function store(Request $request)
@@ -30,7 +30,7 @@ class PlanController extends Controller
 
         Plan::create($validatedData);
 
-        return redirect()->route('plans.index')->with('success', 'Plan created successfully!');
+        return redirect()->route('admin.plans.index')->with('success', 'Plan created successfully!');
     }
 
     public function show(Plan $plan)
@@ -40,7 +40,7 @@ class PlanController extends Controller
 
     public function edit(Plan $plan)
     {
-        return view('plans.edit', compact('plan'));
+        return view('admin.plans.edit', compact('plan'));
     }
 
     public function update(Request $request, Plan $plan)
@@ -55,13 +55,13 @@ class PlanController extends Controller
 
         $plan->update($validatedData);
 
-        return redirect()->route('plans.index')->with('success', 'Plan updated successfully!');
+        return redirect()->route('admin.plans.index')->with('success', 'Plan updated successfully!');
     }
 
     public function destroy(Plan $plan)
     {
         $plan->delete();
 
-        return redirect()->route('plans.index')->with('success', 'Plan deleted successfully!');
+        return redirect()->route('admin.plans.index')->with('success', 'Plan deleted successfully!');
     }
 }

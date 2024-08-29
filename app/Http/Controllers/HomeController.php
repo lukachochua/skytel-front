@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\News;
+use App\Models\Plan;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -32,5 +33,11 @@ class HomeController extends Controller
         $news = News::latest()->paginate(9);
 
         return view('admin.news.dashboard', compact('news'));
+    }
+
+    public function plans()
+    {
+        $plans = Plan::all();
+        return view('admin.plans.index', compact('plans'));
     }
 }
