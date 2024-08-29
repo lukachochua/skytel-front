@@ -210,5 +210,57 @@ document.addEventListener('alpine:init', () => {
     }));
 });
 
+//Plans conditional fields
+document.addEventListener('DOMContentLoaded', function () {
+    const typeField = document.getElementById('type');
+    const setantaContainer = document.getElementById('setanta-container');
+
+    function toggleSetantaVisibility() {
+        if (typeField.value === 'tv') {
+            setantaContainer.style.display = 'block';
+        } else {
+            setantaContainer.style.display = 'none';
+            document.getElementById('setanta').checked = false;
+        }
+    }
+
+    typeField.addEventListener('change', toggleSetantaVisibility);
+    toggleSetantaVisibility(); // Initial check on page load
+
+    // Add plan options dynamically
+    document.getElementById('add-option').addEventListener('click', function () {
+        const optionId = Date.now(); // Unique ID for each option
+        const optionsList = document.getElementById('options-list');
+        const newOptionHtml = `
+            <div class="option-row mb-3" id="option-${optionId}">
+                <div class="row">
+                    <div class="col-md-4">
+                        <input type="text" name="options[${optionId}][name]" class="form-control" placeholder="@lang('plans.option_name')" required>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="number" name="options[${optionId}][price]" class="form-control" placeholder="@lang('plans.option_price')" required>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" name="options[${optionId}][description]" class="form-control" placeholder="@lang('plans.option_description')">
+                    </div>
+                    <div class="col-md-12 mt-2">
+                        <button type="button" class="btn btn-danger remove-option" data-option-id="${optionId}">
+                            <i class="fas fa-trash"></i> @lang('plans.remove')
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        optionsList.insertAdjacentHTML('beforeend', newOptionHtml);
+    });
+
+    document.getElementById('options-list').addEventListener('click', function (event) {
+        if (event.target && event.target.matches('.remove-option')) {
+            const optionId = event.target.getAttribute('data-option-id');
+            document.getElementById(`option-${optionId}`).remove();
+        }
+    });
+});
+
 window.Alpine = Alpine;
 Alpine.start();

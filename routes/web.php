@@ -34,11 +34,11 @@ Auth::routes();
 
 // Admin Routes (requires authentication)
 Route::middleware(['auth'])->prefix('home')->group(function () {
+    Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::resource('sliders', SliderController::class)->except('show');
     Route::resource('news', NewsController::class)->except('index', 'show');
     Route::resource('plans', PlanController::class)->except('index', 'show');
     Route::resource('planOptions', PlanOptionController::class);
-    Route::get('/', [HomeController::class, 'index'])->name('home');
-    Route::get('/news', [HomeController::class, 'news'])->name('news.dashboard');
-    Route::get('/plans', [HomeController::class, 'plans'])->name('plans.dashboard');
+    Route::get('news', [HomeController::class, 'news'])->name('news.dashboard');
+    Route::get('plans', [HomeController::class, 'plans'])->name('plans.dashboard');
 });

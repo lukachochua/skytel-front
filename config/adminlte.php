@@ -340,6 +340,12 @@ return [
             'route' => 'sliders.index',
             'icon' => 'fas fa-fw fa-image',
         ],
+        ['header' => 'Plans CRUD'],
+        [
+            'text' => 'plans',
+            'route' => 'plans.dashboard',
+            'icon' => 'fas fa-list-alt',
+        ],
         [
             'text' => 'change_password',
             'url' => 'admin/settings',

@@ -30,7 +30,7 @@ class PlanController extends Controller
 
         Plan::create($validatedData);
 
-        return redirect()->route('admin.plans.index')->with('success', 'Plan created successfully!');
+        return redirect()->route('plans.dashboard')->with('success', 'Plan created successfully!');
     }
 
     public function show(Plan $plan)
@@ -55,13 +55,13 @@ class PlanController extends Controller
 
         $plan->update($validatedData);
 
-        return redirect()->route('admin.plans.index')->with('success', 'Plan updated successfully!');
+        return redirect()->route('plans.dashboard')->with('success', 'Plan updated successfully!');
     }
 
     public function destroy(Plan $plan)
     {
         $plan->delete();
 
-        return redirect()->route('admin.plans.index')->with('success', 'Plan deleted successfully!');
+        return redirect()->route('plans.dashboard')->with('success', 'Plan deleted successfully!');
     }
 }
