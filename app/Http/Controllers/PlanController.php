@@ -20,7 +20,6 @@ class PlanController extends Controller
 
     public function store(Request $request)
     {
-        // Validate the main plan data
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'type' => 'required|in:fiber_optic,wireless,tv,corporate',
