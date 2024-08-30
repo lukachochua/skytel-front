@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('plans', function (Blueprint $table) {
+        Schema::create('plan_options', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->enum('type', ['fiber_optic', 'wireless', 'tv', 'corporate']);
-            $table->text('description')->nullable();
-            $table->string('status')->default('active');
-            $table->boolean('setanta')->default(false);
+            $table->foreignId('plan_id')->constrained('plans');
+            $table->string('option_name');
+            $table->decimal('price', 8, 2);
             $table->timestampsTz();
             $table->softDeletesTz();
         });
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('plans');
+        Schema::dropIfExists('plan_options');
     }
 };

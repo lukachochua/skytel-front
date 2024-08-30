@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class PlanOption extends Model
+class TvOption extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['plan_id', 'option_name', 'price'];
+    protected $fillable = ['plan_id', 'setanta'];
 
     public function plan()
     {
