@@ -27,7 +27,8 @@
                         href="{{ route('news.index') }}">News</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('plans.*') ? 'active' : '' }}" href="{{ route('plans.index')}}">Plans</a>
+                    <a class="nav-link {{ request()->routeIs('plans.*') ? 'active' : '' }}"
+                        href="{{ route('plans.index') }}">Plans</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
@@ -43,12 +44,12 @@
             </ul>
             <div class="btn-group" role="group" aria-label="Language Selection">
                 <a href="{{ route('change-locale', ['locale' => 'en']) }}"
-                    class="btn btn-light flag-button text-bg-info me-2" title="English">
-                    🇬🇧
+                    class="btn btn-light flag-button bg-info me-2" title="English">
+                    <img src="{{ asset('storage/flags/britain.png') }}" alt="" class="flag-image">
                 </a>
-                <a href="{{ route('change-locale', ['locale' => 'ka']) }}"
-                    class="btn btn-light flag-button text-bg-danger" title="Georgian">
-                    🇬🇪
+                <a href="{{ route('change-locale', ['locale' => 'ka']) }}" class="btn btn-light flag-button bg-info"
+                    title="Georgian">
+                    <img src="{{ asset('storage/flags/georgia.png') }}" alt="" class="flag-image">
                 </a>
             </div>
         </div>
