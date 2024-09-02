@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tv_options', function (Blueprint $table) {
+        Schema::create('tv_services', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('plan_id')->constrained('plans');
-            $table->boolean('setanta')->default(false);
-            $table->timestampsTz();
-            $table->softDeletesTz();
+            $table->foreignId('plan_id')->constrained('plans')->onDelete('cascade');
+            $table->string('name');
+            $table->decimal('price', 8, 2);
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tv_options');
+        Schema::dropIfExists('tv_services');
     }
 };

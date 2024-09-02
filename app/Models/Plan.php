@@ -16,9 +16,9 @@ class Plan extends Model
         return $this->belongsTo(PlanType::class);
     }
 
-    public function tvOption()
+    public function tvServices()
     {
-        return $this->hasOne(TvOption::class);
+        return $this->hasMany(TvService::class);
     }
 
     public function planOptions()

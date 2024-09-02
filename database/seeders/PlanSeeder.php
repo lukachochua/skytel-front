@@ -2,139 +2,165 @@
 
 namespace Database\Seeders;
 
-use App\Models\Plan;
 use Illuminate\Database\Seeder;
+use App\Models\PlanType;
+use App\Models\Plan;
+use App\Models\TvService;
+use App\Models\TvServiceOption;
+use App\Models\PlanOption;
 
 class PlanSeeder extends Seeder
 {
     public function run()
     {
-        // Fiber Optic Plans
-        $fiberOptic = Plan::create([
-            'name' => 'Fiber Optic',
-            'type' => 'fiber_optic',
-            'status' => 'active',
-            'description' => 'Our fiber optic plans offer the fastest and most reliable internet experience. Perfect for streamers, gamers, and large households.'
-        ]);
+        // Seed Plan Types
+        $fiberOptic = PlanType::create(['name' => 'fiber_optic', 'description' => 'High-speed fiber optic internet']);
+        $wireless = PlanType::create(['name' => 'wireless', 'description' => 'Wireless internet for remote areas']);
+        $corporate = PlanType::create(['name' => 'corporate', 'description' => 'Corporate internet plans for businesses']);
 
-        $fiberOptic->planOptions()->createMany([
+        // Seed Fiber Optic Plans
+        $fiberPlans = [
             [
-                'name' => 'Start',
-                'price' => 30,
-                'description' => 'Up to 20 Mbps download speed.'
+                'name' => 'Fiber Basic',
+                'description' => 'Basic fiber optic plan',
+                'status' => 'active',
             ],
             [
-                'name' => 'Standard',
-                'price' => 35,
-                'description' => 'Up to 30 Mbps download speed.'
+                'name' => 'Fiber Plus',
+                'description' => 'Upgraded fiber optic plan with more speed',
+                'status' => 'active',
             ],
             [
-                'name' => 'Pro',
-                'price' => 40,
-                'description' => 'Up to 35 Mbps download speed.'
+                'name' => 'Fiber Premium',
+                'description' => 'Premium fiber optic plan with highest speed',
+                'status' => 'active',
             ],
-            [
-                'name' => 'Turbo',
-                'price' => 45,
-                'description' => 'Up to 50 Mbps download speed.'
-            ],
-            [
-                'name' => 'Max',
-                'price' => 80,
-                'description' => 'Up to 100 Mbps download speed.'
-            ]
-        ]);
+        ];
 
-        // Wireless Plans
-        $wireless = Plan::create([
-            'name' => 'Wireless',
-            'type' => 'wireless',
-            'status' => 'active',
-            'description' => 'Our wireless plans offer a flexible and convenient internet solution. Ideal for areas where fiber optic is not available.'
-        ]);
+        $tvServices = [
+            [
+                'name' => 'Basic TV',
+                'price' => 10.00,
+            ],
+            [
+                'name' => 'Premium TV',
+                'price' => 20.00,
+            ],
+            [
+                'name' => 'Ultimate TV',
+                'price' => 30.00,
+            ],
+        ];
 
-        $wireless->planOptions()->createMany([
-            [
-                'name' => 'Start',
-                'price' => 25,
-                'description' => 'Up to 6 Mbps download speed.'
-            ],
-            [
-                'name' => 'Standard',
-                'price' => 30,
-                'description' => 'Up to 8 Mbps download speed.'
-            ],
-            [
-                'name' => 'Pro',
-                'price' => 35,
-                'description' => 'Up to 10 Mbps download speed.'
-            ],
-            [
-                'name' => 'Turbo',
-                'price' => 40,
-                'description' => 'Up to 12 Mbps download speed.'
-            ],
-        ]);
+        // Assign one TV service to each Fiber Plan
+        foreach ($fiberPlans as $index => $fiberPlanData) {
+            $fiberPlan = Plan::create(array_merge($fiberPlanData, ['plan_type_id' => $fiberOptic->id]));
 
-        // TV Plans
-        $tv = Plan::create([
-            'name' => 'TV',
-            'type' => 'tv',
-            'status' => 'active',
-            'description' => 'Enjoy a wide variety of channels and entertainment options with our TV plans.'
-        ]);
+            // Seed a single TV Service for the Fiber Optic Plan
+            $tvServiceData = $tvServices[$index]; // Use a unique TV service for each plan
+            $tvService = TvService::create(array_merge($tvServiceData, ['plan_id' => $fiberPlan->id]));
 
-        $tv->planOptions()->createMany([
+            // Seed Service Option for the TV Service
+            TvServiceOption::create([
+                'tv_service_id' => $tvService->id,
+                'option_name' => 'Setanta',
+                'enabled' => true,
+                'additional_price' => 5.00,
+            ]);
+
+            // Seed Plan Options for Fiber Plan
+            $planOptions = [
+                [
+                    'option_name' => 'Pro',
+                    'price' => 30.00,
+                ],
+                [
+                    'option_name' => 'Ultra',
+                    'price' => 50.00,
+                ],
+            ];
+
+            foreach ($planOptions as $planOptionData) {
+                PlanOption::create(array_merge($planOptionData, ['plan_id' => $fiberPlan->id]));
+            }
+        }
+
+        // Seed Wireless Plans
+        $wirelessPlans = [
             [
-                'name' => 'Basic',
-                'price' => 11,
-                'description' => 'A selection of essential channels for casual viewing.'
+                'name' => 'Wireless Basic',
+                'description' => 'Basic wireless internet plan',
+                'status' => 'active',
             ],
             [
-                'name' => 'Standard',
-                'price' => 17,
-                'description' => 'A wider variety of channels including popular entertainment and news.'
+                'name' => 'Wireless Plus',
+                'description' => 'Upgraded wireless plan for better coverage',
+                'status' => 'active',
             ],
             [
-                'name' => 'Premium',
-                'price' => 19,
-                'description' => 'The ultimate TV experience with premium channels, HD, and on-demand options.'
-            ]
-        ]);
+                'name' => 'Wireless Premium',
+                'description' => 'Premium wireless plan with highest coverage and speed',
+                'status' => 'active',
+            ],
+        ];
 
-        // Corporate Plans
-        $corporate = Plan::create([
-            'name' => 'Corporate',
-            'type' => 'corporate',
-            'status' => 'active',
-            'description' => 'Our corporate plans are designed to meet the needs of your business. They offer high speeds, reliable connections, and enterprise-grade features.'
-        ]);
+        foreach ($wirelessPlans as $wirelessPlanData) {
+            $wirelessPlan = Plan::create(array_merge($wirelessPlanData, ['plan_type_id' => $wireless->id]));
 
-        $corporate->planOptions()->createMany([
+            // Seed Plan Options for Wireless Plan
+            $planOptions = [
+                [
+                    'option_name' => 'Pro',
+                    'price' => 25.00,
+                ],
+                [
+                    'option_name' => 'Ultra',
+                    'price' => 45.00,
+                ],
+            ];
+
+            foreach ($planOptions as $planOptionData) {
+                PlanOption::create(array_merge($planOptionData, ['plan_id' => $wirelessPlan->id]));
+            }
+        }
+
+        // Seed Corporate Plans
+        $corporatePlans = [
             [
-                'name' => 'Business Basic',
-                'price' => 50,
-                'description' => 'Suitable for small businesses with basic internet needs.'
+                'name' => 'Corporate Basic',
+                'description' => 'Basic corporate internet plan for small businesses',
+                'status' => 'active',
             ],
             [
-                'name' => 'Business Standard',
-                'price' => 85,
-                'description' => 'Ideal for medium-sized businesses requiring higher speeds and more features.'
+                'name' => 'Corporate Plus',
+                'description' => 'Enhanced corporate plan with additional features',
+                'status' => 'active',
             ],
             [
-                'name' => 'Business Premium',
-                'price' => 150,
-                'description' => 'Designed for large businesses demanding maximum performance, reliability, and security.'
-            ]
-        ]);
+                'name' => 'Corporate Premium',
+                'description' => 'Premium corporate plan for large enterprises',
+                'status' => 'active',
+            ],
+        ];
 
-        // Setanta
-        Plan::create([
-            'name' => 'Setanta Sports',
-            'type' => 'tv',
-            'status' => 'active',
-            'setanta' => true,
-            'description' => 'Enjoy premium live sports coverage with Setanta Sports.'
-        ]);
+        foreach ($corporatePlans as $corporatePlanData) {
+            $corporatePlan = Plan::create(array_merge($corporatePlanData, ['plan_type_id' => $corporate->id]));
+
+            // Seed Plan Options for Corporate Plan
+            $planOptions = [
+                [
+                    'option_name' => 'Pro',
+                    'price' => 100.00,
+                ],
+                [
+                    'option_name' => 'Ultra',
+                    'price' => 200.00,
+                ],
+            ];
+
+            foreach ($planOptions as $planOptionData) {
+                PlanOption::create(array_merge($planOptionData, ['plan_id' => $corporatePlan->id]));
+            }
+        }
     }
 }

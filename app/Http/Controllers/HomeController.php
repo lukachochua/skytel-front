@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\News;
 use App\Models\Plan;
+use App\Models\PlanOption;
+use App\Models\PlanType;
+use App\Models\TvService;
+use App\Models\TvServiceOption;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -38,6 +42,10 @@ class HomeController extends Controller
     public function plans()
     {
         $plans = Plan::all();
-        return view('admin.plans.index', compact('plans'));
+        $planTypes = PlanType::all();
+        $planOptions = PlanOption::all();
+        $tvServices = TvService::all();
+        $tvServiceOptions = TvServiceOption::all();
+        return view('admin.plans.index', compact('plans', 'planTypes', 'planOptions', 'tvServices', 'tvServiceOptions'));
     }
 }

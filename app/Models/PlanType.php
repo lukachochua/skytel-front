@@ -11,7 +11,7 @@ class PlanType extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'description'];
 
     // Relationship with Plan
     public function plans()

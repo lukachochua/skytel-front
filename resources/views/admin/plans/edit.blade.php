@@ -94,59 +94,53 @@
                                 @enderror
                             </div>
                         </div>
+                    </div>
 
-                        <div class="col-md-6" id="setanta-container">
-                            <div class="form-group form-check">
-                                <input type="checkbox" id="setanta" name="setanta"
-                                    class="form-check-input @error('setanta') is-invalid @enderror"
-                                    {{ old('setanta', $plan->setanta) ? 'checked' : '' }}>
-                                <label for="setanta" class="form-check-label">@lang('plans.setanta')</label>
-                                @error('setanta')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                    {{-- Display TV Service Options if the Plan is Fiber Optic --}}
+                    @if ($plan->plan_type_id === 1)
+                        <div id="plan-options-container">
+                            <h4>@lang('plans.tv_service_options')</h4>
+                            <div id="options-list">
+                                @foreach ($plan->tvServices as $service)
+                                    <div class="service-block mb-4">
+                                        <h5>{{ $service->name }}</h5>
+                                        @foreach ($service->tvServiceOptions as $option)
+                                            <div class="option-row mb-3">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <input type="text"
+                                                            name="services[{{ $service->id }}][options][{{ $option->id }}][option_name]"
+                                                            class="form-control"
+                                                            value="{{ old('services.' . $service->id . '.options.' . $option->id . '.option_name', $option->option_name) }}"
+                                                            placeholder="@lang('plans.option_name')" required>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <input type="number"
+                                                            name="services[{{ $service->id }}][options][{{ $option->id }}][additional_price]"
+                                                            class="form-control"
+                                                            value="{{ old('services.' . $service->id . '.options.' . $option->id . '.additional_price', $option->additional_price) }}"
+                                                            placeholder="@lang('plans.option_price')" required>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-check">
+                                                            <input type="checkbox" id="enabled_{{ $option->id }}"
+                                                                name="services[{{ $service->id }}][options][{{ $option->id }}][enabled]"
+                                                                class="form-check-input"
+                                                                {{ old('services.' . $service->id . '.options.' . $option->id . '.enabled', $option->enabled) ? 'checked' : '' }}>
+                                                            <label for="enabled_{{ $option->id }}"
+                                                                class="form-check-label">
+                                                                @lang('plans.enabled')
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
-                    </div>
-
-                    <div id="plan-options-container">
-                        <h4>@lang('plans.plan_options')</h4>
-                        <div class="form-group mb-3">
-                            <button type="button" class="btn btn-secondary" id="add-option">
-                                <i class="fas fa-plus"></i> @lang('plans.add_option')
-                            </button>
-                        </div>
-                        <div id="options-list">
-                            @foreach ($plan->planOptions as $option)
-                                <div class="option-row mb-3" id="option-{{ $option->id }}">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <input type="text" name="options[{{ $option->id }}][name]"
-                                                class="form-control" value="{{ $option->name }}"
-                                                placeholder="@lang('plans.option_name')" required>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <input type="number" name="options[{{ $option->id }}][price]"
-                                                class="form-control" value="{{ $option->price }}"
-                                                placeholder="@lang('plans.option_price')" required>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <input type="text" name="options[{{ $option->id }}][description]"
-                                                class="form-control" value="{{ $option->description }}"
-                                                placeholder="@lang('plans.option_description')">
-                                        </div>
-                                        <div class="col-md-12 mt-2">
-                                            <button type="button" class="btn btn-danger remove-option"
-                                                data-option-id="{{ $option->id }}">
-                                                <i class="fas fa-trash"></i> @lang('plans.remove')
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
+                    @endif
 
                     <div class="form-group mb-3">
                         <button type="submit" class="btn btn-primary">

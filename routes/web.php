@@ -26,9 +26,6 @@ Route::get('news', [NewsController::class, 'index'])->name('news.index');
 Route::get('news/{id}/', [NewsController::class, 'show'])->name('news.show');
 Route::get('sliders/{id}/', [SliderController::class, 'show'])->name('sliders.show');
 
-Route::resource('plans', PlanController::class);
-
-
 
 // Auth Routes
 Auth::routes();
@@ -38,5 +35,9 @@ Route::middleware(['auth'])->prefix('home')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::resource('sliders', SliderController::class)->except('show');
     Route::resource('news', NewsController::class)->except('index', 'show');
+    Route::resource('plans', PlanController::class);
     Route::get('news', [HomeController::class, 'news'])->name('news.dashboard');
+    Route::get('plans', [HomeController::class, 'plans'])->name('plans.dashboard');
 });
+
+Route::get('plans', [PlanController::class, 'index'])->name('plans.index');
