@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Plan;
 use App\Models\PlanType;
-use App\Models\TvOption;
 use App\Models\PlanOption;
 use App\Models\TvService;
 use App\Models\TvServiceOption;
@@ -22,48 +21,56 @@ class PlanController extends Controller
     {
         $tvServices = TvService::all();
         $tvServiceOptions = TvServiceOption::all();
+        $planTypes = PlanType::all();
 
-        return view('admin.plans.create', compact('tvServices', 'tvServiceOptions'));
+        return view('admin.plans.create', compact('tvServices', 'tvServiceOptions', 'planTypes'));
     }
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'type' => 'required|string|in:fiber_optic,wireless,tv,corporate',
+            'plan_type_id' => 'required|exists:plan_types,id',
             'description' => 'nullable|string',
-            'status' => 'required|string|in:active,inactive',
-            'tv_service' => 'required_if:type,fiber_optic|string|max:255',
-            'tv_service_option' => 'required_if:type,fiber_optic|string|max:255',
+            'status' => 'required|string',
+            'services' => 'array',
+            'services.*.name' => 'required|string|max:255',
+            'services.*.price' => 'required|numeric',
+            'services.*.options' => 'array',
+            'services.*.options.*.option_name' => 'required|string|max:255',
+            'services.*.options.*.additional_price' => 'nullable|numeric',
+            'services.*.options.*.enabled' => 'boolean',
         ]);
 
         $plan = Plan::create([
-            'name' => $request->input('name'),
-            'type' => $request->input('type'),
-            'description' => $request->input('description'),
-            'status' => $request->input('status'),
+            'name' => $validatedData['name'],
+            'plan_type_id' => $validatedData['plan_type_id'],
+            'description' => $validatedData['description'] ?? null,
+            'status' => $validatedData['status'],
         ]);
 
-        if ($request->input('type') === 'fiber_optic') {
-            // Handle TV service and options
-            $tvService = $request->input('tv_service');
-            $tvServiceOption = $request->input('tv_service_option');
+        if ($request->has('services')) {
+            foreach ($validatedData['services'] as $serviceData) {
+                $service = $plan->tvServices()->create([
+                    'name' => $serviceData['name'],
+                    'price' => $serviceData['price'],
+                ]);
 
-            // Add TV service and options logic here, assuming you have relationships set up
-            $plan->tvServices()->create([
-                'service_name' => $tvService,
-                'options' => [
-                    [
-                        'option_name' => $tvServiceOption,
-                        'additional_price' => 0, // Default value or retrieve from input if available
-                    ]
-                ]
-            ]);
+                if (isset($serviceData['options'])) {
+                    foreach ($serviceData['options'] as $optionData) {
+                        $service->tvServiceOptions()->create([
+                            'option_name' => $optionData['option_name'],
+                            'additional_price' => $optionData['additional_price'] ?? null,
+                            'enabled' => $optionData['enabled'] ?? false,
+                        ]);
+                    }
+                }
+            }
         }
 
-        return redirect()->route('plans.index')
-            ->with('success', __('plans.plan_created_successfully'));
+        return redirect()->route('plans.dashboard')->with('success', 'Plan created successfully.');
     }
+
 
     public function edit($id)
     {
@@ -123,5 +130,25 @@ class PlanController extends Controller
 
         return redirect()->route('plans.edit', $plan->id)
             ->with('success', __('plans.plan_updated_successfully'));
+    }
+
+    public function destroy($id)
+    {
+        $plan = Plan::findOrFail($id);
+
+        foreach ($plan->planOptions as $option) {
+            $option->delete();
+        }
+
+        if ($plan->tvService) {
+            foreach ($plan->tvService->tvServiceOptions as $serviceOption) {
+                $serviceOption->delete();
+            }
+            $plan->tvService->delete();
+        }
+
+        $plan->delete();
+
+        return redirect()->route('plans.dashboard')->with('success', 'Plan deleted successfully.');
     }
 }

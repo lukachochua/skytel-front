@@ -1,104 +1,155 @@
 @extends('layouts.app')
 
-@section('subtitle', __('plans.create'))
-@section('content_header_title', __('plans.dashboard'))
-@section('content_header_subtitle', __('plans.create'))
+@section('title', 'Create Plan')
 
-@section('content_body')
+@section('content_header')
+    <h1>@lang('plans.create_plan')</h1>
+@stop
+
+@section('content')
     <div class="container">
-        <div class="card card-primary">
-            <div class="card-header">
-                <h3 class="card-title">{{ __('plans.create') }}</h3>
+        {{-- Success message --}}
+        @if (session('success'))
+            <x-success-message>
+                {{ session('success') }}
+            </x-success-message>
+        @endif
+
+        {{-- Form for Creating a New Plan --}}
+        <div class="card">
+            <div class="card-header bg-primary">
+                <h3 class="card-title">@lang('plans.create_plan')</h3>
             </div>
             <div class="card-body">
-                <!-- Back Button -->
-                <a href="{{ route('plans.dashboard') }}" class="btn btn-secondary mb-3">
-                    <i class="fas fa-arrow-left"></i> @lang('dashboard.back')
-                </a>
-
-                <form action="{{ route('plans.store') }}" method="POST" enctype="multipart/form-data" x-data="planForm" x-init="init()">
+                <form action="{{ route('plans.store') }}" method="POST">
                     @csrf
 
-                    <div class="mb-3">
-                        <label for="name" class="form-label fw-bold">@lang('plans.name'):</label>
-                        <input type="text" name="name" id="name" class="form-control" value="{{ old('name') }}" required>
-                        @error('name')
-                            <div class="text-danger mt-2">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="type" class="form-label fw-bold">@lang('plans.type'):</label>
-                        <select name="type" id="type" class="form-select" x-ref="type" @change="toggleTvFields" required>
-                            <option value="fiber_optic" {{ old('type') == 'fiber_optic' ? 'selected' : '' }}>Fiber Optic</option>
-                            <option value="wireless" {{ old('type') == 'wireless' ? 'selected' : '' }}>Wireless</option>
-                            <option value="tv" {{ old('type') == 'tv' ? 'selected' : '' }}>TV</option>
-                            <option value="corporate" {{ old('type') == 'corporate' ? 'selected' : '' }}>Corporate</option>
-                        </select>
-                        @error('type')
-                            <div class="text-danger mt-2">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <!-- TV Fields -->
-                    <div id="tv-fields" x-show="showTvFields" style="display: none;">
-                        <div class="mb-3">
-                            <label for="tv_service" class="form-label fw-bold">@lang('plans.tv_service'):</label>
-                            <select name="tv_service_id" id="tv_service" class="form-select">
-                                <option value="">@lang('plans.select_tv_service')</option>
-                                @foreach ($tvServices as $tvService)
-                                    <option value="{{ $tvService->id }}" {{ old('tv_service_id') == $tvService->id ? 'selected' : '' }}>
-                                        {{ $tvService->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('tv_service_id')
-                                <div class="text-danger mt-2">{{ $message }}</div>
-                            @enderror
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">@lang('plans.name')</label>
+                                <input type="text" id="name" name="name"
+                                    class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}"
+                                    required>
+                                @error('name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="tv_service_option" class="form-label fw-bold">@lang('plans.tv_service_option'):</label>
-                            <select name="tv_service_option_id" id="tv_service_option" class="form-select">
-                                <option value="">@lang('plans.select_tv_service_option')</option>
-                                @foreach ($tvServiceOptions as $tvServiceOption)
-                                    @if($tvServiceOption->enabled) <!-- Only show enabled options -->
-                                        <option value="{{ $tvServiceOption->id }}" {{ old('tv_service_option_id') == $tvServiceOption->id ? 'selected' : '' }}>
-                                            {{ $tvServiceOption->option_name }}
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="plan_type_id">@lang('plans.type')</label>
+                                <select id="plan_type_id" name="plan_type_id"
+                                    class="form-control @error('plan_type_id') is-invalid @enderror" required>
+                                    <option value="" disabled selected>Select Type</option>
+                                    @foreach ($planTypes as $type)
+                                        <option value="{{ $type->id }}"
+                                            {{ old('plan_type_id') == $type->id ? 'selected' : '' }}>
+                                            {{ $type->name }}
                                         </option>
-                                    @endif
-                                @endforeach
-                            </select>
-                            @error('tv_service_option_id')
-                                <div class="text-danger mt-2">{{ $message }}</div>
-                            @enderror
+                                    @endforeach
+                                </select>
+                                @error('plan_type_id')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
                         </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="description" class="form-label fw-bold">@lang('plans.description'):</label>
-                        <textarea name="description" id="description" rows="5" class="form-control">{{ old('description') }}</textarea>
+                    <div class="form-group mb-3">
+                        <label for="description">@lang('plans.description')</label>
+                        <textarea id="description" name="description" class="form-control @error('description') is-invalid @enderror">{{ old('description') }}</textarea>
                         @error('description')
-                            <div class="text-danger mt-2">{{ $message }}</div>
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
                         @enderror
                     </div>
 
-                    <div class="mb-3">
-                        <label for="status" class="form-label fw-bold">@lang('plans.status'):</label>
-                        <select name="status" id="status" class="form-select" required>
-                            <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
-                            <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>Inactive</option>
-                        </select>
-                        @error('status')
-                            <div class="text-danger mt-2">{{ $message }}</div>
-                        @enderror
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="status">@lang('plans.status')</label>
+                                <select id="status" name="status"
+                                    class="form-control @error('status') is-invalid @enderror" required>
+                                    <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active
+                                    </option>
+                                    <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>Inactive
+                                    </option>
+                                </select>
+                                @error('status')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tv-service-options-container" style="display: none;">
+                        <h4>@lang('plans.tv_service_options')</h4>
+                        <div id="services-list">
+                            @foreach ($tvServices as $tvService)
+                                <div class="form-check">
+                                    <input type="checkbox" id="setanta-{{ $tvService->id }}"
+                                        name="tv_services[{{ $tvService->id }}]" class="form-check-input" value="1">
+                                    <label class="form-check-label" for="setanta-{{ $tvService->id }}">
+                                        {{ $tvService->name }} - Add Setanta
+                                    </label>
+                                </div>
+                            @endforeach
+                        </div>
+                        <button type="button" id="add-service-button" class="btn btn-secondary">
+                            @lang('plans.add_service')
+                        </button>
                     </div>
 
-                    <button type="submit" class="btn btn-primary fw-bold">
-                        @lang('plans.create')
-                    </button>
+                    <div class="form-group mb-3">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> @lang('plans.save')
+                        </button>
+                        <a href="{{ route('plans.dashboard') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> @lang('plans.cancel')
+                        </a>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
+@stop
+
+@section('js')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const planTypeSelect = document.getElementById('plan_type_id');
+            const tvServiceOptionsContainer = document.getElementById('tv-service-options-container');
+            const addServiceButton = document.getElementById('add-service-button');
+            const servicesList = document.getElementById('services-list');
+
+            planTypeSelect.addEventListener('change', function() {
+                if (planTypeSelect.value ==
+                    {{ \App\Models\PlanType::where('name', 'fiber_optic')->first()->id }}) {
+                    tvServiceOptionsContainer.style.display = 'block';
+                } else {
+                    tvServiceOptionsContainer.style.display = 'none';
+                }
+            });
+
+            addServiceButton.addEventListener('click', function() {
+                const newService = document.createElement('div');
+                newService.classList.add('service-option');
+                newService.innerHTML = `
+            <div class="form-check">
+                <input type="checkbox" id="service1" name="services[]" value="Service1" class="form-check-input">
+                <label class="form-check-label" for="service1">Service 1</label>
+            </div>
+        `;
+                servicesList.appendChild(newService);
+            });
+        });
+    </script>
 @stop

@@ -37,32 +37,20 @@ class PlanSeeder extends Seeder
             ],
         ];
 
-        $tvServices = [
-            [
-                'name' => 'Basic TV',
-                'price' => 10.00,
-            ],
-            [
-                'name' => 'Premium TV',
-                'price' => 20.00,
-            ],
-            [
-                'name' => 'Ultimate TV',
-                'price' => 30.00,
-            ],
-        ];
-
-        // Assign one TV service to each Fiber Plan
-        foreach ($fiberPlans as $index => $fiberPlanData) {
+        // Seed Fiber Plans and associated TV Services
+        foreach ($fiberPlans as $fiberPlanData) {
             $fiberPlan = Plan::create(array_merge($fiberPlanData, ['plan_type_id' => $fiberOptic->id]));
 
-            // Seed a single TV Service for the Fiber Optic Plan
-            $tvServiceData = $tvServices[$index]; // Use a unique TV service for each plan
-            $tvService = TvService::create(array_merge($tvServiceData, ['plan_id' => $fiberPlan->id]));
+            // Seed TV Service for the Fiber Optic Plan
+            $tvService = TvService::create([
+                'plan_id' => $fiberPlan->id,
+                'name' => 'Basic TV',
+                'price' => 10.00,
+            ]);
 
-            // Seed Service Option for the TV Service
+            // Associate the TV Service Option with the current TV Service
             TvServiceOption::create([
-                'tv_service_id' => $tvService->id,
+                'tv_service_id' => $tvService->id, // Ensure tv_service_id is populated
                 'option_name' => 'Setanta',
                 'enabled' => true,
                 'additional_price' => 5.00,
