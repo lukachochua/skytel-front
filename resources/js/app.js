@@ -210,18 +210,45 @@ document.addEventListener('alpine:init', () => {
     }));
 });
 
-// Optional fields for tv plans for fiber_optic
+// Plan Component Animation function
 
 document.addEventListener('alpine:init', () => {
-    Alpine.data('planForm', () => ({
-        showTvFields: false,
-
+    Alpine.data('slideIn', () => ({
+        show: false,
         init() {
-            this.showTvFields = (this.$refs.type.value === 'fiber_optic');
-        },
+            setTimeout(() => {
+                this.show = true;
+            }, 100);
+        }
+    }));
+});
 
-        toggleTvFields() {
-            this.showTvFields = (this.$refs.type.value === 'fiber_optic');
+// Optional fields for tv plans for fiber_optic
+document.addEventListener('alpine:init', () => {
+    Alpine.data('slideIn', () => ({
+        show: false,
+        init() {
+            this.observeIntersection();
+        },
+        observeIntersection() {
+            const options = {
+                root: null, // Use the viewport as the container
+                rootMargin: '0px',
+                threshold: 0.01 // Trigger when 10% of the element is in the viewport
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        this.show = true;
+                        observer.unobserve(entry.target); // Stop observing after it's in view
+                    }
+                });
+            }, options);
+
+            this.$nextTick(() => {
+                observer.observe(this.$el);
+            });
         }
     }));
 });

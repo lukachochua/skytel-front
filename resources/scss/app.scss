@@ -334,6 +334,59 @@ body {
     background-color: #007bff;
 }
 
+// Plans Animation
+.slide-in-card {
+    position: relative;
+    overflow: hidden;
+    transform: translateX(100%);
+    opacity: 0;
+    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+}
+
+.slide-in-card.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.slide-in-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 4px;
+    width: 100%;
+    background: linear-gradient(90deg, #007bff, #00c2ff);
+}
+
+.slide-in-card .card-body {
+    padding: 1.5rem;
+}
+
+.slide-in-card .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.slide-in-card .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+@media (max-width: 767.98px) {
+    .slide-in-card {
+        margin-bottom: 1.5rem;
+        transform: translateX(100%);
+    }
+}
+
+@media (max-width: 575.98px) {
+    .slide-in-card {
+        margin-bottom: 1rem;
+    }
+}
+
+
 // Responsive
 
 @media (max-width: 1200px) {
