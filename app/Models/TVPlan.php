@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class TVPlan extends Model
 {
     use HasFactory;
-    protected $fillable = ['plan_id', 'name'];
+    protected $table = 'tv_plans';
+
+    protected $fillable = ['name', 'description', 'price', 'plan_id'];
 
     public function plan()
     {

@@ -1,19 +1,38 @@
-<x-main-layout>
-    <div class="container">
-        <h1>Our Plans</h1>
-        <div class="row">
-            @foreach ($plans as $plan)
+@extends('layouts.app')
 
-                <div class="col-md-4">
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $plan->name }}</h5>
-                            <p class="card-text">{{ $plan->description }}</p>
-                            <a href="{{ route('plans.show', $plan->id) }}" class="btn btn-primary">View Details</a>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
-        </div>
+@section('content')
+    <div class="container">
+        <h1>All Plans</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Type</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($plans as $plan)
+                    <tr>
+                        <td>{{ $plan->name }}</td>
+                        <td>{{ $plan->description }}</td>
+                        <td>{{ $plan->price }}</td>
+                        <td>{{ $plan->type }}</td>
+                        <td>
+                            <a href="{{ route('plans.show', $plan->id) }}" class="btn btn-info">View</a>
+                            <a href="{{ route('home.plans.edit', $plan->id) }}" class="btn btn-warning">Edit</a>
+                            <form action="{{ route('home.plans.destroy', $plan->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+        {{ $plans->links() }}
     </div>
-</x-main-layout>
+@endsection

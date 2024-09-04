@@ -28,6 +28,8 @@ Route::get('news', [NewsController::class, 'index'])->name('news.index');
 Route::get('news/{id}/', [NewsController::class, 'show'])->name('news.show');
 Route::get('sliders/{id}/', [SliderController::class, 'show'])->name('sliders.show');
 
+Route::resource('plans', PlanController::class)->only(['index', 'show']);
+
 
 // Auth Routes
 Auth::routes();
@@ -38,12 +40,9 @@ Route::middleware(['auth'])->prefix('home')->group(function () {
     Route::resource('sliders', SliderController::class)->except('show');
     Route::resource('news', NewsController::class)->except('index', 'show');
     Route::get('news', [HomeController::class, 'news'])->name('news.dashboard');
-    Route::resource('plans', PlanController::class);
+    Route::resource('plans', PlanController::class)->except(['index', 'show']);
+    Route::get('plans', [PlanController::class, 'dashboard'])->name('plans.dashboard');
 });
 
 
 
-// Route::prefix('home')->name('admin.')->group(function () {
-//     Route::resource('tv_plans', TVPlanController::class);
-//     Route::resource('packages', PackageController::class);
-// });

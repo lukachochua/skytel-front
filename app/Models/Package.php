@@ -9,10 +9,10 @@ class Package extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['tv_plan_id', 'name', 'price'];
+    protected $fillable = ['name', 'price', 'tv_plan_id'];
 
     public function tvPlan()
     {
-        return $this->belongsTo(TVPlan::class);
+        return $this->belongsTo(TvPlan::class);
     }
 }

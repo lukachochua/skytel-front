@@ -343,7 +343,7 @@ return [
         ['header' => 'Plans CRUD'],
         [
             'text' => 'plans',
-            'route' => 'plans.index',
+            'route' => 'plans.dashboard',
             'icon' => 'fas fa-list-alt',
         ],
         [
