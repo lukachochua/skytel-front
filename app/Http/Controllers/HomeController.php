@@ -39,13 +39,4 @@ class HomeController extends Controller
         return view('admin.news.dashboard', compact('news'));
     }
 
-    public function plans()
-    {
-        $plans = Plan::all();
-        $planTypes = PlanType::all();
-        $planOptions = PlanOption::all();
-        $tvServices = TvService::all();
-        $tvServiceOptions = TvServiceOption::all();
-        return view('admin.plans.index', compact('plans', 'planTypes', 'planOptions', 'tvServices', 'tvServiceOptions'));
-    }
 }

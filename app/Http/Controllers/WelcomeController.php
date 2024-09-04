@@ -14,7 +14,6 @@ class WelcomeController extends Controller
     {
         $latestNews = News::latest()->get();
         $sliders = Slider::all();
-        $plans = Plan::all();
-        return view('welcome', compact('latestNews', 'sliders', 'plans'));
+        return view('welcome', compact('latestNews', 'sliders'));
     }
 }

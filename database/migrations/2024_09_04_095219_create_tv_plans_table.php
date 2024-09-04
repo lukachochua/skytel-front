@@ -11,21 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('plan_options', function (Blueprint $table) {
+        Schema::create('tv_plans', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('plan_id')->constrained('plans');
-            $table->string('option_name');
+            $table->string('name');
+            $table->text('description')->nullable();
             $table->decimal('price', 8, 2);
-            $table->timestampsTz();
-            $table->softDeletesTz();
+            $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('plan_options');
+        Schema::dropIfExists('tv_plans');
     }
 };

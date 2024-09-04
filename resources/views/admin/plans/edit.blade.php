@@ -1,157 +1,30 @@
 @extends('layouts.app')
-
 @section('title', 'Edit Plan')
 
 @section('content_header')
-    <h1>@lang('plans.edit_plan')</h1>
+    <h1>Edit Plan</h1>
 @stop
 
 @section('content')
-    <div class="container">
-        {{-- Success message --}}
-        @if (session('success'))
-            <x-success-message>
-                {{ session('success') }}
-            </x-success-message>
-        @endif
-
-        {{-- Form for Editing an Existing Plan --}}
-        <div class="card">
-            <div class="card-header bg-primary">
-                <h3 class="card-title">@lang('plans.edit_plan')</h3>
-            </div>
-            <div class="card-body">
-                <form action="{{ route('plans.update', $plan->id) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="name">@lang('plans.name')</label>
-                                <input type="text" id="name" name="name"
-                                    class="form-control @error('name') is-invalid @enderror"
-                                    value="{{ old('name', $plan->name) }}" required>
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="type">@lang('plans.type')</label>
-                                <select id="type" name="type"
-                                    class="form-control @error('type') is-invalid @enderror" required>
-                                    <option value="" disabled>Select Type</option>
-                                    <option value="fiber_optic"
-                                        {{ old('type', $plan->type) == 'fiber_optic' ? 'selected' : '' }}>Fiber Optic
-                                    </option>
-                                    <option value="wireless" {{ old('type', $plan->type) == 'wireless' ? 'selected' : '' }}>
-                                        Wireless</option>
-                                    <option value="tv" {{ old('type', $plan->type) == 'tv' ? 'selected' : '' }}>TV
-                                    </option>
-                                    <option value="corporate"
-                                        {{ old('type', $plan->type) == 'corporate' ? 'selected' : '' }}>Corporate</option>
-                                </select>
-                                @error('type')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label for="description">@lang('plans.description')</label>
-                        <textarea id="description" name="description" class="form-control @error('description') is-invalid @enderror">{{ old('description', $plan->description) }}</textarea>
-                        @error('description')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="status">@lang('plans.status')</label>
-                                <select id="status" name="status"
-                                    class="form-control @error('status') is-invalid @enderror" required>
-                                    <option value="active"
-                                        {{ old('status', $plan->status) == 'active' ? 'selected' : '' }}>Active</option>
-                                    <option value="inactive"
-                                        {{ old('status', $plan->status) == 'inactive' ? 'selected' : '' }}>Inactive
-                                    </option>
-                                </select>
-                                @error('status')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- Display TV Service Options if the Plan is Fiber Optic --}}
-                    @if ($plan->plan_type_id === 1)
-                        <div id="plan-options-container">
-                            <h4>@lang('plans.tv_service_options')</h4>
-                            <div id="options-list">
-                                @foreach ($plan->tvServices as $service)
-                                    <div class="service-block mb-4">
-                                        <h5>{{ $service->name }}</h5>
-                                        @foreach ($service->tvServiceOptions as $option)
-                                            <div class="option-row mb-3">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <input type="text"
-                                                            name="services[{{ $service->id }}][options][{{ $option->id }}][option_name]"
-                                                            class="form-control"
-                                                            value="{{ old('services.' . $service->id . '.options.' . $option->id . '.option_name', $option->option_name) }}"
-                                                            placeholder="@lang('plans.option_name')" required>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <input type="number"
-                                                            name="services[{{ $service->id }}][options][{{ $option->id }}][additional_price]"
-                                                            class="form-control"
-                                                            value="{{ old('services.' . $service->id . '.options.' . $option->id . '.additional_price', $option->additional_price) }}"
-                                                            placeholder="@lang('plans.option_price')" required>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <div class="form-check">
-                                                            <input type="checkbox" id="enabled_{{ $option->id }}"
-                                                                name="services[{{ $service->id }}][options][{{ $option->id }}][enabled]"
-                                                                class="form-check-input"
-                                                                {{ old('services.' . $service->id . '.options.' . $option->id . '.enabled', $option->enabled) ? 'checked' : '' }}>
-                                                            <label for="enabled_{{ $option->id }}"
-                                                                class="form-check-label">
-                                                                @lang('plans.enabled')
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-                    @endif
-
-                    <div class="form-group mb-3">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-save"></i> @lang('plans.save')
-                        </button>
-                        <a href="{{ route('plans.dashboard') }}" class="btn btn-secondary">
-                            <i class="fas fa-arrow-left"></i> @lang('plans.cancel')
-                        </a>
-                    </div>
-                </form>
-            </div>
+    <form action="{{ route('plans.update', $plan) }}" method="POST">
+        @csrf
+        @method('PUT')
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name" class="form-control" value="{{ $plan->name }}" required>
         </div>
-    </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea name="description" id="description" class="form-control">{{ $plan->description }}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="price">Price</label>
+            <input type="number" name="price" id="price" class="form-control" value="{{ $plan->price }}" step="0.01" required>
+        </div>
+        <div class="form-group">
+            <label for="type">Type</label>
+            <input type="text" name="type" id="type" class="form-control" value="{{ $plan->type }}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
 @stop

@@ -210,48 +210,65 @@ document.addEventListener('alpine:init', () => {
     }));
 });
 
-// Plan Component Animation function
+// // Optional fields for the Plans creation
+// document.addEventListener('DOMContentLoaded', function () {
+//     const planTypeSelect = document.getElementById('plan_type_id');
+//     const tvServiceOptionsContainer = document.getElementById('tv-service-options-container');
+//     const addServiceButton = document.getElementById('add-service-button');
+//     const servicesList = document.getElementById('services-list');
 
-document.addEventListener('alpine:init', () => {
-    Alpine.data('slideIn', () => ({
-        show: false,
-        init() {
-            setTimeout(() => {
-                this.show = true;
-            }, 100);
-        }
-    }));
-});
+//     const fiberOpticId = planTypeSelect.dataset.fiberOpticId;
 
-// Optional fields for tv plans for fiber_optic
-document.addEventListener('alpine:init', () => {
-    Alpine.data('slideIn', () => ({
-        show: false,
-        init() {
-            this.observeIntersection();
-        },
-        observeIntersection() {
-            const options = {
-                root: null, // Use the viewport as the container
-                rootMargin: '0px',
-                threshold: 0.01 // Trigger when 10% of the element is in the viewport
-            };
+//     planTypeSelect.addEventListener('change', function () {
+//         if (planTypeSelect.value === fiberOpticId) {
+//             tvServiceOptionsContainer.style.display = 'block';
+//         } else {
+//             tvServiceOptionsContainer.style.display = 'none';
+//         }
+//     });
 
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        this.show = true;
-                        observer.unobserve(entry.target); // Stop observing after it's in view
-                    }
-                });
-            }, options);
+//     addServiceButton.addEventListener('click', function () {
+//         const newService = document.createElement('div');
+//         newService.classList.add('service-option');
+//         newService.innerHTML = `
+//             <div class="form-check">
+//                 <input type="checkbox" id="service1" name="services[]" value="Service1" class="form-check-input">
+//                 <label class="form-check-label" for="service1">Service 1</label>
+//             </div>
+//         `;
+//         servicesList.appendChild(newService);
+//     });
+// });
 
-            this.$nextTick(() => {
-                observer.observe(this.$el);
-            });
-        }
-    }));
-});
+// // Plan Component Animation function
+// document.addEventListener('alpine:init', () => {
+//     Alpine.data('slideIn', () => ({
+//         show: false,
+//         init() {
+//             this.observeIntersection();
+//         },
+//         observeIntersection() {
+//             const options = {
+//                 root: null,
+//                 rootMargin: '0px',
+//                 threshold: 0.01
+//             };
+
+//             const observer = new IntersectionObserver((entries) => {
+//                 entries.forEach(entry => {
+//                     if (entry.isIntersecting) {
+//                         this.show = true;
+//                         observer.unobserve(entry.target);
+//                     }
+//                 });
+//             }, options);
+
+//             this.$nextTick(() => {
+//                 observer.observe(this.$el);
+//             });
+//         }
+//     }));
+// });
 
 window.Alpine = Alpine;
 Alpine.start();

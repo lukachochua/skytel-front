@@ -26,10 +26,10 @@
                     <a class="nav-link {{ request()->routeIs('news.*') ? 'active' : '' }}"
                         href="{{ route('news.index') }}">News</a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('plans.*') ? 'active' : '' }}"
                         href="{{ route('plans.index') }}">Plans</a>
-                </li>
+                </li> --}}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
                         aria-haspopup="true" aria-expanded="false">Dropdown</a>

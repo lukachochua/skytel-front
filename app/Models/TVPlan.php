@@ -4,22 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class TvService extends Model
+class TVPlan extends Model
 {
     use HasFactory;
-    use SoftDeletes;
-
-    protected $fillable = ['plan_id', 'name', 'price'];
+    protected $fillable = ['plan_id', 'name'];
 
     public function plan()
     {
         return $this->belongsTo(Plan::class);
     }
 
-    public function tvServiceOptions()
+    public function packages()
     {
-        return $this->hasMany(TvServiceOption::class);
+        return $this->hasMany(Package::class);
     }
 }

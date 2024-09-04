@@ -3,152 +3,48 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\PlanType;
-use App\Models\Plan;
-use App\Models\TvService;
-use App\Models\TvServiceOption;
-use App\Models\PlanOption;
+use Illuminate\Support\Facades\DB;
 
 class PlanSeeder extends Seeder
 {
+    /**
+     * Seed the application's database with plans.
+     *
+     * @return void
+     */
     public function run()
     {
-        // Seed Plan Types
-        $fiberOptic = PlanType::create(['name' => 'fiber_optic', 'description' => 'High-speed fiber optic internet']);
-        $wireless = PlanType::create(['name' => 'wireless', 'description' => 'Wireless internet for remote areas']);
-        $corporate = PlanType::create(['name' => 'corporate', 'description' => 'Corporate internet plans for businesses']);
-
-        // Seed Fiber Optic Plans
-        $fiberPlans = [
+        DB::table('plans')->insert([
             [
-                'name' => 'Fiber Basic',
-                'description' => 'Basic fiber optic plan',
-                'status' => 'active',
+                'name' => 'Fiber Optic Basic',
+                'description' => 'Basic Fiber Optic Plan with 100 Mbps speed.',
+                'price' => 29.99,
+                'type' => 'Fiber Optic',
             ],
             [
-                'name' => 'Fiber Plus',
-                'description' => 'Upgraded fiber optic plan with more speed',
-                'status' => 'active',
+                'name' => 'Fiber Optic Premium',
+                'description' => 'Premium Fiber Optic Plan with 500 Mbps speed.',
+                'price' => 49.99,
+                'type' => 'Fiber Optic',
             ],
             [
-                'name' => 'Fiber Premium',
-                'description' => 'Premium fiber optic plan with highest speed',
-                'status' => 'active',
-            ],
-        ];
-
-        // Seed Fiber Plans and associated TV Services
-        foreach ($fiberPlans as $fiberPlanData) {
-            $fiberPlan = Plan::create(array_merge($fiberPlanData, ['plan_type_id' => $fiberOptic->id]));
-
-            // Seed TV Service for the Fiber Optic Plan
-            $tvService = TvService::create([
-                'plan_id' => $fiberPlan->id,
-                'name' => 'Basic TV',
-                'price' => 10.00,
-            ]);
-
-            // Associate the TV Service Option with the current TV Service
-            TvServiceOption::create([
-                'tv_service_id' => $tvService->id, // Ensure tv_service_id is populated
-                'option_name' => 'Setanta',
-                'enabled' => true,
-                'additional_price' => 5.00,
-            ]);
-
-            // Seed Plan Options for Fiber Plan
-            $planOptions = [
-                [
-                    'option_name' => 'Pro',
-                    'price' => 30.00,
-                ],
-                [
-                    'option_name' => 'Ultra',
-                    'price' => 50.00,
-                ],
-            ];
-
-            foreach ($planOptions as $planOptionData) {
-                PlanOption::create(array_merge($planOptionData, ['plan_id' => $fiberPlan->id]));
-            }
-        }
-
-        // Seed Wireless Plans
-        $wirelessPlans = [
-            [
-                'name' => 'Wireless Basic',
-                'description' => 'Basic wireless internet plan',
-                'status' => 'active',
+                'name' => 'WiFi/Radio Basic',
+                'description' => 'Basic WiFi/Radio Plan with 50 Mbps speed.',
+                'price' => 19.99,
+                'type' => 'WiFi/Radio',
             ],
             [
-                'name' => 'Wireless Plus',
-                'description' => 'Upgraded wireless plan for better coverage',
-                'status' => 'active',
+                'name' => 'WiFi/Radio Advanced',
+                'description' => 'Advanced WiFi/Radio Plan with 200 Mbps speed.',
+                'price' => 39.99,
+                'type' => 'WiFi/Radio',
             ],
             [
-                'name' => 'Wireless Premium',
-                'description' => 'Premium wireless plan with highest coverage and speed',
-                'status' => 'active',
+                'name' => 'Corporate Standard',
+                'description' => 'Corporate Plan with 1 Gbps speed and additional features.',
+                'price' => 99.99,
+                'type' => 'Corporate',
             ],
-        ];
-
-        foreach ($wirelessPlans as $wirelessPlanData) {
-            $wirelessPlan = Plan::create(array_merge($wirelessPlanData, ['plan_type_id' => $wireless->id]));
-
-            // Seed Plan Options for Wireless Plan
-            $planOptions = [
-                [
-                    'option_name' => 'Pro',
-                    'price' => 25.00,
-                ],
-                [
-                    'option_name' => 'Ultra',
-                    'price' => 45.00,
-                ],
-            ];
-
-            foreach ($planOptions as $planOptionData) {
-                PlanOption::create(array_merge($planOptionData, ['plan_id' => $wirelessPlan->id]));
-            }
-        }
-
-        // Seed Corporate Plans
-        $corporatePlans = [
-            [
-                'name' => 'Corporate Basic',
-                'description' => 'Basic corporate internet plan for small businesses',
-                'status' => 'active',
-            ],
-            [
-                'name' => 'Corporate Plus',
-                'description' => 'Enhanced corporate plan with additional features',
-                'status' => 'active',
-            ],
-            [
-                'name' => 'Corporate Premium',
-                'description' => 'Premium corporate plan for large enterprises',
-                'status' => 'active',
-            ],
-        ];
-
-        foreach ($corporatePlans as $corporatePlanData) {
-            $corporatePlan = Plan::create(array_merge($corporatePlanData, ['plan_type_id' => $corporate->id]));
-
-            // Seed Plan Options for Corporate Plan
-            $planOptions = [
-                [
-                    'option_name' => 'Pro',
-                    'price' => 100.00,
-                ],
-                [
-                    'option_name' => 'Ultra',
-                    'price' => 200.00,
-                ],
-            ];
-
-            foreach ($planOptions as $planOptionData) {
-                PlanOption::create(array_merge($planOptionData, ['plan_id' => $corporatePlan->id]));
-            }
-        }
+        ]);
     }
 }

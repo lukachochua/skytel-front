@@ -8,6 +8,8 @@ use App\Http\Controllers\PlanController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
+use App\Http\Controllers\TVPlanController;
+use App\Http\Controllers\PackageController;
 
 
 // Locale Change Route
@@ -35,9 +37,13 @@ Route::middleware(['auth'])->prefix('home')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::resource('sliders', SliderController::class)->except('show');
     Route::resource('news', NewsController::class)->except('index', 'show');
-    Route::resource('plans', PlanController::class);
     Route::get('news', [HomeController::class, 'news'])->name('news.dashboard');
-    Route::get('plans', [HomeController::class, 'plans'])->name('plans.dashboard');
+    Route::resource('plans', PlanController::class);
 });
 
-Route::get('plans', [PlanController::class, 'index'])->name('plans.index');
+
+
+// Route::prefix('home')->name('admin.')->group(function () {
+//     Route::resource('tv_plans', TVPlanController::class);
+//     Route::resource('packages', PackageController::class);
+// });
