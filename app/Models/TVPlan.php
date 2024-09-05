@@ -20,6 +20,6 @@ class TvPlan extends Model
 
     public function packages()
     {
-        return $this->hasMany(Package::class, 'tv_plan_id');
+        return $this->hasMany(Package::class);
     }
 }

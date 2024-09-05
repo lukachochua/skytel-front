@@ -44,6 +44,7 @@ Route::middleware(['auth'])->prefix('home')->group(function () {
     Route::resource('packages', PackageController::class)->except('show');
 });
 
-// Public Routes for Plans
+// Public Routes for Plans and packages
 Route::get('/plans', [PlanController::class, 'index'])->name('plans.index');
 Route::get('/plans/{id}', [PlanController::class, 'show'])->name('plans.show');
+Route::delete('/packages/{id}', [PlanController::class, 'deletePackage'])->name('packages.delete');

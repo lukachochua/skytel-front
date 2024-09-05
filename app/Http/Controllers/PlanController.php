@@ -42,148 +42,167 @@ class PlanController extends Controller
 
     public function store(Request $request)
     {
-
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'price' => 'required|numeric',
-            'plan_type_id' => 'required',
-
+            'price' => 'required|numeric|min:0|max:999999',
+            'plan_type_id' => 'required|exists:plan_types,id',
             'tv_plan_name' => 'nullable|string|max:255',
             'tv_plan_description' => 'nullable|string',
-            'tv_plan_price' => 'nullable|numeric',
-
+            'tv_plan_price' => 'nullable|numeric|min:0',
             'packages.*.name' => 'nullable|string|max:255',
-            'packages.*.price' => 'nullable|numeric',
+            'packages.*.price' => 'nullable|numeric|min:0',
         ]);
 
-        // Create the plan
-        $planData = [
+        $plan = Plan::create([
             'name' => $validatedData['name'],
             'description' => $validatedData['description'],
             'price' => $validatedData['price'],
             'plan_type_id' => $validatedData['plan_type_id'],
-        ];
+        ]);
 
-        $plan = Plan::create($planData);
+        if ($validatedData['plan_type_id'] == $this->getFiberOpticTypeId()) {
+            if (empty($validatedData['tv_plan_name']) || empty($validatedData['tv_plan_price'])) {
+                return redirect()->back()->withErrors([
+                    'tv_plan_name' => 'TV Plan details are required for Fiber Optic plans.'
+                ])->withInput();
+            }
 
-        // Handle Fiber Optic type specifics
-        if ($validatedData['plan_type_id'] === $this->getFiberOpticTypeId()) {
-            $tvPlanData = [
-                'name' => $validatedData['tv_plan_name'] ?? null,
-                'description' => $validatedData['tv_plan_description'] ?? null,
-                'price' => $validatedData['tv_plan_price'] ?? null,
-            ];
+            $tvPlan = TvPlan::create([
+                'plan_id' => $plan->id,
+                'name' => $validatedData['tv_plan_name'],
+                'description' => $validatedData['tv_plan_description'],
+                'price' => $validatedData['tv_plan_price'],
+            ]);
 
-            $tvPlan = $this->createTvPlan($plan->id, $tvPlanData);
+            if (!$tvPlan) {
+                return redirect()->back()->withErrors(['tv_plan_name' => 'Failed to create TV Plan.'])
+                    ->withInput();
+            }
 
-            $packagesData = $validatedData['packages'] ?? [];
-            $this->createPackages($tvPlan->id, $packagesData);
+            if (!empty($validatedData['packages'])) {
+                foreach ($validatedData['packages'] as $package) {
+                    Package::create([
+                        'tv_plan_id' => $tvPlan->id,
+                        'name' => $package['name'],
+                        'price' => $package['price'],
+                    ]);
+                }
+            }
         }
 
-        return redirect()->route('plans.index')->with('success', 'Plan created successfully.');
+        return redirect()->route('plans.dashboard')->with('success', 'Plan created successfully.');
     }
 
     public function edit(Plan $plan)
     {
         $tvPlan = $plan->tvPlans()->first();
-        return view('admin.plans.edit', compact('plan', 'tvPlan'));
+        $packages = $tvPlan ? $tvPlan->packages : collect();
+        dd($tvPlan);
+        return view('admin.plans.edit', compact('plan', 'tvPlan', 'packages'));
     }
+
 
     public function update(Request $request, Plan $plan)
     {
-        // Validate the request
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'price' => 'required|numeric',
             'plan_type_id' => 'required|integer|exists:plan_types,id',
-
             'tv_plan_name' => 'nullable|string|max:255',
             'tv_plan_description' => 'nullable|string',
             'tv_plan_price' => 'nullable|numeric',
-
             'packages.*.id' => 'nullable|integer|exists:packages,id',
             'packages.*.name' => 'nullable|string|max:255',
             'packages.*.price' => 'nullable|numeric',
         ]);
 
-        // Update the plan
-        $plan->update($validatedData);
+        $plan->update([
+            'name' => $validatedData['name'],
+            'description' => $validatedData['description'],
+            'price' => $validatedData['price'],
+            'plan_type_id' => $validatedData['plan_type_id'],
+        ]);
 
-        // Handle Fiber Optic type specifics
-        if ($validatedData['plan_type_id'] === $this->getFiberOpticTypeId()) {
+        if ($validatedData['plan_type_id'] == 1) { // Assuming 1 is the ID for Fiber Optic
             $tvPlanData = [
                 'name' => $validatedData['tv_plan_name'] ?? null,
                 'description' => $validatedData['tv_plan_description'] ?? null,
                 'price' => $validatedData['tv_plan_price'] ?? null,
             ];
 
-            $tvPlan = $this->updateOrCreateTvPlan($plan->id, $tvPlanData);
+            $tvPlan = $plan->tvPlans()->updateOrCreate([], $tvPlanData);
 
             $packagesData = $validatedData['packages'] ?? [];
-            $this->updateOrCreatePackages($tvPlan->id, $packagesData);
+            foreach ($packagesData as $package) {
+                if (isset($package['id'])) {
+                    $tvPlan->packages()->updateOrCreate(['id' => $package['id']], [
+                        'name' => $package['name'],
+                        'price' => $package['price'],
+                    ]);
+                } else {
+                    $tvPlan->packages()->create([
+                        'name' => $package['name'],
+                        'price' => $package['price'],
+                    ]);
+                }
+            }
         } else {
-            $this->deleteTvPlanAndPackages($plan);
+            $plan->tvPlans()->delete(); // Delete TV Plan and associated packages if not Fiber Optic
         }
 
         return redirect()->route('plans.dashboard')->with('success', 'Plan updated successfully.');
     }
+
 
     public function destroy(Plan $plan)
     {
         $this->deleteTvPlanAndPackages($plan);
         $plan->delete();
 
-        return redirect()->route('plans.index')->with('success', 'Plan deleted successfully.');
+        return redirect()->route('plans.dashboard')->with('success', 'Plan deleted successfully.');
     }
 
     // Helper methods
+    private function createTvPlan($planId, array $tvPlanData)
+    {
+        // Logic to create TV Plan
+        return TvPlan::create([
+            'plan_id' => $planId,
+            'name' => $tvPlanData['name'],
+            'description' => $tvPlanData['description'],
+            'price' => $tvPlanData['price'],
+        ]);
+    }
+
+    private function createPackages($tvPlanId, array $packagesData)
+    {
+        foreach ($packagesData as $package) {
+            Package::create([
+                'tv_plan_id' => $tvPlanId,
+                'name' => $package['name'],
+                'price' => $package['price'],
+            ]);
+        }
+    }
+
     private function getFiberOpticTypeId()
     {
-        return PlanType::where('name', 'Fiber Optic')->value('id');
+        return PlanType::where('id', 2)->value('id');
     }
 
-    private function createTvPlan($planId, $tvPlanData)
-    {
-        return TvPlan::create(array_merge($tvPlanData, ['plan_id' => $planId]));
-    }
 
-    private function createPackages($tvPlanId, $packagesData)
+    public function deletePackage(Request $request, $id)
     {
-        foreach ($packagesData as $package) {
-            if (!empty($package['name'])) {
-                Package::create([
-                    'name' => $package['name'],
-                    'price' => $package['price'],
-                    'tv_plan_id' => $tvPlanId,
-                ]);
-            }
+        $package = Package::find($id);
+
+        if ($package) {
+            $package->delete();
+            return response()->json(['success' => true]);
         }
-    }
 
-    private function updateOrCreateTvPlan($planId, $tvPlanData)
-    {
-        return TvPlan::updateOrCreate(
-            ['plan_id' => $planId],
-            $tvPlanData
-        );
-    }
-
-    private function updateOrCreatePackages($tvPlanId, $packagesData)
-    {
-        foreach ($packagesData as $package) {
-            if (!empty($package['name'])) {
-                Package::updateOrCreate(
-                    ['id' => $package['id'] ?? null],
-                    [
-                        'name' => $package['name'],
-                        'price' => $package['price'],
-                        'tv_plan_id' => $tvPlanId,
-                    ]
-                );
-            }
-        }
+        return response()->json(['success' => false, 'message' => 'Package not found']);
     }
 
     private function deleteTvPlanAndPackages(Plan $plan)
