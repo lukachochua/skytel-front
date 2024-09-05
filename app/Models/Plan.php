@@ -9,10 +9,16 @@ class Plan extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description', 'price', 'type'];
+    protected $fillable = ['name', 'description', 'price', 'plan_type_id'];
+
 
     public function tvPlans()
     {
-        return $this->hasMany(TvPlan::class);
+        return $this->hasMany(TVPlan::class);
+    }
+
+    public function planType()
+    {
+        return $this->belongsTo(PlanType::class);
     }
 }

@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<x-main-layout>
     <div class="container">
         <h1>All Plans</h1>
         <table class="table">
@@ -22,8 +20,8 @@
                         <td>{{ $plan->type }}</td>
                         <td>
                             <a href="{{ route('plans.show', $plan->id) }}" class="btn btn-info">View</a>
-                            <a href="{{ route('home.plans.edit', $plan->id) }}" class="btn btn-warning">Edit</a>
-                            <form action="{{ route('home.plans.destroy', $plan->id) }}" method="POST" style="display:inline;">
+                            <a href="{{ route('plans.edit', $plan->id) }}" class="btn btn-warning">Edit</a>
+                            <form action="{{ route('plans.destroy', $plan->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger">Delete</button>
@@ -33,6 +31,5 @@
                 @endforeach
             </tbody>
         </table>
-        {{ $plans->links() }}
     </div>
-@endsection
+</x-main-layout>

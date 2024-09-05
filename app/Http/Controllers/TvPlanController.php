@@ -6,7 +6,7 @@ use App\Models\TvPlan;
 use App\Models\Package;
 use Illuminate\Http\Request;
 
-class TVPlanController extends Controller
+class TvPlanController extends Controller
 {
     public function show(TvPlan $tvPlan)
     {

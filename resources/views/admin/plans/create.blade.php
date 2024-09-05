@@ -7,38 +7,48 @@
             @csrf
             <div class="form-group">
                 <label for="name">Plan Name</label>
-                <input type="text" id="name" name="name" class="form-control" required>
+                <input type="text" id="name" name="name" class="form-control" value="{{ old('name') }}" required>
             </div>
             <div class="form-group">
                 <label for="description">Description</label>
-                <textarea id="description" name="description" class="form-control" required></textarea>
+                <textarea id="description" name="description" class="form-control" required>{{ old('description') }}</textarea>
             </div>
             <div class="form-group">
                 <label for="price">Price</label>
-                <input type="number" id="price" name="price" class="form-control" required>
+                <input type="number" id="price" name="price" class="form-control" value="{{ old('price') }}"
+                    required>
             </div>
             <div class="form-group">
-                <label for="type">Type</label>
-                <select id="type" name="type" class="form-control" required>
-                    <option value="Fiber Optic">Fiber Optic</option>
-                    <option value="WiFi/Radio">WiFi/Radio</option>
-                    <option value="Corporate">Corporate</option>
+                <label for="plan_type_id">Type</label>
+                <select id="plan_type_id" name="plan_type_id" class="form-control" required>
+                    <option value="">Select Plan Type</option>
+                    @foreach ($planTypes as $planType)
+                        <option value="{{ $planType->id }}" {{ old('plan_type_id') == $planType->id ? 'selected' : '' }}>
+                            {{ $planType->name }}
+                        </option>
+                    @endforeach
                 </select>
             </div>
+
+            <!-- TV Plan Fields, displayed only for "Fiber Optic" type -->
             <div id="tv-plan-fields" class="form-group" style="display: none;">
                 <h3>TV Plan Details</h3>
                 <div class="form-group">
                     <label for="tv_plan_name">TV Plan Name</label>
-                    <input type="text" id="tv_plan_name" name="tv_plan_name" class="form-control">
+                    <input type="text" id="tv_plan_name" name="tv_plan_name" class="form-control"
+                        value="{{ old('tv_plan_name') }}">
                 </div>
                 <div class="form-group">
                     <label for="tv_plan_description">TV Plan Description</label>
-                    <textarea id="tv_plan_description" name="tv_plan_description" class="form-control"></textarea>
+                    <textarea id="tv_plan_description" name="tv_plan_description" class="form-control">{{ old('tv_plan_description') }}</textarea>
                 </div>
                 <div class="form-group">
                     <label for="tv_plan_price">TV Plan Price</label>
-                    <input type="number" id="tv_plan_price" name="tv_plan_price" class="form-control">
+                    <input type="number" id="tv_plan_price" name="tv_plan_price" class="form-control"
+                        value="{{ old('tv_plan_price') }}">
                 </div>
+
+                <!-- Package Fields -->
                 <div id="package-fields">
                     <h4>Packages</h4>
                     <div id="packages-container">
@@ -57,27 +67,48 @@
     </div>
 
     <script>
-        document.getElementById('type').addEventListener('change', function() {
+        document.addEventListener('DOMContentLoaded', function() {
+            var typeSelect = document.getElementById('plan_type_id');
             var tvPlanFields = document.getElementById('tv-plan-fields');
-            if (this.value === 'Fiber Optic') {
-                tvPlanFields.style.display = 'block';
-            } else {
-                tvPlanFields.style.display = 'none';
-            }
-        });
+            var packagesContainer = document.getElementById('packages-container');
+            var addPackageButton = document.getElementById('add-package');
+            var packageCount = 1;
 
-        document.getElementById('add-package').addEventListener('click', function() {
-            var container = document.getElementById('packages-container');
-            var index = container.querySelectorAll('.package-form').length;
-            var newPackage = `
-            <div class="form-group package-form">
-                <label for="packages[${index}][name]">Package Name</label>
-                <input type="text" id="packages[${index}][name]" name="packages[${index}][name]" class="form-control">
-                <label for="packages[${index}][price]">Package Price</label>
-                <input type="number" id="packages[${index}][price]" name="packages[${index}][price]" class="form-control">
-            </div>
-        `;
-            container.insertAdjacentHTML('beforeend', newPackage);
+            // Initialize display based on current type
+            if (typeSelect.value === '{{ $fiberOpticTypeId }}') {
+                tvPlanFields.style.display = 'block';
+            }
+
+            typeSelect.addEventListener('change', function() {
+                if (this.value === '{{ $fiberOpticTypeId }}') {
+                    tvPlanFields.style.display = 'block';
+                } else {
+                    tvPlanFields.style.display = 'none';
+                }
+            });
+
+            addPackageButton.addEventListener('click', function() {
+                var packageForm = document.createElement('div');
+                packageForm.classList.add('form-group', 'package-form');
+                packageForm.setAttribute('data-index', packageCount);
+
+                packageForm.innerHTML = `
+                    <label for="packages[${packageCount}][name]">Package Name</label>
+                    <input type="text" id="packages[${packageCount}][name]" name="packages[${packageCount}][name]" class="form-control">
+                    <label for="packages[${packageCount}][price]">Package Price</label>
+                    <input type="number" id="packages[${packageCount}][price]" name="packages[${packageCount}][price]" class="form-control">
+                    <button type="button" class="btn btn-danger remove-package">Remove Package</button>
+                `;
+
+                packagesContainer.appendChild(packageForm);
+                packageCount++;
+            });
+
+            packagesContainer.addEventListener('click', function(event) {
+                if (event.target.classList.contains('remove-package')) {
+                    event.target.closest('.package-form').remove();
+                }
+            });
         });
     </script>
 @endsection

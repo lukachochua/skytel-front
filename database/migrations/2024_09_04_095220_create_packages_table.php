@@ -13,15 +13,11 @@ return new class extends Migration
     {
         Schema::create('packages', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('tv_plan_id');
+            $table->foreignId('tv_plan_id')->constrained('tv_plans')->onDelete('cascade');
             $table->string('name');
+            $table->text('description')->nullable();
             $table->decimal('price', 8, 2);
             $table->timestamps();
-
-            // Foreign key constraint
-            $table->foreign('tv_plan_id')
-                ->references('id')->on('tv_plans')
-                ->onDelete('cascade');
         });
     }
 

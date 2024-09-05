@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<x-main-layout>
     <div class="container">
         <h1>Plan Details</h1>
         <div class="card">
@@ -26,9 +24,9 @@
                         @endif
                     @endif
                 @endif
-                <a href="{{ route('home.plans.edit', $plan->id) }}" class="btn btn-warning">Edit</a>
-                <a href="{{ route('home.plans.index') }}" class="btn btn-secondary">Back to Plans</a>
+                <a href="{{ route('plans.edit', $plan->id) }}" class="btn btn-warning">Edit</a>
+                <a href="{{ route('plans.index') }}" class="btn btn-secondary">Back to Plans</a>
             </div>
         </div>
     </div>
-@endsection
+</x-main-layout>
