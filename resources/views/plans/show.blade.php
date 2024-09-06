@@ -6,10 +6,10 @@
                 <h2>{{ $plan->name }}</h2>
                 <p>{{ $plan->description }}</p>
                 <p>Price: {{ $plan->price }}</p>
-                <p>Type: {{ $plan->type }}</p>
-                @if ($plan->type === 'Fiber Optic')
+                <p>Type: {{ $plan->planType->name }}</p>
+
+                @if ($plan->plan_type_id == 2)
                     @if ($plan->tvPlans->isNotEmpty())
-                        @php $tvPlan = $plan->tvPlans->first(); @endphp
                         <h3>TV Plan Details</h3>
                         <p>TV Plan Name: {{ $tvPlan->name }}</p>
                         <p>TV Plan Description: {{ $tvPlan->description }}</p>
@@ -22,8 +22,13 @@
                                 @endforeach
                             </ul>
                         @endif
+                    @else
+                        <p>No TV Plan details available.</p>
                     @endif
+                @else
+                    <p>No additional details available for this plan type.</p>
                 @endif
+
                 <a href="{{ route('plans.edit', $plan->id) }}" class="btn btn-warning">Edit</a>
                 <a href="{{ route('plans.index') }}" class="btn btn-secondary">Back to Plans</a>
             </div>

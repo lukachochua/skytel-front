@@ -210,35 +210,51 @@ document.addEventListener('alpine:init', () => {
     }));
 });
 
-// // Optional fields for the Plans creation
-// document.addEventListener('DOMContentLoaded', function () {
-//     const planTypeSelect = document.getElementById('plan_type_id');
-//     const tvServiceOptionsContainer = document.getElementById('tv-service-options-container');
-//     const addServiceButton = document.getElementById('add-service-button');
-//     const servicesList = document.getElementById('services-list');
+// Optional fields for the Plans creation
+document.addEventListener('DOMContentLoaded', function () {
+    var typeSelect = document.getElementById('plan_type_id');
+    var fiberOpticTypeId = typeSelect.getAttribute('data-fiber-optic-id');
+    var tvPlanFields = document.getElementById('tv-plan-fields');
+    var packagesContainer = document.getElementById('packages-container');
+    var addPackageButton = document.getElementById('add-package');
+    var packageCount = 1;
 
-//     const fiberOpticId = planTypeSelect.dataset.fiberOpticId;
+    // Initialize display based on current type
+    if (typeSelect.value === fiberOpticTypeId) {
+        tvPlanFields.style.display = 'block';
+    }
 
-//     planTypeSelect.addEventListener('change', function () {
-//         if (planTypeSelect.value === fiberOpticId) {
-//             tvServiceOptionsContainer.style.display = 'block';
-//         } else {
-//             tvServiceOptionsContainer.style.display = 'none';
-//         }
-//     });
+    typeSelect.addEventListener('change', function () {
+        if (this.value === fiberOpticTypeId) {
+            tvPlanFields.style.display = 'block';
+        } else {
+            tvPlanFields.style.display = 'none';
+        }
+    });
 
-//     addServiceButton.addEventListener('click', function () {
-//         const newService = document.createElement('div');
-//         newService.classList.add('service-option');
-//         newService.innerHTML = `
-//             <div class="form-check">
-//                 <input type="checkbox" id="service1" name="services[]" value="Service1" class="form-check-input">
-//                 <label class="form-check-label" for="service1">Service 1</label>
-//             </div>
-//         `;
-//         servicesList.appendChild(newService);
-//     });
-// });
+    addPackageButton.addEventListener('click', function () {
+        var packageForm = document.createElement('div');
+        packageForm.classList.add('form-group', 'package-form');
+        packageForm.setAttribute('data-index', packageCount);
+
+        packageForm.innerHTML = `
+            <label for="packages[${packageCount}][name]">Package Name</label>
+            <input type="text" id="packages[${packageCount}][name]" name="packages[${packageCount}][name]" class="form-control">
+            <label for="packages[${packageCount}][price]">Package Price</label>
+            <input type="number" id="packages[${packageCount}][price]" name="packages[${packageCount}][price]" class="form-control">
+            <button type="button" class="btn btn-danger remove-package">Remove Package</button>
+        `;
+
+        packagesContainer.appendChild(packageForm);
+        packageCount++;
+    });
+
+    packagesContainer.addEventListener('click', function (event) {
+        if (event.target.classList.contains('remove-package')) {
+            event.target.closest('.package-form').remove();
+        }
+    });
+});
 
 // // Plan Component Animation function
 // document.addEventListener('alpine:init', () => {

@@ -22,13 +22,13 @@ class PlanSeeder extends Seeder
                 'name' => 'Basic Internet',
                 'description' => 'A basic internet plan suitable for home users.',
                 'price' => 19.99,
-                'plan_type_id' => $internetType->id, // PlanType reference
+                'plan_type_id' => $internetType->id, // Ensure this gets the Internet type
             ],
             [
                 'name' => 'Fiber Optic Premium',
                 'description' => 'High-speed fiber optic internet with additional TV channels.',
                 'price' => 99.99,
-                'plan_type_id' => $fiberOpticType->id, // PlanType reference
+                'plan_type_id' => $fiberOpticType->id, // Ensure this gets the Fiber Optic type
                 'tv_plan' => [
                     'name' => 'Premium TV',
                     'description' => 'Includes over 200 channels with HD quality.',
@@ -51,6 +51,13 @@ class PlanSeeder extends Seeder
         foreach ($plans as $planData) {
             $tvPlanData = $planData['tv_plan'] ?? null;
             unset($planData['tv_plan']);
+
+            // Debug output to confirm PlanType assignment
+            if ($planData['plan_type_id'] === $internetType->id) {
+                echo "Creating plan '{$planData['name']}' with Internet plan type.\n";
+            } elseif ($planData['plan_type_id'] === $fiberOpticType->id) {
+                echo "Creating plan '{$planData['name']}' with Fiber Optic plan type.\n";
+            }
 
             // Create or update the plan to avoid duplication
             $plan = Plan::firstOrCreate(

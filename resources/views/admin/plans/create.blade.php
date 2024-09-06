@@ -31,7 +31,8 @@
             <div class="form-group">
                 <label for="plan_type_id">Type</label>
                 <select id="plan_type_id" name="plan_type_id"
-                    class="form-control @error('plan_type_id') is-invalid @enderror" required>
+                    class="form-control @error('plan_type_id') is-invalid @enderror" required
+                    data-fiber-optic-id="{{ $fiberOpticTypeId }}">
                     <option value="">Select Plan Type</option>
                     @foreach ($planTypes as $planType)
                         <option value="{{ $planType->id }}" {{ old('plan_type_id') == $planType->id ? 'selected' : '' }}>
@@ -98,50 +99,4 @@
             <button type="submit" class="btn btn-primary">Create Plan</button>
         </form>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var typeSelect = document.getElementById('plan_type_id');
-            var tvPlanFields = document.getElementById('tv-plan-fields');
-            var packagesContainer = document.getElementById('packages-container');
-            var addPackageButton = document.getElementById('add-package');
-            var packageCount = 1;
-
-            // Initialize display based on current type
-            if (typeSelect.value === '{{ $fiberOpticTypeId }}') {
-                tvPlanFields.style.display = 'block';
-            }
-
-            typeSelect.addEventListener('change', function() {
-                if (this.value === '{{ $fiberOpticTypeId }}') {
-                    tvPlanFields.style.display = 'block';
-                } else {
-                    tvPlanFields.style.display = 'none';
-                }
-            });
-
-            addPackageButton.addEventListener('click', function() {
-                var packageForm = document.createElement('div');
-                packageForm.classList.add('form-group', 'package-form');
-                packageForm.setAttribute('data-index', packageCount);
-
-                packageForm.innerHTML = `
-            <label for="packages[${packageCount}][name]">Package Name</label>
-            <input type="text" id="packages[${packageCount}][name]" name="packages[${packageCount}][name]" class="form-control">
-            <label for="packages[${packageCount}][price]">Package Price</label>
-            <input type="number" id="packages[${packageCount}][price]" name="packages[${packageCount}][price]" class="form-control">
-            <button type="button" class="btn btn-danger remove-package">Remove Package</button>
-        `;
-
-                packagesContainer.appendChild(packageForm);
-                packageCount++;
-            });
-
-            packagesContainer.addEventListener('click', function(event) {
-                if (event.target.classList.contains('remove-package')) {
-                    event.target.closest('.package-form').remove();
-                }
-            });
-        });
-    </script>
 @endsection
