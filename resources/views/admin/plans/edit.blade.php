@@ -6,126 +6,159 @@
         <form action="{{ route('plans.update', $plan->id) }}" method="POST">
             @csrf
             @method('PUT')
-
             <div class="form-group">
                 <label for="name">Plan Name</label>
-                <input type="text" id="name" name="name" class="form-control" value="{{ $plan->name }}" required>
+                <input type="text" id="name" name="name" class="form-control @error('name') is-invalid @enderror"
+                    value="{{ old('name', $plan->name) }}" required>
+                @error('name')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
-
             <div class="form-group">
                 <label for="description">Description</label>
-                <textarea id="description" name="description" class="form-control" required>{{ $plan->description }}</textarea>
+                <textarea id="description" name="description" class="form-control @error('description') is-invalid @enderror" required>{{ old('description', $plan->description) }}</textarea>
+                @error('description')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
-
             <div class="form-group">
                 <label for="price">Price</label>
-                <input type="number" id="price" name="price" class="form-control" value="{{ $plan->price }}"
+                <input type="number" id="price" name="price"
+                    class="form-control @error('price') is-invalid @enderror" value="{{ old('price', $plan->price) }}"
                     required>
+                @error('price')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
-
             <div class="form-group">
                 <label for="plan_type_id">Type</label>
-                <select id="plan_type_id" name="plan_type_id" class="form-control" required>
-                    @foreach ($planTypes as $type)
-                        <option value="{{ $type->id }}" {{ $plan->plan_type_id == $type->id ? 'selected' : '' }}>
-                            {{ $type->name }}
+                <select id="plan_type_id" name="plan_type_id"
+                    class="form-control @error('plan_type_id') is-invalid @enderror" required
+                    data-fiber-optic-id="{{ $fiberOpticTypeId }}">
+                    <option value="">Select Plan Type</option>
+                    @foreach ($planTypes as $planType)
+                        <option value="{{ $planType->id }}"
+                            {{ old('plan_type_id', $plan->plan_type_id) == $planType->id ? 'selected' : '' }}>
+                            {{ $planType->name }}
                         </option>
                     @endforeach
                 </select>
+                @error('plan_type_id')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
 
-            {{-- Display TV Plan Fields only if the type is Fiber Optic --}}
-            <div id="tv-plan-fields" style="display: {{ $plan->plan_type_id == $fiberOpticTypeId ? 'block' : 'none' }};">
+            <!-- TV Plan Fields, displayed only for "Fiber Optic" type -->
+            <div id="tv-plan-fields" class="form-group"
+                style="display: {{ old('plan_type_id', $plan->plan_type_id) == $fiberOpticTypeId ? 'block' : 'none' }};">
                 <h3>TV Plan Details</h3>
-                @if ($tvPlan)
+
+                @foreach ($plan->tvPlans as $index => $tvPlan)
                     <div class="form-group">
-                        <label for="tv_plan_name">TV Plan Name</label>
-                        <input type="text" id="tv_plan_name" name="tv_plan_name" class="form-control"
-                            value="{{ $tvPlan->name }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="tv_plan_description">TV Plan Description</label>
-                        <textarea id="tv_plan_description" name="tv_plan_description" class="form-control">{{ $tvPlan->description }}</textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="tv_plan_price">TV Plan Price</label>
-                        <input type="number" id="tv_plan_price" name="tv_plan_price" class="form-control"
-                            value="{{ $tvPlan->price }}">
+                        <label for="tv_plans[{{ $index }}][name]">TV Plan Name</label>
+                        <input type="text" id="tv_plans[{{ $index }}][name]"
+                            name="tv_plans[{{ $index }}][name]"
+                            class="form-control @error('tv_plans.' . $index . '.name') is-invalid @enderror"
+                            value="{{ old('tv_plans.' . $index . '.name', $tvPlan->name) }}">
+                        @error('tv_plans.' . $index . '.name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
 
-                    <div id="package-fields">
-                        <h4>Packages</h4>
-                        <div id="packages-container">
-                            @if ($tvPlan->packages->isNotEmpty())
-                                @foreach ($tvPlan->packages as $index => $package)
-                                    <div class="form-group package-form" data-index="{{ $index }}">
-                                        <label for="packages[{{ $index }}][name]">Package Name</label>
-                                        <input type="text" id="packages[{{ $index }}][name]"
-                                            name="packages[{{ $index }}][name]" class="form-control"
-                                            value="{{ $package->name }}">
-                                        <label for="packages[{{ $index }}][price]">Package Price</label>
-                                        <input type="number" id="packages[{{ $index }}][price]"
-                                            name="packages[{{ $index }}][price]" class="form-control"
-                                            value="{{ $package->price }}">
-                                        <button type="button" class="btn btn-danger remove-package">Remove Package</button>
-                                    </div>
-                                @endforeach
-                            @endif
-                        </div>
-                        <button type="button" id="add-package" class="btn btn-secondary">Add Another Package</button>
+                    <div class="form-group">
+                        <label for="tv_plans[{{ $index }}][description]">TV Plan Description</label>
+                        <textarea id="tv_plans[{{ $index }}][description]" name="tv_plans[{{ $index }}][description]"
+                            class="form-control @error('tv_plans.' . $index . '.description') is-invalid @enderror">{{ old('tv_plans.' . $index . '.description', $tvPlan->description) }}</textarea>
+                        @error('tv_plans.' . $index . '.description')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
-                @else
-                    <p>No TV Plan details available.</p>
-                @endif
+
+                    <div class="form-group">
+                        <label for="tv_plans[{{ $index }}][price]">TV Plan Price</label>
+                        <input type="number" id="tv_plans[{{ $index }}][price]"
+                            name="tv_plans[{{ $index }}][price]"
+                            class="form-control @error('tv_plans.' . $index . '.price') is-invalid @enderror"
+                            value="{{ old('tv_plans.' . $index . '.price', $tvPlan->price) }}">
+                        @error('tv_plans.' . $index . '.price')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                @endforeach
             </div>
 
-            <button type="submit" class="btn btn-primary">Update Plan</button>
-        </form>
+            <!-- Package Fields -->
+            <div id="package-fields">
+                <h4>Packages</h4>
+                <div id="packages-container">
+                    @if ($plan->tvPlans->isNotEmpty() && $plan->tvPlans->first()->packages->isNotEmpty())
+                        @foreach ($plan->tvPlans->first()->packages as $index => $package)
+                            <div class="form-group package-form">
+                                <label for="packages[{{ $index }}][name]">Package Name</label>
+                                <input type="text" id="packages[{{ $index }}][name]"
+                                    name="packages[{{ $index }}][name }}"
+                                    class="form-control @error('packages.*.name') is-invalid @enderror"
+                                    value="{{ old('packages.' . $index . '.name', $package->name) }}">
+                                @error('packages.*.name')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+
+                                <label for="packages[{{ $index }}][price]">Package Price</label>
+                                <input type="number" id="packages[{{ $index }}][price]"
+                                    name="packages[{{ $index }}][price }}"
+                                    class="form-control @error('packages.*.price') is-invalid @enderror"
+                                    value="{{ old('packages.' . $index . '.price', $package->price) }}">
+                                @error('packages.*.price')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        @endforeach
+                    @else
+                        <p>No packages available for this plan.</p>
+                    @endif
+                </div>
+                <button type="button" id="add-package" class="btn btn-secondary">Add Another Package</button>
+                <button type="submit" class="btn btn-primary">Update Plan</button>
+            </div>
     </div>
-@endsection
-
-@section('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var planTypeSelect = document.getElementById('plan_type_id');
-            var tvPlanFields = document.getElementById('tv-plan-fields');
-            var packagesContainer = document.getElementById('packages-container');
-            var addPackageButton = document.getElementById('add-package');
+    </form>
+    </div>
+    @endsection
 
 
-            planTypeSelect.addEventListener('change', function() {
-                if (this.value == {{ $fiberOpticTypeId }}) { // Assuming Fiber Optic type ID
-                    tvPlanFields.style.display = 'block';
-                } else {
-                    tvPlanFields.style.display = 'none';
-                }
+    @section('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var planTypeSelect = document.getElementById('plan_type_id');
+                var tvPlanFields = document.getElementById('tv-plan-fields');
+                var addTvPlanButton = document.getElementById('add-tv-plan'); // Create button for adding TV plans
+
+                // On change of plan type, show/hide the TV Plan fields
+                planTypeSelect.addEventListener('change', function() {
+                    if (this.value == {{ $fiberOpticTypeId }}) {
+                        tvPlanFields.style.display = 'block';
+                    } else {
+                        tvPlanFields.style.display = 'none';
+                    }
+                });
+
+                addTvPlanButton.addEventListener('click', function() {
+                    // Logic for dynamically adding a new TV plan field (similar to the packages example)
+                    var tvPlanCount = document.querySelectorAll('.tv-plan-form').length;
+                    var tvPlanForm = document.createElement('div');
+                    tvPlanForm.classList.add('form-group', 'tv-plan-form');
+
+                    tvPlanForm.innerHTML = `
+            <label for="tv_plans[${tvPlanCount}][name]">TV Plan Name</label>
+            <input type="text" name="tv_plans[${tvPlanCount}][name]" class="form-control">
+            <label for="tv_plans[${tvPlanCount}][description]">TV Plan Description</label>
+            <textarea name="tv_plans[${tvPlanCount}][description]" class="form-control"></textarea>
+            <label for="tv_plans[${tvPlanCount}][price]">TV Plan Price</label>
+            <input type="number" name="tv_plans[${tvPlanCount}][price]" class="form-control">
+        `;
+
+                    tvPlanFields.appendChild(tvPlanForm);
+                });
             });
-
-            addPackageButton.addEventListener('click', function() {
-                var packageForm = document.createElement('div');
-                packageForm.classList.add('form-group', 'package-form');
-                packageForm.setAttribute('data-index', packageCount);
-
-                packageForm.innerHTML = `
-                    <label for="packages[${packageCount}][name]">Package Name</label>
-                    <input type="text" id="packages[${packageCount}][name]" name="packages[${packageCount}][name]" class="form-control">
-                    <label for="packages[${packageCount}][price]">Package Price</label>
-                    <input type="number" id="packages[${packageCount}][price]" name="packages[${packageCount}][price]" class="form-control">
-                    <button type="button" class="btn btn-danger remove-package">Remove Package</button>
-                `;
-
-                packagesContainer.appendChild(packageForm);
-                packageCount++; // Increment the package count
-            });
-
-            packagesContainer.addEventListener('click', function(event) {
-                if (event.target.classList.contains('remove-package')) {
-                    event.target.closest('.package-form').remove();
-                }
-            });
-
-            // Trigger change event on page load to show/hide TV Plan fields based on selected type
-            planTypeSelect.dispatchEvent(new Event('change'));
-        });
-    </script>
-@endsection
+        </script>
+    @endsection

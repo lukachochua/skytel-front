@@ -14,7 +14,7 @@ class Plan extends Model
 
     public function tvPlans()
     {
-        return $this->hasMany(TvPlan::class);
+        return $this->hasMany(TvPlan::class, 'plan_id');
     }
 
     public function planType()
