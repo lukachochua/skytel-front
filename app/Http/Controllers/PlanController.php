@@ -94,7 +94,7 @@ class PlanController extends Controller
 
             DB::commit();
 
-            return redirect()->route('plans.dashboard')->with('success', 'Plan created successfully.');
+            return redirect()->route('plans.dashboard')->with('success', __('messages.plan_created'));
         } catch (\Exception $e) {
             DB::rollBack();
 
@@ -108,59 +108,56 @@ class PlanController extends Controller
     {
         $plan = Plan::with('tvPlans.packages')->findOrFail($id);
         $planTypes = PlanType::all();
-        $fiberOpticType = PlanType::where('name', 'Fiber Optic')->first();
+        $existingTvPlans = TvPlan::all();  // To provide the option to select an existing TV plan
+        $fiberOpticTypeId = 1; // Assuming fiber optic plan type id is 1, replace this with your value
 
-        return view('admin.plans.edit', [
-            'plan' => $plan,
-            'planTypes' => $planTypes,
-            'fiberOpticTypeId' => $fiberOpticType ? $fiberOpticType->id : null
-        ]);
+        return view('admin.plans.edit', compact('plan', 'existingTvPlans', 'fiberOpticTypeId', 'planTypes'));
     }
-
 
     public function update(Request $request, $id)
     {
         $plan = Plan::findOrFail($id);
 
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'price' => 'required|numeric',
-            'plan_type_id' => 'required|integer',
-            'tv_plans.*.name' => 'nullable|string|max:255',
-            'tv_plans.*.description' => 'nullable|string',
-            'tv_plans.*.price' => 'nullable|numeric',
+        $plan->update([
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+            'price' => $request->input('price'),
+            'plan_type_id' => $request->input('plan_type_id'),
         ]);
 
-        $plan->update($validatedData);
-
-        foreach ($request->tv_plans as $tvPlanData) {
-            if (isset($tvPlanData['id'])) {
-                $tvPlan = TvPlan::find($tvPlanData['id']);
-                if ($tvPlan) {
-                    $tvPlan->update($tvPlanData);
-                }
-            } else {
-                $plan->tvPlans()->create($tvPlanData); 
-            }
+        if ($request->has('new_tv_plan_name')) {
+            $tvPlan = TvPlan::create([
+                'name' => $request->input('new_tv_plan_name'),
+                'description' => $request->input('new_tv_plan_description'),
+                'price' => $request->input('new_tv_plan_price'),
+                'plan_id' => $plan->id,
+            ]);
+        } elseif ($request->has('existing_tv_plan_id')) {
+            $plan->tvPlans()->sync([$request->input('existing_tv_plan_id')]);
         }
 
-        return redirect()->route('plans.index')->with('success', 'Plan updated successfully');
-    }
+        if ($request->has('new_package_name')) {
+            $package = Package::create([
+                'name' => $request->input('new_package_name'),
+                'description' => $request->input('new_package_description'),
+                'price' => $request->input('new_package_price'),
+                'tv_plan_id' => $tvPlan->id ?? $request->input('existing_tv_plan_id'),
+            ]);
+        }
 
+        return redirect()->route('plans.edit', $plan->id)->with('success', 'Plan updated successfully');
+    }
 
     public function destroy(Plan $plan)
     {
         $this->deleteTvPlanAndPackages($plan);
         $plan->delete();
 
-        return redirect()->route('plans.dashboard')->with('success', 'Plan deleted successfully.');
+        return redirect()->route('plans.dashboard')->with('success', __('messages.plan_deleted'));
     }
 
-    // Helper methods
     private function createTvPlan($planId, array $tvPlanData)
     {
-        // Logic to create TV Plan
         return TvPlan::create([
             'plan_id' => $planId,
             'name' => $tvPlanData['name'],
