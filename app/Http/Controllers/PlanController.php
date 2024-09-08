@@ -104,38 +104,35 @@ class PlanController extends Controller
         }
     }
 
-    public function edit($id)
+    public function edit(Plan $plan)
     {
-        $plan = Plan::with('tvPlans.packages')->findOrFail($id);
+        $plan->load('tvPlans.packages');
         $planTypes = PlanType::all();
         $fiberOpticType = PlanType::where('name', 'Fiber Optic')->first();
 
-        return view('admin.plans.edit', [
-            'plan' => $plan,
-            'planTypes' => $planTypes,
-            'fiberOpticTypeId' => $fiberOpticType ? $fiberOpticType->id : null
-        ]);
+        return view('admin.plans.edit', compact('plan', 'planTypes', 'fiberOpticType'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Plan $plan)
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0|max:999999',
             'plan_type_id' => 'required|exists:plan_types,id',
-            'tv_plan_name' => 'nullable|string|max:255',
-            'tv_plan_description' => 'nullable|string',
-            'tv_plan_price' => 'nullable|numeric|min:0',
-            'packages.*.name' => 'nullable|string|max:255',
-            'packages.*.price' => 'nullable|numeric|min:0',
+            'tv_plans_name' => 'nullable|string|max:255',
+            'tv_plans_description' => 'nullable|string',
+            'tv_plans_price' => 'nullable|numeric|min:0',
+            'packages' => 'nullable|array',
+            'packages.*.id' => 'nullable|exists:packages,id',
+            'packages.*.name' => 'required_with:packages.*.id|string|max:255',
+            'packages.*.price' => 'required_with:packages.*.id|numeric|min:0',
         ]);
 
         DB::beginTransaction();
 
         try {
-            $plan = Plan::findOrFail($id);
-
+            // Update Plan details
             $plan->update([
                 'name' => $validatedData['name'],
                 'description' => $validatedData['description'],
@@ -143,32 +140,59 @@ class PlanController extends Controller
                 'plan_type_id' => $validatedData['plan_type_id'],
             ]);
 
+            // Handle Fiber Optic TV plan and packages
             if ($validatedData['plan_type_id'] == $this->getFiberOpticTypeId()) {
-                if (empty($validatedData['tv_plan_name']) || empty($validatedData['tv_plan_price'])) {
+                // Check if TV Plan fields are valid
+                if (empty($validatedData['tv_plans_name']) || empty($validatedData['tv_plans_price'])) {
                     throw new \Exception('TV Plan details are required for Fiber Optic plans.');
                 }
 
-                $tvPlan = TvPlan::updateOrCreate(
-                    ['plan_id' => $plan->id],
-                    [
-                        'name' => $validatedData['tv_plan_name'],
-                        'description' => $validatedData['tv_plan_description'],
-                        'price' => $validatedData['tv_plan_price'],
-                    ]
-                );
+                // Update or create TV Plan
+                $tvPlan = $plan->tvPlans->first() ?? new TvPlan(['plan_id' => $plan->id]);
+                $tvPlan->fill([
+                    'name' => $validatedData['tv_plans_name'],
+                    'description' => $validatedData['tv_plans_description'],
+                    'price' => $validatedData['tv_plans_price'],
+                ]);
+                $tvPlan->save();
 
+                // Handle Packages (create, update, delete)
                 if (!empty($validatedData['packages'])) {
+                    $existingPackageIds = [];
                     foreach ($validatedData['packages'] as $packageData) {
-                        if (!empty($packageData['name']) && !empty($packageData['price'])) {
-                            Package::updateOrCreate(
-                                ['tv_plan_id' => $tvPlan->id, 'name' => $packageData['name']],
-                                ['price' => $packageData['price']]
-                            );
+                        if (!empty($packageData['id'])) {
+                            // Update existing package
+                            $package = Package::find($packageData['id']);
+                            $package->update([
+                                'name' => $packageData['name'],
+                                'price' => $packageData['price'],
+                            ]);
+                        } else {
+                            // Create new package
+                            $package = Package::create([
+                                'tv_plan_id' => $tvPlan->id,
+                                'name' => $packageData['name'],
+                                'price' => $packageData['price'],
+                            ]);
                         }
+                        $existingPackageIds[] = $package->id;
                     }
+
+                    // Remove packages that were not included in the form
+                    Package::where('tv_plan_id', $tvPlan->id)
+                        ->whereNotIn('id', $existingPackageIds)
+                        ->delete();
+                } else {
+                    // If no packages, remove all packages for the TV plan
+                    Package::where('tv_plan_id', $tvPlan->id)->delete();
                 }
             } else {
-                $plan->tvPlans()->delete();
+                // If the plan is not Fiber Optic, remove any related TV Plan and packages
+                if ($plan->tvPlans->count() > 0) {
+                    $tvPlan = $plan->tvPlans->first();
+                    Package::where('tv_plan_id', $tvPlan->id)->delete();
+                    $tvPlan->delete();
+                }
             }
 
             DB::commit();
@@ -178,11 +202,10 @@ class PlanController extends Controller
             DB::rollBack();
 
             return redirect()->back()->withErrors([
-                'tv_plan_name' => $e->getMessage(),
+                'tv_plans_name' => $e->getMessage(),
             ])->withInput();
         }
     }
-
 
 
     public function destroy(Plan $plan)
