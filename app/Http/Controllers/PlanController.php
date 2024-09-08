@@ -104,16 +104,20 @@ class PlanController extends Controller
         }
     }
 
-    public function edit(Plan $plan)
+    public function edit($id)
     {
-        $plan->load('tvPlans.packages');  // Eager load tvPlan and its packages
+        $plan = Plan::with('tvPlans.packages')->findOrFail($id);
         $planTypes = PlanType::all();
         $fiberOpticType = PlanType::where('name', 'Fiber Optic')->first();
 
-        return view('admin.plans.edit', compact('plan', 'planTypes', 'fiberOpticType'));
+        return view('admin.plans.edit', [
+            'plan' => $plan,
+            'planTypes' => $planTypes,
+            'fiberOpticTypeId' => $fiberOpticType ? $fiberOpticType->id : null
+        ]);
     }
 
-    public function update(Request $request, Plan $plan)
+    public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
@@ -123,15 +127,15 @@ class PlanController extends Controller
             'tv_plan_name' => 'nullable|string|max:255',
             'tv_plan_description' => 'nullable|string',
             'tv_plan_price' => 'nullable|numeric|min:0',
-            'packages' => 'nullable|array',
-            'packages.*.id' => 'nullable|exists:packages,id',
-            'packages.*.name' => 'required_with:packages.*.id|string|max:255',
-            'packages.*.price' => 'required_with:packages.*.id|numeric|min:0',
+            'packages.*.name' => 'nullable|string|max:255',
+            'packages.*.price' => 'nullable|numeric|min:0',
         ]);
 
         DB::beginTransaction();
 
         try {
+            $plan = Plan::findOrFail($id);
+
             $plan->update([
                 'name' => $validatedData['name'],
                 'description' => $validatedData['description'],
@@ -144,46 +148,27 @@ class PlanController extends Controller
                     throw new \Exception('TV Plan details are required for Fiber Optic plans.');
                 }
 
-                $tvPlan = $plan->tvPlan ?? new TvPlan();
-                $tvPlan->fill([
-                    'plan_id' => $plan->id,
-                    'name' => $validatedData['tv_plan_name'],
-                    'description' => $validatedData['tv_plan_description'],
-                    'price' => $validatedData['tv_plan_price'],
-                ]);
-                $tvPlan->save();
+                $tvPlan = TvPlan::updateOrCreate(
+                    ['plan_id' => $plan->id],
+                    [
+                        'name' => $validatedData['tv_plan_name'],
+                        'description' => $validatedData['tv_plan_description'],
+                        'price' => $validatedData['tv_plan_price'],
+                    ]
+                );
 
-                // Update or create packages
                 if (!empty($validatedData['packages'])) {
-                    $existingPackageIds = [];
                     foreach ($validatedData['packages'] as $packageData) {
-                        if (!empty($packageData['id'])) {
-                            $package = Package::find($packageData['id']);
-                            $package->update([
-                                'name' => $packageData['name'],
-                                'price' => $packageData['price'],
-                            ]);
-                            $existingPackageIds[] = $package->id;
-                        } else {
-                            $package = Package::create([
-                                'tv_plan_id' => $tvPlan->id,
-                                'name' => $packageData['name'],
-                                'price' => $packageData['price'],
-                            ]);
-                            $existingPackageIds[] = $package->id;
+                        if (!empty($packageData['name']) && !empty($packageData['price'])) {
+                            Package::updateOrCreate(
+                                ['tv_plan_id' => $tvPlan->id, 'name' => $packageData['name']],
+                                ['price' => $packageData['price']]
+                            );
                         }
                     }
-                    Package::where('tv_plan_id', $tvPlan->id)
-                        ->whereNotIn('id', $existingPackageIds)
-                        ->delete();
-                } else {
-                    Package::where('tv_plan_id', $tvPlan->id)->delete();
                 }
             } else {
-                if ($plan->tvPlan) {
-                    Package::where('tv_plan_id', $plan->tvPlan->id)->delete();
-                    $plan->tvPlan->delete();
-                }
+                $plan->tvPlans()->delete();
             }
 
             DB::commit();
@@ -197,7 +182,6 @@ class PlanController extends Controller
             ])->withInput();
         }
     }
-
 
 
 
