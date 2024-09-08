@@ -132,7 +132,6 @@ class PlanController extends Controller
         DB::beginTransaction();
 
         try {
-            // Update Plan details
             $plan->update([
                 'name' => $validatedData['name'],
                 'description' => $validatedData['description'],
@@ -140,14 +139,11 @@ class PlanController extends Controller
                 'plan_type_id' => $validatedData['plan_type_id'],
             ]);
 
-            // Handle Fiber Optic TV plan and packages
             if ($validatedData['plan_type_id'] == $this->getFiberOpticTypeId()) {
-                // Check if TV Plan fields are valid
                 if (empty($validatedData['tv_plans_name']) || empty($validatedData['tv_plans_price'])) {
                     throw new \Exception('TV Plan details are required for Fiber Optic plans.');
                 }
 
-                // Update or create TV Plan
                 $tvPlan = $plan->tvPlans->first() ?? new TvPlan(['plan_id' => $plan->id]);
                 $tvPlan->fill([
                     'name' => $validatedData['tv_plans_name'],
@@ -156,19 +152,16 @@ class PlanController extends Controller
                 ]);
                 $tvPlan->save();
 
-                // Handle Packages (create, update, delete)
                 if (!empty($validatedData['packages'])) {
                     $existingPackageIds = [];
                     foreach ($validatedData['packages'] as $packageData) {
                         if (!empty($packageData['id'])) {
-                            // Update existing package
                             $package = Package::find($packageData['id']);
                             $package->update([
                                 'name' => $packageData['name'],
                                 'price' => $packageData['price'],
                             ]);
                         } else {
-                            // Create new package
                             $package = Package::create([
                                 'tv_plan_id' => $tvPlan->id,
                                 'name' => $packageData['name'],
@@ -178,16 +171,13 @@ class PlanController extends Controller
                         $existingPackageIds[] = $package->id;
                     }
 
-                    // Remove packages that were not included in the form
                     Package::where('tv_plan_id', $tvPlan->id)
                         ->whereNotIn('id', $existingPackageIds)
                         ->delete();
                 } else {
-                    // If no packages, remove all packages for the TV plan
                     Package::where('tv_plan_id', $tvPlan->id)->delete();
                 }
             } else {
-                // If the plan is not Fiber Optic, remove any related TV Plan and packages
                 if ($plan->tvPlans->count() > 0) {
                     $tvPlan = $plan->tvPlans->first();
                     Package::where('tv_plan_id', $tvPlan->id)->delete();
