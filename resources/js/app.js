@@ -257,34 +257,35 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // // Plan Component Animation function
-// document.addEventListener('alpine:init', () => {
-//     Alpine.data('slideIn', () => ({
-//         show: false,
-//         init() {
-//             this.observeIntersection();
-//         },
-//         observeIntersection() {
-//             const options = {
-//                 root: null,
-//                 rootMargin: '0px',
-//                 threshold: 0.01
-//             };
+document.addEventListener('alpine:init', () => {
+    Alpine.data('fadeInOnScroll', () => ({
+        show: true,
+        init() {
+            this.observeIntersection();
+        },
+        observeIntersection() {
+            const options = {
+                root: null,
+                rootMargin: '0px 0px -400px 0px', // Adjust the bottom margin to trigger earlier
+                threshold: 0.0000001 // Trigger when 10% of the element is visible
+            };
 
-//             const observer = new IntersectionObserver((entries) => {
-//                 entries.forEach(entry => {
-//                     if (entry.isIntersecting) {
-//                         this.show = true;
-//                         observer.unobserve(entry.target);
-//                     }
-//                 });
-//             }, options);
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        this.show = true;
+                        observer.unobserve(entry.target); // Stop observing after visibility is detected
+                    }
+                });
+            }, options);
 
-//             this.$nextTick(() => {
-//                 observer.observe(this.$el);
-//             });
-//         }
-//     }));
-// });
+            this.$nextTick(() => {
+                observer.observe(this.$el);
+            });
+        }
+    }));
+});
+
 
 window.Alpine = Alpine;
 Alpine.start();

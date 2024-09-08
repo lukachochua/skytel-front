@@ -334,58 +334,63 @@ body {
     background-color: #007bff;
 }
 
-// Plans Animation
-.slide-in-card {
+// // Plans Animation
+
+
+.plan-card {
     position: relative;
+    border-radius: 12px;
     overflow: hidden;
-    transform: translateX(100%);
-    opacity: 0;
-    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+    background: #fff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.slide-in-card.show {
-    transform: translateX(0);
-    opacity: 1;
+.plan-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-.slide-in-card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 4px;
-    width: 100%;
-    background: linear-gradient(90deg, #007bff, #00c2ff);
-}
-
-.slide-in-card .card-body {
+.plan-card-body {
     padding: 1.5rem;
+    text-align: center;
 }
 
-.slide-in-card .btn-primary {
+.plan-card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.plan-card-description {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+}
+
+.plan-card-price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #007bff;
+    margin-bottom: 1rem;
+}
+
+.plan-card-tv-plan {
+    font-size: 0.875rem;
+    color: #555;
+    margin-bottom: 1rem;
+}
+
+.btn-primary {
     background-color: #007bff;
     border-color: #007bff;
     transition: background-color 0.3s, border-color 0.3s;
 }
 
-.slide-in-card .btn-primary:hover {
+.btn-primary:hover {
     background-color: #0056b3;
     border-color: #004085;
 }
-
-@media (max-width: 767.98px) {
-    .slide-in-card {
-        margin-bottom: 1.5rem;
-        transform: translateX(100%);
-    }
-}
-
-@media (max-width: 575.98px) {
-    .slide-in-card {
-        margin-bottom: 1rem;
-    }
-}
-
 
 // Responsive
 

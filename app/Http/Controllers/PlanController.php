@@ -22,7 +22,10 @@ class PlanController extends Controller
     {
         $plan = Plan::findOrFail($id);
         $tvPlan = $plan->tvPlans->first();
-        return view('plans.show', compact('plan', 'tvPlan'));
+
+        $fiberOpticType = PlanType::where('name', 'Fiber Optic')->first();
+
+        return view('plans.show', compact('plan', 'tvPlan', 'fiberOpticType'));
     }
 
     public function dashboard()
