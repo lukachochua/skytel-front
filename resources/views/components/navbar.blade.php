@@ -44,27 +44,22 @@
             </ul>
             <ul class="navbar-nav">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                        aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-globe"></i>
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="languageDropdown"
-                        style="min-width: 80px;">
-                        <li>
-                            <a href="{{ route('change-locale', ['locale' => 'ka']) }}"
-                                class="dropdown-item text-center p-2">
-                                <img src="{{ asset('storage/flags/georgia.png') }}" alt="Georgian"
-                                    class="flag-image w-25">
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('change-locale', ['locale' => 'en']) }}"
-                                class="dropdown-item text-center p-2">
-                                <img src="{{ asset('storage/flags/britain.png') }}" alt="English"
-                                    class="flag-image w-25">
-                            </a>
-                        </li>
-                    </ul>
+                    <div class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="languageDropdown">
+                        <a href="{{ route('change-locale', ['locale' => 'ka']) }}"
+                            class="dropdown-item d-flex justify-content-center align-items-center p-2">
+                            <img src="{{ asset('storage/flags/georgia.png') }}" alt="Georgian"
+                                class="flag-image img-fluid" style="max-width: 30px;">
+                        </a>
+                        <a href="{{ route('change-locale', ['locale' => 'en']) }}"
+                            class="dropdown-item d-flex justify-content-center align-items-center p-2">
+                            <img src="{{ asset('storage/flags/britain.png') }}" alt="English"
+                                class="flag-image img-fluid" style="max-width: 30px;">
+                        </a>
+                    </div>
                 </li>
             </ul>
         </div>

@@ -182,17 +182,22 @@ body {
     transform: translateY(-100%);
 }
 
-#languageDropdown {
-    position: relative;
-}
-
-#languageDropdown+.dropdown-menu {
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-
 @media (min-width: 992px) {
+
+    .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        transform: none;
+        min-width: 80px;
+        margin-top: 0;
+    }
+
+    .dropdown-menu-end {
+        right: -10px;
+        left: auto;
+    }
+
     .navbar {
         position: fixed;
         top: 0;
@@ -210,6 +215,28 @@ body {
         transform: translateY(-100%);
     }
 }
+
+/* For small screens */
+@media (max-width: 576px) {
+    .dropdown-menu {
+        position: absolute !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        min-width: 100px;
+    }
+
+    .dropdown-item {
+        text-align: center;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .dropdown-item img.flag-image {
+        max-width: 30px;
+    }
+}
+
+
 
 
 // News Container Styles
