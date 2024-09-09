@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'dashboard' => 'Plans List',
     'manage_plans' => 'Manage Plans',
     'plan_list' => 'Plan List',
     'create' => 'Create a Plan',
