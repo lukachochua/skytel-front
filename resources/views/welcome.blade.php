@@ -1,11 +1,11 @@
-<!-- resources/views/welcome.blade.php -->
-
 <x-main-layout>
     <x-slider :sliders="$sliders" />
     <x-news-component :latestNews="$latestNews" />
 
     <div class="container-fluid mt-4">
-        <h1 class="mb-4">Our Amazing Plans</h1>
+        <h1 class="mb-4 text-center display-4 fw-bold text-primary bg-light py-3 rounded shadow-sm">
+            Our Plans
+        </h1>
         <div class="row">
             @foreach ($plans as $plan)
                 <div class="col-12 col-md-4 mb-4">
