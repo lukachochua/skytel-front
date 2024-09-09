@@ -42,16 +42,31 @@
                     </div>
                 </li>
             </ul>
-            <div class="btn-group" role="group" aria-label="Language Selection">
-                <a href="{{ route('change-locale', ['locale' => 'en']) }}"
-                    class="btn btn-light flag-button bg-info me-2" title="English">
-                    <img src="{{ asset('storage/flags/britain.png') }}" alt="" class="flag-image">
-                </a>
-                <a href="{{ route('change-locale', ['locale' => 'ka']) }}" class="btn btn-light flag-button bg-info"
-                    title="Georgian">
-                    <img src="{{ asset('storage/flags/georgia.png') }}" alt="" class="flag-image">
-                </a>
-            </div>
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-globe"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="languageDropdown"
+                        style="min-width: 80px;">
+                        <li>
+                            <a href="{{ route('change-locale', ['locale' => 'ka']) }}"
+                                class="dropdown-item text-center p-2">
+                                <img src="{{ asset('storage/flags/georgia.png') }}" alt="Georgian"
+                                    class="flag-image w-25">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('change-locale', ['locale' => 'en']) }}"
+                                class="dropdown-item text-center p-2">
+                                <img src="{{ asset('storage/flags/britain.png') }}" alt="English"
+                                    class="flag-image w-25">
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </div>
 </nav>

@@ -29,13 +29,13 @@
                 <i class="fas fa-globe"></i>
             </a>
             <div class="dropdown-menu" style="min-width: 2.5rem; top: 100%; left: 0; right: 0; margin: 0 auto;">
-                <a href="{{ route('change-locale', ['locale' => 'en']) }}"
-                    class="dropdown-item d-flex justify-content-center align-items-center p-2">
-                    <img src="{{ asset('storage/flags/britain.png') }}" alt="English" class="flag-image me-2 w-50">
-                </a>
                 <a href="{{ route('change-locale', ['locale' => 'ka']) }}"
                     class="dropdown-item d-flex justify-content-center align-items-center p-2">
                     <img src="{{ asset('storage/flags/georgia.png') }}" alt="Georgian" class="flag-image me-2 w-50">
+                </a>
+                <a href="{{ route('change-locale', ['locale' => 'en']) }}"
+                    class="dropdown-item d-flex justify-content-center align-items-center p-2">
+                    <img src="{{ asset('storage/flags/britain.png') }}" alt="English" class="flag-image me-2 w-50">
                 </a>
             </div>
         </li>

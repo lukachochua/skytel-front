@@ -182,6 +182,15 @@ body {
     transform: translateY(-100%);
 }
 
+#languageDropdown {
+    position: relative;
+}
+
+#languageDropdown+.dropdown-menu {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 
 @media (min-width: 992px) {
     .navbar {
@@ -421,6 +430,10 @@ body {
 // [x-cloak] {
 //     display: none !important;
 // }
+
+
+
+
 
 
 // Responsive
