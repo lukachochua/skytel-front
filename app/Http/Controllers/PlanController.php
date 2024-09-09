@@ -6,6 +6,7 @@ use App\Models\Plan;
 use App\Models\TvPlan;
 use App\Models\PlanType;
 use App\Models\Package;
+use App\Models\PlanSelection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -207,6 +208,26 @@ class PlanController extends Controller
         $plan->delete();
 
         return redirect()->route('plans.dashboard')->with('success', __('messages.plan_deleted'));
+    }
+
+    public function storeSelection(Request $request, $planId)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'tv_plan_id' => 'nullable|exists:tv_plans,id',
+            'packages.*' => 'nullable|exists:packages,id'
+        ]);
+
+        PlanSelection::create([
+            'plan_id' => $planId,
+            'name' => $validatedData['name'],
+            'phone' => $validatedData['phone'],
+            'tv_plan_id' => $validatedData['tv_plan_id'] ?? null,
+            'packages' => json_encode($validatedData['packages'] ?? [])
+        ]);
+
+        return redirect()->route('plans.show', $planId)->with('success', 'Your selection has been saved successfully!');
     }
 
     // Helper methods

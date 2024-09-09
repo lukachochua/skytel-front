@@ -1,11 +1,13 @@
 <x-main-layout>
-    <div class="container mt-4">
-        <h1 class="mb-4 mt-5 text-center">News List</h1>
+    <div class="container mt-5">
+        <h1 class="mb-4 mt-5 text-center display-4 fw-bold text-secondary">
+            News List
+        </h1>
 
         <div class="row">
             @foreach ($news as $newsItem)
                 <div class="col-md-6 col-lg-4 mb-4">
-                    <div class="card border-secondary d-flex flex-column h-100" >
+                    <div class="card border-secondary d-flex flex-column h-100">
                         @if ($newsItem->image)
                             <img src="{{ asset('storage/' . $newsItem->image) }}" class="card-img-top"
                                 alt="Image for {{ $newsItem->title }}" style="height: 200px; object-fit: cover;">
@@ -29,7 +31,7 @@
             @endforeach
         </div>
 
-        <div class="card-footer clearfix">
+        <div class="d-flex justify-content-center mt-4">
             {{ $news->links('vendor.pagination.bootstrap-5') }}
         </div>
     </div>

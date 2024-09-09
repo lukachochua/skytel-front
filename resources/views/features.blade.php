@@ -1,6 +1,8 @@
 <x-main-layout>
     <div class="container">
-        <h1 class="text-center mt-5">Our Features</h1>
+        <h1 class="mb-4 mt-5 text-center display-4 fw-bold text-secondary">
+            Features
+        </h1>
         <div class="row mt-4">
             <div class="col-md-4">
                 <div class="card">
