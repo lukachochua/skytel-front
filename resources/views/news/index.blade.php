@@ -1,6 +1,6 @@
 <x-main-layout>
     <div class="container mt-4">
-        <h1 class="mb-4">News List</h1>
+        <h1 class="mb-4 mt-5 text-center">News List</h1>
 
         <div class="row">
             @foreach ($news as $newsItem)
