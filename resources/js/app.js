@@ -256,36 +256,31 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-// // Plan Component Animation function
+// Plan Component Animation function
 document.addEventListener('alpine:init', () => {
-    Alpine.data('fadeInOnScroll', () => ({
-        show: true,
+    Alpine.data('animateOnScroll', () => ({
+        isVisible: false,
         init() {
             this.observeIntersection();
         },
         observeIntersection() {
-            const options = {
-                root: null,
-                rootMargin: '0px 0px -400px 0px', // Adjust the bottom margin to trigger earlier
-                threshold: 0.0000001 // Trigger when 10% of the element is visible
-            };
-
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        this.show = true;
-                        observer.unobserve(entry.target); // Stop observing after visibility is detected
+                        this.isVisible = true;
+                        observer.unobserve(entry.target);
                     }
                 });
-            }, options);
-
-            this.$nextTick(() => {
-                observer.observe(this.$el);
+            }, {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
             });
+
+            observer.observe(this.$el);
         }
     }));
 });
-
 
 window.Alpine = Alpine;
 Alpine.start();

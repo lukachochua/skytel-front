@@ -1,6 +1,9 @@
-<div x-data="fadeInOnScroll()" x-show="show" x-transition:enter="transition ease-out duration-500"
-    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-    class="plan-card border-light shadow-lg mt-2 mb-5 p-4 rounded h-100 ">
+<div x-data="animateOnScroll()" 
+     x-bind:class="{
+         'opacity-0 translate-y-4': !isVisible,
+         'opacity-100 translate-y-0': isVisible
+     }"
+     class="plan-card border-light shadow-lg mt-2 mb-5 p-4 rounded h-100 transition-all duration-700 ease-out">
 
     <div class="plan-card-body">
         <h5 class="plan-card-title">{{ $plan->name }}</h5>
