@@ -344,7 +344,7 @@ return [
         [
             'text' => 'plans',
             'route' => 'plans.dashboard',
-            'icon' => 'fas fa-list-alt',
+            'icon' => 'fas fa-fw fa-list-alt',
         ],
         [
             'text' => 'change_password',

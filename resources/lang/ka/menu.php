@@ -6,6 +6,7 @@ return [
     'pages' => 'გვერდები',
     'news' => 'სიახლეები',
     'slider' => 'სლაიდერი',
+    'plans' => 'ტარიფები',
     'account_settings_key' => 'ანგარიშის პარამეტრები',
     'profile_key' => 'პროფილი',
     'change_password' => 'პაროლის შეცვლა',
