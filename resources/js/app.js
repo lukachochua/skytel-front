@@ -282,5 +282,26 @@ document.addEventListener('alpine:init', () => {
     }));
 });
 
+
+// Plan Form
+Alpine.data('planForm', () => ({
+    selectedTvPlan: '',
+    packages: window.planFormData || [],
+    showModal: false, // Manage modal visibility
+
+    updatePackages() {
+        // Your existing logic for updating packages
+    },
+
+    toggleModal() {
+        this.showModal = !this.showModal; // Toggle modal visibility
+    },
+
+    closeModal() {
+        this.showModal = false; // Close the modal
+    }
+}));
+
+
 window.Alpine = Alpine;
 Alpine.start();

@@ -7,7 +7,6 @@
     <div class="d-flex align-items-center">
         <strong class="me-auto">{{ $slot }}</strong>
         <button type="button" class="ms-2" @click="show = false" aria-label="Close">
-            <!-- AdminLTE icon for close -->
             <i class="fa fa-window-close" aria-hidden="true"></i>
         </button>
     </div>

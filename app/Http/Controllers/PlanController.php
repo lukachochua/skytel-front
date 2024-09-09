@@ -22,11 +22,23 @@ class PlanController extends Controller
     public function show($id)
     {
         $plan = Plan::findOrFail($id);
-        $tvPlan = $plan->tvPlans->first();
+        $fiberOpticType = PlanType::where('name', 'Fiber Optic')->first(); // Example
 
-        $fiberOpticType = PlanType::where('name', 'Fiber Optic')->first();
+        $packages = []; // Initialize with an empty array if no packages are available
 
-        return view('plans.show', compact('plan', 'tvPlan', 'fiberOpticType'));
+        if ($plan->plan_type_id == $fiberOpticType->id && $plan->tvPlans->count() > 0) {
+            $firstTvPlan = $plan->tvPlans->first();
+            $packages = $firstTvPlan->packages->map(function ($package) {
+                return [
+                    'id' => $package->id,
+                    'name' => $package->name,
+                    'price' => $package->price,
+                ];
+            })->toArray();
+        }
+
+
+        return view('plans.show',  compact('plan', 'fiberOpticType', 'packages'));
     }
 
     public function dashboard()
