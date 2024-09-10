@@ -46,7 +46,7 @@
                                             <td>{{ $plan->name }}</td>
                                             <td>{{ $plan->description }}</td>
                                             <td>{{ $plan->price }}</td>
-                                            <td>{{ $plan->type }}</td>
+                                            <td>{{ $plan->planType->name }}</td>
                                             <td class="d-flex flex-column flex-sm-row align-items-center">
                                                 <a href="{{ route('plans.show', $plan->id) }}"
                                                     class="btn btn-info btn-sm mb-2 mb-sm-0 me-sm-2 w-100 d-flex align-items-center justify-content-center">
