@@ -48,15 +48,16 @@
                         <div class="mb-3">
                             <label for="title_en" class="form-label fw-bold">@lang('news.title') (EN):</label>
                             <input type="text" name="title_en" id="title_en" class="form-control"
-                                value="{{ old('title_en', $news->title_en) }}" required>
+                                value="{{ old('title_en', $news->getTranslation('title', 'en')) }}" required>
                             @error('title_en')
                                 <div class="text-danger mt-2">{{ $message }}</div>
                             @enderror
                         </div>
 
+
                         <div class="mb-3">
                             <label for="body_en" class="form-label fw-bold">@lang('news.text') (EN):</label>
-                            <textarea name="body_en" id="body_en" rows="5" class="form-control" required>{{ old('body_en', $news->body_en) }}</textarea>
+                            <textarea name="body_en" id="body_en" rows="5" class="form-control" required>{{ old('body_en', $news->getTranslation('body', 'en')) }}</textarea>
                             @error('body_en')
                                 <div class="text-danger mt-2">{{ $message }}</div>
                             @enderror
