@@ -271,6 +271,7 @@ class PlanController extends Controller
                     $existingPackageIds[] = $package->id;
                 }
 
+                // Delete packages not in the updated list
                 Package::where('tv_plan_id', $tvPlan->id)
                     ->whereNotIn('id', $existingPackageIds)
                     ->delete();

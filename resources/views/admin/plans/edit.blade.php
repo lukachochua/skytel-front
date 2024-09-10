@@ -9,7 +9,7 @@
             <div class="form-group">
                 <label for="name">Plan Name</label>
                 <input type="text" id="name" name="name" class="form-control @error('name') is-invalid @enderror"
-                    value="{{ old('name', $plan->name) }}" required>
+                    value="{{ old('name', $plan->getTranslation('name', 'ka')) }}" required>
                 @error('name')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
@@ -19,7 +19,7 @@
                 <label for="name_en">Plan Name (EN)</label>
                 <input type="text" id="name_en" name="name_en"
                     class="form-control @error('name_en') is-invalid @enderror"
-                        value="{{ old('name_en', $plan->translations['name']['en']) }}">
+                    value="{{ old('name_en', $plan->getTranslation('name', 'en')) }}">
                 @error('name_en')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
@@ -27,7 +27,7 @@
 
             <div class="form-group">
                 <label for="description">Description</label>
-                <textarea id="description" name="description" class="form-control @error('description') is-invalid @enderror" required>{{ old('description', $plan->description) }}</textarea>
+                <textarea id="description" name="description" class="form-control @error('description') is-invalid @enderror" required>{{ old('description', $plan->getTranslation('description', 'ka')) }}</textarea>
                 @error('description')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
@@ -36,7 +36,7 @@
             <div class="form-group">
                 <label for="description_en">Description (EN)</label>
                 <textarea id="description_en" name="description_en" class="form-control @error('description_en') is-invalid @enderror"
-                    required>{{ old('description_en', $plan->translations['description']['en']) }}</textarea>
+                    required>{{ old('description_en', $plan->getTranslation('description', 'en')) }}</textarea>
                 @error('description_en')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
@@ -72,13 +72,13 @@
 
             <!-- TV Plan Fields, displayed only for "Fiber Optic" type -->
             <div id="tv-plan-fields" class="form-group"
-                style="display: {{ $plan->plan_type_id == $fiberOpticType->id ? 'block' : 'none' }};">
+                style="display: {{ old('plan_type_id', $plan->plan_type_id) == $fiberOpticType->id ? 'block' : 'none' }};">
                 <h3>TV Plan Details</h3>
                 <div class="form-group">
                     <label for="tv_plan_name">TV Plan Name</label>
                     <input type="text" id="tv_plan_name" name="tv_plan_name"
                         class="form-control @error('tv_plan_name') is-invalid @enderror"
-                        value="{{ old('tv_plan_name', $plan->tvPlans->first()->name ?? '') }}">
+                        value="{{ old('tv_plan_name', $plan->tvPlans->first()->getTranslation('name', 'ka') ?? '') }}">
                     @error('tv_plan_name')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -88,7 +88,7 @@
                     <label for="tv_plan_name_en">TV Plan Name (EN)</label>
                     <input type="text" id="tv_plan_name_en" name="tv_plan_name_en"
                         class="form-control @error('tv_plan_name_en') is-invalid @enderror"
-                        value="{{ old('tv_plan_name_en', $plan->tvPlans->first()->translations['name']['en'] ?? '') }}"> 
+                        value="{{ old('tv_plan_name_en', $plan->tvPlans->first()->getTranslation('name', 'en') ?? '') }}">
                     @error('tv_plan_name_en')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -97,7 +97,7 @@
                 <div class="form-group">
                     <label for="tv_plan_description">TV Plan Description</label>
                     <textarea id="tv_plan_description" name="tv_plan_description"
-                        class="form-control @error('tv_plan_description') is-invalid @enderror">{{ old('tv_plan_description', $plan->tvPlans->first()->description ?? '') }}</textarea>
+                        class="form-control @error('tv_plan_description') is-invalid @enderror">{{ old('tv_plan_description', $plan->tvPlans->first()->getTranslation('description', 'ka') ?? '') }}</textarea>
                     @error('tv_plan_description')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -106,7 +106,7 @@
                 <div class="form-group">
                     <label for="tv_plan_description_en">TV Plan Description (EN)</label>
                     <textarea id="tv_plan_description_en" name="tv_plan_description_en"
-                        class="form-control @error('tv_plan_description_en') is-invalid @enderror">{{ old('tv_plan_description_en', $plan->tvPlans->first()->translations['description']['en'] ?? '') }}</textarea>
+                        class="form-control @error('tv_plan_description_en') is-invalid @enderror">{{ old('tv_plan_description_en', $plan->tvPlans->first()->getTranslation('description', 'en') ?? '') }}</textarea>
                     @error('tv_plan_description_en')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -133,14 +133,14 @@
                                 <label for="packages[{{ $index }}][name]">Package Name</label>
                                 <input type="text" id="packages[{{ $index }}][name]"
                                     name="packages[{{ $index }}][name]" class="form-control"
-                                    value="{{ $package->name }}" required>
+                                    value="{{ $package->getTranslation('name', 'ka') }}" required>
                                 @error("packages.{$index}.name")
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                                 <label for="packages[{{ $index }}][name_en]">Package Name (EN)</label>
                                 <input type="text" id="packages[{{ $index }}][name_en]"
                                     name="packages[{{ $index }}][name_en]" class="form-control"
-                                    value="{{ $package->translations['name']['en'] }}" required>
+                                    value="{{ $package->getTranslation('name', 'en') }}" required>
                                 @error("packages.{$index}.name_en")
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -174,22 +174,6 @@
                 } else {
                     $('#tv-plan-fields').hide();
                 }
-            });
-
-            $('#add-package').on('click', function() {
-                var index = $('#packages-container .package-form').length;
-                $('#packages-container').append(`
-                    <div class="form-group package-form">
-                        <input type="hidden" name="packages[${index}][id]" value="">
-                        <label for="packages[${index}][name]">Package Name</label>
-                        <input type="text" id="packages[${index}][name]" name="packages[${index}][name]" class="form-control" required>
-                        <label for="packages[${index}][name_en]">Package Name (EN)</label>
-                        <input type="text" id="packages[${index}][name_en]" name="packages[${index}][name_en]" class="form-control" required>
-                        <label for="packages[${index}][price]">Package Price</label>
-                        <input type="number" id="packages[${index}][price]" name="packages[${index}][price]" class="form-control" step="0.01" required>
-                        <button type="button" class="btn btn-danger remove-package">Remove Package</button>
-                    </div>
-                `);
             });
 
             $(document).on('click', '.remove-package', function() {

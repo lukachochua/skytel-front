@@ -48,7 +48,7 @@
                         <div class="mb-3">
                             <label for="title-en" class="form-label fw-bold">@lang('slider.title_en')</label>
                             <input type="text" name="title_en" id="title-en" class="form-control"
-                                value="{{ old('title_en', $slider->title_en ?? '') }}" required>
+                                value="{{ old('title_en', $slider->translations['title']['en'] ?? '') }}" required>
                             @error('title_en')
                                 <div class="text-danger mt-2">{{ $message }}</div>
                             @enderror
@@ -56,7 +56,7 @@
 
                         <div class="mb-3">
                             <label for="description-en" class="form-label fw-bold">@lang('slider.description_en')</label>
-                            <textarea name="description_en" id="description-en" class="form-control" rows="4">{{ old('description_en', $slider->description_en ?? '') }}</textarea>
+                            <textarea name="description_en" id="description-en" class="form-control" rows="4">{{ old('description_en', $slider->translations['description']['en'] ?? '') }}</textarea>
                             @error('description_en')
                                 <div class="text-danger mt-2">{{ $message }}</div>
                             @enderror

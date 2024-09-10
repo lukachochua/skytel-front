@@ -240,6 +240,8 @@ document.addEventListener('DOMContentLoaded', function () {
         packageForm.innerHTML = `
             <label for="packages[${packageCount}][name]">Package Name</label>
             <input type="text" id="packages[${packageCount}][name]" name="packages[${packageCount}][name]" class="form-control">
+            <label for="packages[${packageCount}][name_en]">Package Name (EN)</label>
+            <input type="text" id=""packages[${packageCount}][name_en]" name="packages[${packageCount}][name_en]" class="form-control">
             <label for="packages[${packageCount}][price]">Package Price</label>
             <input type="number" id="packages[${packageCount}][price]" name="packages[${packageCount}][price]" class="form-control">
             <button type="button" class="btn btn-danger remove-package">Remove Package</button>
