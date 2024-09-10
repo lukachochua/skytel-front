@@ -12,7 +12,7 @@ class Plan extends Model
     use HasTranslations;
 
     protected $fillable = ['name', 'description', 'price', 'plan_type_id'];
-    public $translatable = [];
+    public $translatable = ['name', 'description'];
 
 
     public function tvPlans()

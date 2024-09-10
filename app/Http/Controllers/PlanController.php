@@ -22,7 +22,7 @@ class PlanController extends Controller
     public function show($id)
     {
         $plan = Plan::findOrFail($id);
-        $fiberOpticType = PlanType::where('name', 'Fiber Optic')->first(); // Example
+        $fiberOpticType = PlanType::where('name', '{"ka":"Fiber Optic"}')->first(); // Example
 
         $packages = []; // Initialize with an empty array if no packages are available
 
@@ -50,7 +50,7 @@ class PlanController extends Controller
     public function create()
     {
         $planTypes = PlanType::all();
-        $fiberOpticType = PlanType::where('name', 'Fiber Optic')->first();
+        $fiberOpticType = PlanType::where('id', 2)->first();
 
 
         return view('admin.plans.create', [
@@ -63,13 +63,18 @@ class PlanController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
+            'name_en' => 'required|string|max:255',
             'description' => 'required|string',
+            'description_en' => 'required|string',
             'price' => 'required|numeric|min:0|max:999999',
             'plan_type_id' => 'required|exists:plan_types,id',
             'tv_plan_name' => 'nullable|string|max:255',
+            'tv_plan_name_en' => 'nullable|string|max:255',
             'tv_plan_description' => 'nullable|string',
+            'tv_plan_description_en' => 'nullable|string',
             'tv_plan_price' => 'nullable|numeric|min:0',
             'packages.*.name' => 'nullable|string|max:255',
+            'packages.*.name_en' => 'nullable|string|max:255',
             'packages.*.price' => 'nullable|numeric|min:0',
         ]);
 
@@ -78,10 +83,24 @@ class PlanController extends Controller
         try {
             $plan = Plan::create([
                 'name' => $validatedData['name'],
+                'name_en' => $validatedData['name_en'],
                 'description' => $validatedData['description'],
+                'description_en' => $validatedData['description_en'],
                 'price' => $validatedData['price'],
                 'plan_type_id' => $validatedData['plan_type_id'],
             ]);
+
+            $plan->setTranslations('name', [
+                'ka' => $validatedData['name'],
+                'en' => $validatedData['name_en'],
+            ]);
+
+            $plan->setTranslations('description', [
+                'ka' => $validatedData['description'],
+                'en' => $validatedData['description_en'],
+            ]);
+
+            $plan->save();
 
             if ($validatedData['plan_type_id'] == $this->getFiberOpticTypeId()) {
                 if (empty($validatedData['tv_plan_name']) || empty($validatedData['tv_plan_price'])) {
@@ -95,14 +114,33 @@ class PlanController extends Controller
                     'price' => $validatedData['tv_plan_price'],
                 ]);
 
+                $tvPlan->setTranslations('name', [
+                    'ka' => $request->input('tv_plan_name'),
+                    'en' => $request->input('tv_plan_name_en')
+                ]);
+
+                $tvPlan->setTranslations('description', [
+                    'ka' => $request->input('tv_plan_description'),
+                    'en' => $request->input('tv_plan_description_en')
+                ]);
+
+                $tvPlan->save();
+
                 if (!empty($validatedData['packages'])) {
                     foreach ($validatedData['packages'] as $package) {
                         if (!empty($package['name']) && !empty($package['price'])) {
-                            Package::create([
+                            $newPackage = Package::create([
                                 'tv_plan_id' => $tvPlan->id,
                                 'name' => $package['name'],
                                 'price' => $package['price'],
                             ]);
+
+                            $newPackage->setTranslations('name', [
+                                'ka' => $package['name'],
+                                'en' => $package['name_en'],
+                            ]);
+
+                            $newPackage->save();
                         }
                     }
                 }
@@ -124,7 +162,7 @@ class PlanController extends Controller
     {
         $plan->load('tvPlans.packages');
         $planTypes = PlanType::all();
-        $fiberOpticType = PlanType::where('name', 'Fiber Optic')->first();
+        $fiberOpticType = PlanType::where('name', '{"ka":"Fiber Optic"}')->first();
 
         return view('admin.plans.edit', compact('plan', 'planTypes', 'fiberOpticType'));
     }
@@ -245,7 +283,7 @@ class PlanController extends Controller
     // Helper methods
     private function getFiberOpticTypeId()
     {
-        return PlanType::where('name', 'Fiber Optic')->first()->id;
+        return PlanType::where('name', '{"ka":"Fiber Optic"}')->first()->id;
     }
 
     private function createTvPlan($planId, array $tvPlanData)

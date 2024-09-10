@@ -13,6 +13,16 @@
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
+
+            <div class="form-group">
+                <label for="name">Plan Name (EN)</label>
+                <input type="text" id="name_en" name="name_en"
+                    class="form-control @error('name_en') is-invalid @enderror" value="{{ old('name_en') }}" required>
+                @error('name_en')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
             <div class="form-group">
                 <label for="description">Description</label>
                 <textarea id="description" name="description" class="form-control @error('description') is-invalid @enderror" required>{{ old('description') }}</textarea>
@@ -20,6 +30,16 @@
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
+
+            <div class="form-group">
+                <label for="description_en">Description (EN)</label>
+                <textarea id="description_en" name="description_en" class="form-control @error('description_en') is-invalid @enderror"
+                    required>{{ old('description_en') }}</textarea>
+                @error('description_en')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
             <div class="form-group">
                 <label for="price">Price</label>
                 <input type="number" id="price" name="price"
@@ -28,8 +48,10 @@
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
+
             <div class="form-group">
                 <label for="plan_type_id">Type</label>
+
                 <select id="plan_type_id" name="plan_type_id"
                     class="form-control @error('plan_type_id') is-invalid @enderror" required
                     data-fiber-optic-id="{{ $fiberOpticTypeId }}">
@@ -40,6 +62,7 @@
                         </option>
                     @endforeach
                 </select>
+
                 @error('plan_type_id')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
@@ -56,6 +79,17 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
+
+                <div class="form-group">
+                    <label for="tv_plan_name">TV Plan Name (EN)</label>
+                    <input type="text" id="tv_plan_name_en" name="tv_plan_name_en"
+                        class="form-control @error('tv_plan_name_en') is-invalid @enderror"
+                        value="{{ old('tv_plan_name_en') }}">
+                    @error('tv_plan_name_en')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
                 <div class="form-group">
                     <label for="tv_plan_description">TV Plan Description</label>
                     <textarea id="tv_plan_description" name="tv_plan_description"
@@ -64,6 +98,16 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
+
+                <div class="form-group">
+                    <label for="tv_plan_description">TV Plan Description (EN)_en</label>
+                    <textarea id="tv_plan_description_en" name="tv_plan_description_en"
+                        class="form-control @error('tv_plan_description_en') is-invalid @enderror">{{ old('tv_plan_description_en') }}</textarea>
+                    @error('tv_plan_description_en')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
                 <div class="form-group">
                     <label for="tv_plan_price">TV Plan Price</label>
                     <input type="number" id="tv_plan_price" name="tv_plan_price"
@@ -85,6 +129,14 @@
                             @error('packages.*.name')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
+
+                            <label for="packages[0][name_en]">Package Name (EN)</label>
+                            <input type="text" id="packages[0][name_en]" name="packages[0][name_en]"
+                                class="form-control @error('packages.*.name_en') is-invalid @enderror">
+                            @error('packages.*.name_en')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+
                             <label for="packages[0][price]">Package Price</label>
                             <input type="number" id="packages[0][price]" name="packages[0][price]"
                                 class="form-control @error('packages.*.price') is-invalid @enderror">

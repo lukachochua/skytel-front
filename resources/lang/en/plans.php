@@ -14,4 +14,7 @@ return [
     'price' => 'Price',
     'type' => 'Type',
     'actions' => 'Actions',
+    'select_type' => 'Select Type',
+    'add_package' => 'Add Package',
+    'add_new_item' => 'Add New Item'
 ];
