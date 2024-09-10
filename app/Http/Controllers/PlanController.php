@@ -171,66 +171,109 @@ class PlanController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
+            'name_en' => 'required|string|max:255',
             'description' => 'required|string',
+            'description_en' => 'required|string',
             'price' => 'required|numeric|min:0|max:999999',
             'plan_type_id' => 'required|exists:plan_types,id',
-            'tv_plans_name' => 'nullable|string|max:255',
-            'tv_plans_description' => 'nullable|string',
-            'tv_plans_price' => 'nullable|numeric|min:0',
+            'tv_plan_name' => 'nullable|string|max:255',
+            'tv_plan_name_en' => 'nullable|string|max:255',
+            'tv_plan_description' => 'nullable|string',
+            'tv_plan_description_en' => 'nullable|string',
+            'tv_plan_price' => 'nullable|numeric|min:0',
             'packages' => 'nullable|array',
             'packages.*.id' => 'nullable|exists:packages,id',
             'packages.*.name' => 'required_with:packages.*.id|string|max:255',
+            'packages.*.name_en' => 'required_with:packages.*.id|string|max:255',
             'packages.*.price' => 'required_with:packages.*.id|numeric|min:0',
         ]);
 
         DB::beginTransaction();
 
         try {
+            // Update the Plan model with translations
             $plan->update([
                 'name' => $validatedData['name'],
+                'name_en' => $validatedData['name_en'],
                 'description' => $validatedData['description'],
+                'description_en' => $validatedData['description_en'],
                 'price' => $validatedData['price'],
                 'plan_type_id' => $validatedData['plan_type_id'],
             ]);
 
+            $plan->setTranslations('name', [
+                'ka' => $validatedData['name'],
+                'en' => $validatedData['name_en'],
+            ]);
+
+            $plan->setTranslations('description', [
+                'ka' => $validatedData['description'],
+                'en' => $validatedData['description_en'],
+            ]);
+
+            $plan->save();
+
             if ($validatedData['plan_type_id'] == $this->getFiberOpticTypeId()) {
-                if (empty($validatedData['tv_plans_name']) || empty($validatedData['tv_plans_price'])) {
+                if (empty($validatedData['tv_plan_name']) || empty($validatedData['tv_plan_price'])) {
                     throw new \Exception('TV Plan details are required for Fiber Optic plans.');
                 }
 
                 $tvPlan = $plan->tvPlans->first() ?? new TvPlan(['plan_id' => $plan->id]);
                 $tvPlan->fill([
-                    'name' => $validatedData['tv_plans_name'],
-                    'description' => $validatedData['tv_plans_description'],
-                    'price' => $validatedData['tv_plans_price'],
+                    'name' => $validatedData['tv_plan_name'],
+                    'description' => $validatedData['tv_plan_description'],
+                    'price' => $validatedData['tv_plan_price'],
                 ]);
+
+                $tvPlan->setTranslations('name', [
+                    'ka' => $validatedData['tv_plan_name'],
+                    'en' => $validatedData['tv_plan_name_en'],
+                ]);
+
+                $tvPlan->setTranslations('description', [
+                    'ka' => $validatedData['tv_plan_description'],
+                    'en' => $validatedData['tv_plan_description_en'],
+                ]);
+
                 $tvPlan->save();
 
-                if (!empty($validatedData['packages'])) {
-                    $existingPackageIds = [];
-                    foreach ($validatedData['packages'] as $packageData) {
-                        if (!empty($packageData['id'])) {
-                            $package = Package::find($packageData['id']);
-                            $package->update([
-                                'name' => $packageData['name'],
-                                'price' => $packageData['price'],
-                            ]);
-                        } else {
-                            $package = Package::create([
-                                'tv_plan_id' => $tvPlan->id,
-                                'name' => $packageData['name'],
-                                'price' => $packageData['price'],
-                            ]);
-                        }
-                        $existingPackageIds[] = $package->id;
+                $existingPackageIds = [];
+
+                foreach ($validatedData['packages'] as $packageData) {
+                    if (!empty($packageData['id'])) {
+                        $package = Package::find($packageData['id']);
+                        $package->update([
+                            'name' => $packageData['name'],
+                            'price' => $packageData['price'],
+                        ]);
+
+                        $package->setTranslations('name', [
+                            'ka' => $packageData['name'],
+                            'en' => $packageData['name_en'],
+                        ]);
+
+                        $package->save();
+                    } else {
+                        $package = Package::create([
+                            'tv_plan_id' => $tvPlan->id,
+                            'name' => $packageData['name'],
+                            'price' => $packageData['price'],
+                        ]);
+
+                        $package->setTranslations('name', [
+                            'ka' => $packageData['name'],
+                            'en' => $packageData['name_en'],
+                        ]);
+
+                        $package->save();
                     }
 
-                    Package::where('tv_plan_id', $tvPlan->id)
-                        ->whereNotIn('id', $existingPackageIds)
-                        ->delete();
-                } else {
-                    Package::where('tv_plan_id', $tvPlan->id)->delete();
+                    $existingPackageIds[] = $package->id;
                 }
+
+                Package::where('tv_plan_id', $tvPlan->id)
+                    ->whereNotIn('id', $existingPackageIds)
+                    ->delete();
             } else {
                 if ($plan->tvPlans->count() > 0) {
                     $tvPlan = $plan->tvPlans->first();
@@ -246,7 +289,7 @@ class PlanController extends Controller
             DB::rollBack();
 
             return redirect()->back()->withErrors([
-                'tv_plans_name' => $e->getMessage(),
+                'tv_plan_name' => $e->getMessage(),
             ])->withInput();
         }
     }
