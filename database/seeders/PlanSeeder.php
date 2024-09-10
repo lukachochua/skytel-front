@@ -13,10 +13,21 @@ class PlanSeeder extends Seeder
     public function run()
     {
         // Ensure PlanTypes exist or create them if they don't
-        $internetType = PlanType::firstOrCreate(['name' => 'Internet']);
-        $fiberOpticType = PlanType::firstOrCreate(['name' => 'Fiber Optic']);
-        $wifiRadioType = PlanType::firstOrCreate(['name' => 'WiFi/Radio']);
-        $corporateType = PlanType::firstOrCreate(['name' => 'Corporate']);
+        $internetType = PlanType::firstOrCreate(
+            ['name' => 'ინტერნეტი', 'name->en' => 'Internet']
+        );
+
+        $fiberOpticType = PlanType::firstOrCreate(
+            ['name' => 'ოპტიკურ-ბოჭკოვანი', 'name->en' => 'Fiber Optic']
+        );
+
+        $wifiRadioType = PlanType::firstOrCreate(
+            ['name' => 'რადიო', 'name->en' => 'WiFi/Radio']
+        );
+
+        $corporateType = PlanType::firstOrCreate(
+            ['name' => 'კორპორატიული', 'name->en' => 'Corporate']
+        );
 
         // Define TV Plan Types
         $tvPlanTypes = [

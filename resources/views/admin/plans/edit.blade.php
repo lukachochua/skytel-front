@@ -78,7 +78,7 @@
                     <label for="tv_plan_name">TV Plan Name</label>
                     <input type="text" id="tv_plan_name" name="tv_plan_name"
                         class="form-control @error('tv_plan_name') is-invalid @enderror"
-                        value="{{ old('tv_plan_name', $plan->tvPlans->first()->getTranslation('name', 'ka') ?? '') }}">
+                        value="{{ old('tv_plan_name', optional($plan->tvPlans->first())->getTranslation('name', 'ka') ?? '') }}">
                     @error('tv_plan_name')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -88,7 +88,7 @@
                     <label for="tv_plan_name_en">TV Plan Name (EN)</label>
                     <input type="text" id="tv_plan_name_en" name="tv_plan_name_en"
                         class="form-control @error('tv_plan_name_en') is-invalid @enderror"
-                        value="{{ old('tv_plan_name_en', $plan->tvPlans->first()->getTranslation('name', 'en') ?? '') }}">
+                        value="{{ old('tv_plan_name_en', optional($plan->tvPlans->first())->getTranslation('name', 'en') ?? '') }}">
                     @error('tv_plan_name_en')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -97,7 +97,7 @@
                 <div class="form-group">
                     <label for="tv_plan_description">TV Plan Description</label>
                     <textarea id="tv_plan_description" name="tv_plan_description"
-                        class="form-control @error('tv_plan_description') is-invalid @enderror">{{ old('tv_plan_description', $plan->tvPlans->first()->getTranslation('description', 'ka') ?? '') }}</textarea>
+                        class="form-control @error('tv_plan_description') is-invalid @enderror">{{ old('tv_plan_description', optional($plan->tvPlans->first())->getTranslation('description', 'ka') ?? '') }}</textarea>
                     @error('tv_plan_description')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -106,7 +106,7 @@
                 <div class="form-group">
                     <label for="tv_plan_description_en">TV Plan Description (EN)</label>
                     <textarea id="tv_plan_description_en" name="tv_plan_description_en"
-                        class="form-control @error('tv_plan_description_en') is-invalid @enderror">{{ old('tv_plan_description_en', $plan->tvPlans->first()->getTranslation('description', 'en') ?? '') }}</textarea>
+                        class="form-control @error('tv_plan_description_en') is-invalid @enderror">{{ old('tv_plan_description_en', optional($plan->tvPlans->first())->getTranslation('description', 'en') ?? '') }}</textarea>
                     @error('tv_plan_description_en')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -116,7 +116,7 @@
                     <label for="tv_plan_price">TV Plan Price</label>
                     <input type="number" id="tv_plan_price" name="tv_plan_price" step="0.01"
                         class="form-control @error('tv_plan_price') is-invalid @enderror"
-                        value="{{ old('tv_plan_price', $plan->tvPlans->first()->price ?? '') }}">
+                        value="{{ old('tv_plan_price', optional($plan->tvPlans->first())->price ?? '') }}">
                     @error('tv_plan_price')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
