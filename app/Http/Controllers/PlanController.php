@@ -22,7 +22,7 @@ class PlanController extends Controller
     public function show($id)
     {
         $plan = Plan::findOrFail($id);
-        $fiberOpticType = PlanType::where('name', '{"ka":"Fiber Optic"}')->first(); // Example
+        $fiberOpticType = PlanType::where('name', '{"ka":" ოპტიკურ-ბოჭკოვანი", "en": "Fiber Optic"}')->first(); // Example
 
         $packages = []; // Initialize with an empty array if no packages are available
 
@@ -50,7 +50,7 @@ class PlanController extends Controller
     public function create()
     {
         $planTypes = PlanType::all();
-        $fiberOpticType = PlanType::where('id', 2)->first();
+        $fiberOpticType = PlanType::where('name', '{"ka":" ოპტიკურ-ბოჭკოვანი", "en": "Fiber Optic"}')->first();
 
 
         return view('admin.plans.create', [
@@ -101,6 +101,7 @@ class PlanController extends Controller
             ]);
 
             $plan->save();
+
 
             if ($validatedData['plan_type_id'] == $this->getFiberOpticTypeId()) {
                 if (empty($validatedData['tv_plan_name']) || empty($validatedData['tv_plan_price'])) {
@@ -162,7 +163,7 @@ class PlanController extends Controller
     {
         $plan->load('tvPlans.packages');
         $planTypes = PlanType::all();
-        $fiberOpticType = PlanType::where('name', '{"ka":"Fiber Optic"}')->first();
+        $fiberOpticType = PlanType::where('name', '{"ka":" ოპტიკურ-ბოჭკოვანი", "en": "Fiber Optic"}')->first();
 
         return view('admin.plans.edit', compact('plan', 'planTypes', 'fiberOpticType'));
     }
@@ -327,7 +328,7 @@ class PlanController extends Controller
     // Helper methods
     private function getFiberOpticTypeId()
     {
-        return PlanType::where('name', '{"ka":"Fiber Optic"}')->first()->id;
+        return PlanType::where('name', '{"ka":" ოპტიკურ-ბოჭკოვანი", "en": "Fiber Optic"}')->first()->id;
     }
 
     private function createTvPlan($planId, array $tvPlanData)
