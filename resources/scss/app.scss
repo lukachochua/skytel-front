@@ -491,13 +491,16 @@ body {
 
 .custom-close-btn {
     position: absolute;
-    top: 0.3rem;
-    right: 0.3rem;
+    top: 0.5rem;
+    right: 0.5rem;
     background-color: #979eda;
     border: 1px solid #ffffff;
     border-radius: 50%;
     width: 1.875rem;
     height: 1.875rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .custom-close-btn:hover {

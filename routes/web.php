@@ -31,6 +31,7 @@ Route::get('about', function () {
 })->name('about.index');
 
 
+
 // Auth Routes
 Auth::routes();
 

@@ -289,18 +289,34 @@ document.addEventListener('alpine:init', () => {
 Alpine.data('planForm', () => ({
     selectedTvPlan: '',
     packages: window.planFormData || [],
-    showModal: false, // Manage modal visibility
+    showModal: false, 
 
     updatePackages() {
-        // Your existing logic for updating packages
     },
 
     toggleModal() {
-        this.showModal = !this.showModal; // Toggle modal visibility
+        this.showModal = !this.showModal; 
     },
 
     closeModal() {
-        this.showModal = false; // Close the modal
+        this.showModal = false; 
+    }
+}));
+
+
+// Team Member Modal
+Alpine.data('teamIndex', () => ({
+    selectedMember: null, 
+    showModal: false, 
+
+    toggleModal(member = null) {
+        this.selectedMember = member;
+        this.showModal = true; 
+    },
+
+    closeModal() {
+        this.showModal = false; 
+        this.selectedMember = null; 
     }
 }));
 
