@@ -20,8 +20,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('features') ? 'active' : '' }}"
-                        href="{{ route('features') }}">{{ __('main-nav.features') }}</a>
+                    <a class="nav-link {{ request()->routeIs('about.*') ? 'active' : '' }}"
+                        href="{{ route('about.index') }}">{{ __('main-nav.about_us') }}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('news.*') ? 'active' : '' }}"

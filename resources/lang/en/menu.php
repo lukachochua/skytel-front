@@ -2,6 +2,7 @@
 
 return [
     'main_navigation' => 'MAIN NAVIGATION',
+    'about_us' => 'About Us',
     'news' => 'News',
     'slider' => 'Slider',
     'plans' => 'Plans',

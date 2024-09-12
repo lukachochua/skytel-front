@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\TvPlanController;
 use App\Http\Controllers\PackageController;
+use App\Http\Controllers\TeamMemberController;
+use App\Models\TeamMember;
 
 // Locale Change Route
 Route::get('/set-locale/{locale}', function ($locale) {
@@ -20,12 +22,14 @@ Route::get('/set-locale/{locale}', function ($locale) {
 
 // Public Routes
 Route::get('/', [WelcomeController::class, 'welcome'])->name('welcome');
-Route::get('/features', function () {
-    return view('features');
-})->name('features');
 Route::get('news', [NewsController::class, 'index'])->name('news.index');
 Route::get('news/{id}/', [NewsController::class, 'show'])->name('news.show');
 Route::get('sliders/{id}/', [SliderController::class, 'show'])->name('sliders.show');
+Route::get('about', function () {
+    $teamMembers = TeamMember::all();
+    return view('about.index', compact('teamMembers'));
+})->name('about.index');
+
 
 // Auth Routes
 Auth::routes();
@@ -42,6 +46,8 @@ Route::middleware(['auth'])->prefix('home')->group(function () {
 
     Route::resource('tvplans', TvPlanController::class)->except('show');
     Route::resource('packages', PackageController::class)->except('show');
+
+    Route::resource('team', TeamMemberController::class);
 });
 
 // Public Routes for Plans and packages
@@ -49,3 +55,6 @@ Route::get('/plans', [PlanController::class, 'index'])->name('plans.index');
 Route::get('/plans/{id}', [PlanController::class, 'show'])->name('plans.show');
 Route::delete('/packages/{id}', [PlanController::class, 'deletePackage'])->name('packages.delete');
 Route::post('/plans/{plan}/store-selection', [PlanController::class, 'storeSelection'])->name('plans.storeSelection');
+
+
+
