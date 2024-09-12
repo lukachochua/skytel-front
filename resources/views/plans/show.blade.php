@@ -9,7 +9,7 @@
     @endif
 
     <div class="container mt-5 mb-5" x-data="planForm()">
-        <h1 class="mb-4">Plan Details</h1>
+        <h1 class="custom-header-margin mb-5 text-center text-primary fw-bold">Plan Details</h1>
 
         <div class="card mb-4 shadow border-light">
             <div class="card-body">

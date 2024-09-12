@@ -1,42 +1,27 @@
 <x-main-layout>
-    <div class="container">
-        <h1>ჩვენს შესახებ</h1>
+    <div class="container mt-5">
+        <h1 class="custom-header-margin mb-5 text-center text-primary fw-bold">@lang('team.about_us')</h1>
 
-        <section>
-            <h2>კომპანიის მისია</h2>
-            <p>
-                სქაიტელი დაარსდა 2010 წელს, დარგის პროფესიონალი სპეციალისტების მიერ, რომლებიც სატელეკომუნიკაციო ბაზარზე
-                ბოლო 13 წლის განმავლობაში, ცდილობენ ხელი შეუწყონ საქართველოში ინტერნეტ ბაზრის სამომავლო განვითარებას.
-                დღესდღეობით, სქაიტელი აერთიანებს 40-ზე მეტ კომპანიას და 400-მდე თანამშრომელს.
-
-
-                2015 წლიდან სქაიტელი წარმოადგენს საქართველოს ერთ-ერთ ლიდერ სატელეკომუნიკაციო კომპანიას, რომელმაც თავისი
-                ადგილი დაიკავა ინტერნეტ პროვაიდერების დიდ სამეულში. ინოვაციები და ტექნოლოგიური პროგრესი ჩვენი პოლიტიკის
-                განუყოფელი ნაწილი და კორპორაციული სტრატეგიის ფუნდამენტური ასპექტია. ჩვენ მუდმივად ვიყენებთ მსოფლიოში
-                სატელეკომუნიკაციო ბაზარზე არსებულ უახლეს ტექნოლოგიებს, რათა მივაწოდოთ საქართველოს მოსახლეობას და არაერთ
-                ორგანიზაციას მაღალი ხარისხის ინტერნეტ სერვისები.
-
-
-                Სქაიტელში მუდმივად ორიენტირებულები ვართ ჩვენი მომხმარებლების საჭიროებებსა და სურვილებზე. ჩვენი მიზანია,
-                საქართველოს მოსახლეობას მივცეთ ახალი შესაძლებლობები და მათზე მორგებული სერვისები, რაც გააუმჯობესებს მათ
-                ყოველდღიურ ცხოვრებას.
-                {{ __('Our mission is to provide top-tier internet communications services, ensuring reliability and customer satisfaction.') }}
+        <section class="mb-5">
+            <h2 class="text-secondary mb-4">@lang('team.aim')</h2>
+            <p class="lead mb-4">
+                {{ __('team.mission') }}
             </p>
         </section>
 
-        <section>
-            <h2>Our Team</h2>
+        <section class="mb-5">
+            <h2 class="text-secondary mb-4">@lang('team.our_team')</h2>
 
-            <div class="row">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                 @foreach ($teamMembers as $member)
-                    <div class="col-md-4">
-                        <div class="card">
+                    <div class="col">
+                        <div class="card border-light shadow-lg h-100">
                             <img src="{{ asset('storage/' . $member->photo) }}" class="card-img-top"
-                                alt="{{ $member->name }}">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ $member->name }}</h5>
-                                <p class="card-text">{{ $member->position }}</p>
-                                <p class="card-text">{{ $member->description }}</p>
+                                alt="{{ $member->name }}" style="height: 300px; object-fit: cover; width: 100%;">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title mb-2 text-center">{{ $member->name }}</h5>
+                                <p class="card-text mb-2 text-muted text-center">{{ $member->position }}</p>
+                                <p class="card-text flex-grow-1">{{ $member->description }}</p>
                             </div>
                         </div>
                     </div>
