@@ -10,6 +10,7 @@ use Illuminate\View\Component;
 class Navbar extends Component
 {
     public $navbarLinks;
+
     /**
      * Create a new component instance.
      */
