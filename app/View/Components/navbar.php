@@ -2,18 +2,20 @@
 
 namespace App\View\Components;
 
+use App\Models\Link;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
 class navbar extends Component
 {
+    public $navbarLinks;
     /**
      * Create a new component instance.
      */
     public function __construct()
     {
-        //
+        $this->navbarLinks = Link::where('type', 'navbar')->get();
     }
 
     /**

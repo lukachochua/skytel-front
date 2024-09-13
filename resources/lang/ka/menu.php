@@ -8,6 +8,7 @@ return [
     'news' => 'სიახლეები',
     'slider' => 'სლაიდერი',
     'plans' => 'ტარიფები',
+    'links' => 'ბმულები',
     'account_settings_key' => 'ანგარიშის პარამეტრები',
     'profile_key' => 'პროფილი',
     'change_password' => 'პაროლის შეცვლა',

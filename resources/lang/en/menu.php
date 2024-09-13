@@ -8,6 +8,7 @@ return [
     'plans' => 'Plans',
     'blog' => 'Blog',
     'pages' => 'Pages',
+    'links' => 'Links',
     'account_settings_key' => 'ACCOUNT SETTINGS',
     'profile_key' => 'Profile',
     'change_password' => 'Change Password',

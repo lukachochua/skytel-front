@@ -6,9 +6,11 @@
             </div>
             <div class="col-md-6">
                 <ul class="list-inline text-md-end">
-                    <li class="list-inline-item"><a href="#" class="text-white">Facebook</a></li>
-                    <li class="list-inline-item"><a href="#" class="text-white">Twitter</a></li>
-                    <li class="list-inline-item"><a href="#" class="text-white">Instagram</a></li>
+                    @foreach ($footerLinks as $link)
+                        <li class="list-inline-item">
+                            <a href="{{ route($link->route_name) }}" class="text-white">{{ $link->label }}</a>
+                        </li>
+                    @endforeach
                 </ul>
             </div>
         </div>

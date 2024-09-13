@@ -20,7 +20,7 @@ class LinkController extends Controller
         $request->validate([
             'label'    => 'required|string|max:255',
             'label_en' => 'required|string|max:255',
-            'url'      => 'required|string|max:255',
+            'route_name' => 'required|string|max:255',
             'type'     => 'required|in:navbar,footer',
         ]);
 
@@ -31,13 +31,14 @@ class LinkController extends Controller
             'en' => $request->input('label_en'),
         ]);
 
-        $link->url = $request->input('url');
+        $link->route_name = $request->input('route_name');
         $link->type = $request->input('type');
 
         $link->save();
 
         return redirect()->route('links.index')->with('success', 'Link created successfully.');
     }
+
 
 
     public function edit(Link $link)
@@ -50,8 +51,8 @@ class LinkController extends Controller
         $request->validate([
             'label'    => 'required|string|max:255',
             'label_en' => 'required|string|max:255',
-            'url'      => 'required|string|max:255',
-            'type'     => 'required|in:navbar,footer', 
+            'route_name' => 'required|string|max:255',
+            'type'     => 'required|in:navbar,footer',
         ]);
 
         $link->setTranslations('label', [
@@ -59,7 +60,7 @@ class LinkController extends Controller
             'en' => $request->input('label_en'),
         ]);
 
-        $link->url = $request->input('url');
+        $link->route_name = $request->input('route_name');
         $link->type = $request->input('type');
 
         $link->save();

@@ -2,18 +2,21 @@
 
 namespace App\View\Components;
 
+use App\Models\Link;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
 class footer extends Component
 {
+    public $footerLinks;
+
     /**
      * Create a new component instance.
      */
     public function __construct()
     {
-        //
+        $this->footerLinks = Link::where('type', 'footer')->get();
     }
 
     /**

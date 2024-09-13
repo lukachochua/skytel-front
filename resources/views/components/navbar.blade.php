@@ -10,7 +10,20 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarColor01">
             <ul class="navbar-nav me-auto justify-content-lg-center w-100">
-                <li class="nav-item">
+
+                @foreach ($navbarLinks as $link)
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs($link->route_name . "*") ? 'active' : '' }}"
+                            href="{{ route($link->route_name) }}">
+                            {{ $link->getTranslation('label', app()->getLocale()) }}
+                            @if (request()->routeIs($link->route_name))
+                                <span class="visually-hidden">(current)</span>
+                            @endif
+                        </a>
+                    </li>
+                @endforeach
+
+                {{-- <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('welcome') ? 'active' : '' }}"
                         href="{{ route('welcome') }}">
                         {{ __('main-nav.home') }}
@@ -30,7 +43,7 @@
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('plans.*') ? 'active' : '' }}"
                         href="{{ route('plans.index') }}">{{ __('main-nav.plans') }}</a>
-                </li>
+                </li> --}}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
                         aria-haspopup="true" aria-expanded="false">{{ __('main-nav.dropdown') }}</a>

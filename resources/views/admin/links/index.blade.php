@@ -2,7 +2,7 @@
 
 @section('subtitle', __('links.manage'))
 @section('content_header_title', __('links.dashboard'))
-@section('content_header_subtitle', __('links.manage_links'))
+@section('content_header_subtitle', __('links.manage'))
 
 @section('content_body')
     <div class="container">
@@ -19,12 +19,12 @@
                 <div class="row">
                     <!-- Navbar Links Section -->
                     <div class="col-md-6">
-                        <h3>{{ __('links.navbar_links') }}</h3>
+                        <h3>{{ __('links.navbar') }}</h3>
                         <ul class="list-group">
                             @foreach ($navbarLinks as $link)
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>{{ $link->label }} - <a href="{{ $link->url }}"
-                                            target="_blank">{{ $link->url }}</a></span>
+                                    <span>{{ $link->label }} - <a href="{{ route($link->route_name) }}"
+                                            target="_blank">{{ route($link->route_name) }}</a></span>
                                     <div>
                                         <a href="{{ route('links.edit', $link->id) }}"
                                             class="btn btn-sm btn-warning">@lang('links.edit')</a>
@@ -42,12 +42,12 @@
 
                     <!-- Footer Links Section -->
                     <div class="col-md-6">
-                        <h3>{{ __('links.footer_links') }}</h3>
+                        <h3>{{ __('links.footer') }}</h3>
                         <ul class="list-group">
                             @foreach ($footerLinks as $link)
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>{{ $link->label }} - <a href="{{ $link->url }}"
-                                            target="_blank">{{ $link->url }}</a></span>
+                                    <span>{{ $link->label }} - <a href="{{ route($link->route_name) }}"
+                                            target="_blank">{{ route($link->route_name) }}</a></span>
                                     <div>
                                         <a href="{{ route('links.edit', $link->id) }}"
                                             class="btn btn-sm btn-warning">@lang('links.edit')</a>
@@ -81,8 +81,8 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="url" class="form-label">@lang('links.url')</label>
-                            <input type="url" name="url" id="url" class="form-control" required>
+                            <label for="route_name" class="form-label">@lang('links.route_name')</label>
+                            <input type="text" name="route_name" id="route_name" class="form-control" required>
                         </div>
 
                         <div class="mb-3">

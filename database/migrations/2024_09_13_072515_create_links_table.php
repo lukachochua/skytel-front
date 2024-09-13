@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('links', function (Blueprint $table) {
             $table->id();
-            $table->string('label'); 
-            $table->string('url');  
-            $table->string('type');  
+            $table->string('label');
+            $table->string('route_name'); 
+            $table->string('type');
             $table->timestamps();
         });
     }

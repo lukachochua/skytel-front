@@ -28,17 +28,19 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="url" class="form-label">@lang('links.url')</label>
-                        <input type="url" name="url" id="url" class="form-control" value="{{ $link->url }}"
-                            required>
+                        <label for="route_name" class="form-label">@lang('links.route_name')</label>
+                        <input type="text" name="route_name" id="route_name" class="form-control"
+                            value="{{ $link->route_name }}" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="type" class="form-label">@lang('links.type')</label>
                         <select name="type" id="type" class="form-select" required>
-                            <option value="navbar" {{ $link->type == 'navbar' ? 'selected' : '' }}>@lang('links.navbar')
+                            <option value="navbar" {{ $link->type == 'navbar' ? 'selected' : '' }}>
+                                @lang('links.navbar')
                             </option>
-                            <option value="footer" {{ $link->type == 'footer' ? 'selected' : '' }}>@lang('links.footer')
+                            <option value="footer" {{ $link->type == 'footer' ? 'selected' : '' }}>
+                                @lang('links.footer')
                             </option>
                         </select>
                     </div>
