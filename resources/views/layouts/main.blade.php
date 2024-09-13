@@ -10,12 +10,12 @@
 
 <body>
     <div class="container-fluid">
-        <x-navbar />
+        <x-Navbar />
         <div class="min-vh-100">
             {{ $slot }}
         </div>
     </div>
-    <x-footer />
+    <x-Footer />
 </body>
 
 </html>
