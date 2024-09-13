@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'our_plans' => 'ჩვენი ტარიფები',
     'dashboard' => 'ტარიფების ნუსხა',
     'manage_plans' => 'ტარიფების მართვა',
     'plan_list' => 'ტარიფების ნუსხა',

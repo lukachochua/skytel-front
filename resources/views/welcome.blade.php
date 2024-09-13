@@ -4,7 +4,7 @@
 
     <div class="container-fluid mt-4">
         <h1 class="mb-4 text-center display-4 fw-bold text-primary bg-light py-3 rounded shadow-sm">
-            Our Plans
+            {{ __('plans.our_plans') }}
         </h1>
         <div class="row">
             @foreach ($plans as $plan)

@@ -143,6 +143,9 @@ document.addEventListener('alpine:init', () => {
         atEnd: false,
         isDragging: false,
         startX: 0,
+        initialPosition: 0,
+        dragThreshold: 10, 
+        wasDragging: false, 
 
         init() {
             this.calculateDimensions();
@@ -191,7 +194,9 @@ document.addEventListener('alpine:init', () => {
 
         startDrag(e) {
             this.isDragging = true;
+            this.wasDragging = false; 
             this.startX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+            this.initialPosition = this.scrollPosition; 
         },
 
         drag(e) {
@@ -199,16 +204,25 @@ document.addEventListener('alpine:init', () => {
             const x = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
             const delta = this.startX - x;
             const maxScroll = this.scrollWidth - this.containerWidth;
-            this.scrollPosition = Math.max(0, Math.min(this.scrollPosition + delta, maxScroll));
-            this.startX = x;
+            this.scrollPosition = Math.max(0, Math.min(this.initialPosition + delta, maxScroll));
+            this.wasDragging = true; 
             this.updateScrollPosition();
         },
 
-        endDrag() {
+        endDrag(e) {
             this.isDragging = false;
+
+            const movedDistance = Math.abs(this.startX - (e.type.includes('mouse') ? e.pageX : e.changedTouches[0].clientX));
+            if (movedDistance < this.dragThreshold && !this.wasDragging) {
+                const target = e.target.closest('a');
+                if (target) {
+                    window.location.href = target.href; 
+                }
+            }
         }
     }));
 });
+
 
 // Optional fields for the Plans creation
 document.addEventListener('DOMContentLoaded', function () {
@@ -289,34 +303,34 @@ document.addEventListener('alpine:init', () => {
 Alpine.data('planForm', () => ({
     selectedTvPlan: '',
     packages: window.planFormData || [],
-    showModal: false, 
+    showModal: false,
 
     updatePackages() {
     },
 
     toggleModal() {
-        this.showModal = !this.showModal; 
+        this.showModal = !this.showModal;
     },
 
     closeModal() {
-        this.showModal = false; 
+        this.showModal = false;
     }
 }));
 
 
 // Team Member Modal
 Alpine.data('teamIndex', () => ({
-    selectedMember: null, 
-    showModal: false, 
+    selectedMember: null,
+    showModal: false,
 
     toggleModal(member = null) {
         this.selectedMember = member;
-        this.showModal = true; 
+        this.showModal = true;
     },
 
     closeModal() {
-        this.showModal = false; 
-        this.selectedMember = null; 
+        this.showModal = false;
+        this.selectedMember = null;
     }
 }));
 

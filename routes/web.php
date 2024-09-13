@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LinkController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\WelcomeController;
@@ -49,6 +50,8 @@ Route::middleware(['auth'])->prefix('home')->group(function () {
     Route::resource('packages', PackageController::class)->except('show');
 
     Route::resource('team', TeamMemberController::class);
+
+    Route::resource('links', LinkController::class);
 });
 
 // Public Routes for Plans and packages

@@ -352,6 +352,12 @@ return [
             'route' => 'team.index',
             'icon' => 'fas fa-fw fa-user',
         ],
+        ['header' => 'Links CRUD'],
+        [
+            'text' => 'links',
+            'route' => 'links.index',
+            'icon' => 'fas fa-fw fa-link',
+        ],
     //     [
     //         'text' => 'change_password',
     //         'url' => 'admin/settings',
