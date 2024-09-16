@@ -43,7 +43,7 @@
 
                         <div class="mb-3">
                             <label for="description" class="form-label fw-bold">@lang('team.description') (GE):</label>
-                            <textarea name="description" id="description" rows="3" class="form-control">{{ old('description') }}</textarea>
+                            <textarea name="description" id="description" rows="3" class="form-control" required>{{ old('description') }}</textarea>
                             @error('description')
                                 <div class="text-danger mt-2">{{ $message }}</div>
                             @enderror

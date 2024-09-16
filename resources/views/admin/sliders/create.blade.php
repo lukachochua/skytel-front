@@ -38,7 +38,7 @@
 
                         <div class="mb-3">
                             <label for="description" class="form-label fw-bold">@lang('slider.description') (GE):</label>
-                            <textarea name="description" id="description" rows="4" class="form-control">{{ old('description', $slider->description ?? '') }}</textarea>
+                            <textarea name="description" id="description" rows="4" class="form-control" required>{{ old('description', $slider->description ?? '') }}</textarea>
                             @error('description')
                                 <div class="text-danger mt-2">{{ $message }}</div>
                             @enderror
