@@ -28,21 +28,25 @@ document.addEventListener('alpine:init', () => {
         validateFields() {
             const georgianFields = document.querySelector('#georgian-fields');
             if (georgianFields) {
-                const inputFields = georgianFields.querySelectorAll('input, textarea');
-                let isEmpty = false;
+                const inputFields = georgianFields.querySelectorAll('input[required], textarea[required]');
+                let isValid = true;
 
                 inputFields.forEach((field) => {
-                    if (field.value.trim() === '') {
-                        isEmpty = true;
-                        return;
+                    if (field.classList.contains('summernote')) {
+                        const summernoteContent = $(field).summernote('code').trim();
+                        if (summernoteContent === '' || summernoteContent.replace(/<p>(<br>|&nbsp;|\\s)*<\/p>/g, '').trim() === '') {
+                            isValid = false;
+                        }
+                    } else {
+                        if (field.value.trim() === '') {
+                            isValid = false;
+                        }
                     }
                 });
 
-                if (isEmpty) {
-                    return false;
-                }
+                return isValid;
             }
-            return true;
+            return false;
         },
     }));
 });
@@ -144,8 +148,8 @@ document.addEventListener('alpine:init', () => {
         isDragging: false,
         startX: 0,
         initialPosition: 0,
-        dragThreshold: 10, 
-        wasDragging: false, 
+        dragThreshold: 10,
+        wasDragging: false,
 
         init() {
             this.calculateDimensions();
@@ -194,9 +198,9 @@ document.addEventListener('alpine:init', () => {
 
         startDrag(e) {
             this.isDragging = true;
-            this.wasDragging = false; 
+            this.wasDragging = false;
             this.startX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
-            this.initialPosition = this.scrollPosition; 
+            this.initialPosition = this.scrollPosition;
         },
 
         drag(e) {
@@ -205,7 +209,7 @@ document.addEventListener('alpine:init', () => {
             const delta = this.startX - x;
             const maxScroll = this.scrollWidth - this.containerWidth;
             this.scrollPosition = Math.max(0, Math.min(this.initialPosition + delta, maxScroll));
-            this.wasDragging = true; 
+            this.wasDragging = true;
             this.updateScrollPosition();
         },
 
@@ -216,7 +220,7 @@ document.addEventListener('alpine:init', () => {
             if (movedDistance < this.dragThreshold && !this.wasDragging) {
                 const target = e.target.closest('a');
                 if (target) {
-                    window.location.href = target.href; 
+                    window.location.href = target.href;
                 }
             }
         }

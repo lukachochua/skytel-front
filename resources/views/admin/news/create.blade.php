@@ -31,8 +31,8 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="text" class="form-label fw-bold">@lang('news.text') (GE):</label>
-                            <textarea name="body" id="body" rows="5" class="form-control" required>{{ old('body') }}</textarea>
+                            <label for="body" class="form-label fw-bold">@lang('news.text') (GE):</label>
+                            <textarea name="body" id="body" rows="5" class="form-control summernote" required>{{ old('body') }}</textarea>
                             @error('body')
                                 <div class="text-danger mt-2">{{ $message }}</div>
                             @enderror
@@ -45,15 +45,15 @@
                         <div class="mb-3">
                             <label for="title_en" class="form-label fw-bold">@lang('news.title') (EN):</label>
                             <input type="text" name="title_en" id="title_en" class="form-control"
-                                value="{{ old('en.title') }}" required>
-                            @error('en.title')
+                                value="{{ old('title_en') }}" required>
+                            @error('title_en')
                                 <div class="text-danger mt-2">{{ $message }}</div>
                             @enderror
                         </div>
 
                         <div class="mb-3">
                             <label for="body_en" class="form-label fw-bold">@lang('news.text') (EN):</label>
-                            <textarea name="body_en" id="body_en" rows="5" class="form-control" required>{{ old('body_en') }}</textarea>
+                            <textarea name="body_en" id="body_en" rows="5" class="form-control summernote" required>{{ old('body_en') }}</textarea>
                             @error('body_en')
                                 <div class="text-danger mt-2">{{ $message }}</div>
                             @enderror
@@ -89,3 +89,25 @@
         </div>
     </div>
 @stop
+
+@push('js')
+    <script>
+        $(document).ready(function() {
+            // Initialize Summernote for elements with the class 'summernote'
+            $('.summernote').each(function() {
+                $(this).summernote({
+                    height: 300, // Set editor height
+                    toolbar: [
+                        ['style', ['style']],
+                        ['font', ['bold', 'underline', 'clear']],
+                        ['fontname', ['fontname']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['table', ['table']],
+                        ['insert', ['link', 'picture', 'video']],
+                        ['view', ['fullscreen', 'codeview', 'help']]
+                    ]
+                });
+            });
+        });
+    </script>
+@endpush

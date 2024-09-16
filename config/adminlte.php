@@ -358,65 +358,65 @@ return [
             'route' => 'links.index',
             'icon' => 'fas fa-fw fa-link',
         ],
-    //     [
-    //         'text' => 'change_password',
-    //         'url' => 'admin/settings',
-    //         'icon' => 'fas fa-fw fa-lock',
-    //     ],
-    //     [
-    //         'text' => 'multilevel',
-    //         'icon' => 'fas fa-fw fa-share',
-    //         'submenu' => [
-    //             [
-    //                 'text' => 'level_one',
-    //                 'url' => '#',
-    //             ],
-    //             [
-    //                 'text' => 'level_one',
-    //                 'url' => '#',
-    //                 'submenu' => [
-    //                     [
-    //                         'text' => 'level_two',
-    //                         'url' => '#',
-    //                     ],
-    //                     [
-    //                         'text' => 'level_two',
-    //                         'url' => '#',
-    //                         'submenu' => [
-    //                             [
-    //                                 'text' => 'level_three',
-    //                                 'url' => '#',
-    //                             ],
-    //                             [
-    //                                 'text' => 'level_three',
-    //                                 'url' => '#',
-    //                             ],
-    //                         ],
-    //                     ],
-    //                 ],
-    //             ],
-    //             [
-    //                 'text' => 'level_one',
-    //                 'url' => '#',
-    //             ],
-    //         ],
-    //     ],
-    //     ['header' => 'labels'],
-    //     [
-    //         'text' => 'important',
-    //         'icon_color' => 'red',
-    //         'url' => '#',
-    //     ],
-    //     [
-    //         'text' => 'warning',
-    //         'icon_color' => 'yellow',
-    //         'url' => '#',
-    //     ],
-    //     [
-    //         'text' => 'information',
-    //         'icon_color' => 'cyan',
-    //         'url' => '#',
-    //     ],
+        //     [
+        //         'text' => 'change_password',
+        //         'url' => 'admin/settings',
+        //         'icon' => 'fas fa-fw fa-lock',
+        //     ],
+        //     [
+        //         'text' => 'multilevel',
+        //         'icon' => 'fas fa-fw fa-share',
+        //         'submenu' => [
+        //             [
+        //                 'text' => 'level_one',
+        //                 'url' => '#',
+        //             ],
+        //             [
+        //                 'text' => 'level_one',
+        //                 'url' => '#',
+        //                 'submenu' => [
+        //                     [
+        //                         'text' => 'level_two',
+        //                         'url' => '#',
+        //                     ],
+        //                     [
+        //                         'text' => 'level_two',
+        //                         'url' => '#',
+        //                         'submenu' => [
+        //                             [
+        //                                 'text' => 'level_three',
+        //                                 'url' => '#',
+        //                             ],
+        //                             [
+        //                                 'text' => 'level_three',
+        //                                 'url' => '#',
+        //                             ],
+        //                         ],
+        //                     ],
+        //                 ],
+        //             ],
+        //             [
+        //                 'text' => 'level_one',
+        //                 'url' => '#',
+        //             ],
+        //         ],
+        //     ],
+        //     ['header' => 'labels'],
+        //     [
+        //         'text' => 'important',
+        //         'icon_color' => 'red',
+        //         'url' => '#',
+        //     ],
+        //     [
+        //         'text' => 'warning',
+        //         'icon_color' => 'yellow',
+        //         'url' => '#',
+        //     ],
+        //     [
+        //         'text' => 'information',
+        //         'icon_color' => 'cyan',
+        //         'url' => '#',
+        //     ],
     ],
 
     /*
@@ -521,6 +521,21 @@ return [
                     'type' => 'js',
                     'asset' => false,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js',
+                ],
+            ],
+        ],
+        'Summernote' => [
+            'active' => true, 
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/summernote/summernote-bs4.min.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'vendor/summernote/summernote-bs4.min.css',
                 ],
             ],
         ],
