@@ -35,8 +35,12 @@
                                             {{ Str::limit($newsItem->title, 50) }}
                                         </a>
                                     </h5>
+                                    <div class="mb-2">
+                                        <x-news-metadata-item label="Author" :value="$newsItem->user->name" />
+                                        <x-news-metadata-item label="Date" :value="$newsItem->created_at->format('M d, Y')" />
+                                    </div>
                                     <p class="card-text small text-muted mb-3">
-                                        {{ Str::limit($newsItem->body, 70) }}
+                                        {{ Str::limit(strip_tags($newsItem->body), 70) }}
                                     </p>
                                     <a href="{{ route('news.show', $newsItem->id) }}"
                                         class="btn btn-outline-primary btn-sm mt-auto align-self-start transition-all hover-bg-primary hover-text-white">

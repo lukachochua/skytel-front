@@ -19,8 +19,12 @@
                                     {{ $newsItem->title }}
                                 </a>
                             </h5>
+                            <div class="mb-2">
+                                <x-news-metadata-item label="Author" :value="$newsItem->user->name" />
+                                <x-news-metadata-item label="Date" :value="$newsItem->created_at->format('M d, Y')" />
+                            </div>
                             <p class="card-text mb-3 flex-grow-1">
-                                {{ Str::limit($newsItem->body, 100) }}
+                                {{ Str::limit(strip_tags($newsItem->body), 100) }}
                             </p>
                             <a href="{{ route('news.show', $newsItem->id) }}" class="btn btn-primary mt-auto">
                                 Read More
