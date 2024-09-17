@@ -16,9 +16,68 @@ body {
     background-color: #b8cacc;
 }
 
+// Team/About Us Styles
+
 .custom-header-margin {
     margin-top: 5rem;
 }
+
+.team-member-card {
+    transition: all 0.3s ease-in-out;
+    border: none;
+    overflow: hidden;
+}
+
+.team-member-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.team-member-card .card-img-top {
+    transition: transform 0.3s ease-in-out;
+}
+
+.team-member-card:hover .card-img-top {
+    transform: scale(1.1);
+}
+
+.team-member-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
+    color: #fff;
+    padding: 1rem;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.team-member-card:hover .team-member-info {
+    opacity: 1;
+}
+
+// Team Modal Styles
+.team-modal {
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Darken the overlay */
+    backdrop-filter: blur(5px);
+    /* Optional: apply a blur effect */
+    z-index: 9999;
+    /* Ensure it's higher than everything else */
+}
+
+.team-modal-content {
+    background-color: #fff;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    max-width: 90%;
+    /* Responsive width */
+    max-height: 90vh;
+    /* Ensure content doesn't overflow vertically */
+}
+
+
 
 // Slider Styles
 .modern-tech-slider {

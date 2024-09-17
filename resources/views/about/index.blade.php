@@ -1,16 +1,16 @@
 <x-main-layout>
-    <div class="container mt-5" x-data="teamIndex()">
-        <h1 class="custom-header-margin mb-5 text-center text-primary fw-bold">@lang('team.about_us')</h1>
+    <div class="container custom-header-margin" x-data="teamIndex()">
+        <h1 class="display-4 mb-5 text-center text-primary fw-bold">@lang('team.about_us')</h1>
 
-        <section class="mb-5">
-            <h2 class="text-secondary mb-4">@lang('team.aim')</h2>
-            <p class="lead mb-4">
+        <section class="mb-5 bg-light p-4 rounded shadow-sm ">
+            <h2 class="text-secondary mb-4 fs-2">@lang('team.aim')</h2>
+            <p class="lead mb-4 text-muted">
                 {{ __('team.mission') }}
             </p>
         </section>
 
         <section class="mb-5">
-            <h2 class="text-secondary mb-4">@lang('team.our_team')</h2>
+            <h2 class="text-secondary mb-4 fs-2">@lang('team.our_team')</h2>
 
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                 @foreach ($teamMembers as $member)
@@ -21,13 +21,19 @@
                             'description' => $member->description,
                             'photo' => asset('storage/' . $member->photo),
                         ]) }})"
-                            class="card border-light shadow-lg h-100 cursor-pointer">
-                            <img src="{{ asset('storage/' . $member->photo) }}" class="card-img-top"
-                                alt="{{ $member->name }}" style="height: 300px; object-fit: cover; width: 100%;">
+                            class="card team-member-card h-100 cursor-pointer">
+                            <div class="position-relative overflow-hidden">
+                                <img src="{{ asset('storage/' . $member->photo) }}" class="card-img-top"
+                                    alt="{{ $member->name }}" style="height: 300px; object-fit: cover;">
+                                <div class="team-member-info">
+                                    <h5 class="card-title mb-1">{{ $member->name }}</h5>
+                                    <p class="card-text mb-0 small">{{ $member->position }}</p>
+                                </div>
+                            </div>
                             <div class="card-body d-flex flex-column">
-                                <h5 class="card-title mb-2 text-center">{{ $member->name }}</h5>
-                                <p class="card-text mb-2 text-muted text-center">{{ $member->position }}</p>
-                                <p class="card-text flex-grow-1">{{ $member->description }}</p>
+                                <p class="card-text flex-grow-1 text-muted">{{ Str::limit($member->description, 100) }}
+                                </p>
+                                <button class="btn btn-outline-primary mt-2">Learn More</button>
                             </div>
                         </div>
                     </div>
