@@ -59,11 +59,8 @@ body {
 // Team Modal Styles
 .team-modal {
     background-color: rgba(0, 0, 0, 0.5);
-    /* Darken the overlay */
     backdrop-filter: blur(5px);
-    /* Optional: apply a blur effect */
     z-index: 9999;
-    /* Ensure it's higher than everything else */
 }
 
 .team-modal-content {
@@ -72,9 +69,7 @@ body {
     overflow: hidden;
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     max-width: 90%;
-    /* Responsive width */
     max-height: 90vh;
-    /* Ensure content doesn't overflow vertically */
 }
 
 
@@ -231,7 +226,6 @@ body {
 
 // Navbar Styles
 
-
 .navbar {
     position: fixed;
     top: 0;
@@ -281,7 +275,7 @@ body {
     }
 }
 
-/* For small screens */
+// For small screens 
 @media (max-width: 576px) {
     .dropdown-menu {
         position: absolute !important;
@@ -300,8 +294,6 @@ body {
         max-width: 30px;
     }
 }
-
-
 
 
 // News Container Styles

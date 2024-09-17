@@ -2,7 +2,7 @@
     <div class="container custom-header-margin" x-data="teamIndex()">
         <h1 class="display-4 mb-5 text-center text-primary fw-bold">@lang('team.about_us')</h1>
 
-        <section class="mb-5 bg-light p-4 rounded shadow-sm ">
+        <section class="mb-5 bg-light p-4 rounded shadow-sm">
             <h2 class="text-secondary mb-4 fs-2">@lang('team.aim')</h2>
             <p class="lead mb-4 text-muted">
                 {{ __('team.mission') }}
@@ -21,7 +21,8 @@
                             'description' => $member->description,
                             'photo' => asset('storage/' . $member->photo),
                         ]) }})"
-                            class="card team-member-card h-100 cursor-pointer">
+                            class="card team-member-card h-100 cursor-pointer border-0 shadow-sm transition-all hover-shadow-lg hover-scale rounded-3">
+                            <!-- Hover effect classes added -->
                             <div class="position-relative overflow-hidden">
                                 <img src="{{ asset('storage/' . $member->photo) }}" class="card-img-top"
                                     alt="{{ $member->name }}" style="height: 300px; object-fit: cover;">
